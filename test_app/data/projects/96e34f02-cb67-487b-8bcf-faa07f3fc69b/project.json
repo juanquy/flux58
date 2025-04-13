@@ -1,0 +1,22 @@
+{
+  "id": "96e34f02-cb67-487b-8bcf-faa07f3fc69b",
+  "name": "test",
+  "description": "test",
+  "user_id": "e017c72e-5642-49ab-8875-f72323a052ca",
+  "created_at": "2025-03-22T04:02:38.044026",
+  "updated_at": "2025-03-22T04:02:38.044026",
+  "assets": [],
+  "timeline": {
+    "duration": 60.0,
+    "width": 1920,
+    "height": 1080,
+    "fps": {
+      "num": 30,
+      "den": 1
+    },
+    "sample_rate": 48000,
+    "channels": 2,
+    "channel_layout": 3,
+    "tracks": []
+  }
+}

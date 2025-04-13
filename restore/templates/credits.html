@@ -1,0 +1,257 @@
+{% extends "layout.html" %}
+
+{% block title %}Credits - FLUX58 AI MEDIA LABS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>Credits Management</h1>
+        <p class="lead">Manage your FLUX58 AI MEDIA LABS credits.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body text-center py-4">
+                <h5 class="card-title">Total Credits</h5>
+                <p class="display-3">{{ credits.total }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center py-4">
+                <h5 class="card-title">Available Credits</h5>
+                <p class="display-3">{{ credits.total - credits.used }}</p>
+                <a href="{{ url_for('buy_credits_page') }}" class="btn btn-light">Purchase More</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-secondary text-white">
+            <div class="card-body text-center py-4">
+                <h5 class="card-title">Used Credits</h5>
+                <p class="display-3">{{ credits.used }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Transaction History</h5>
+                <div>
+                    <select class="form-select form-select-sm d-inline-block w-auto">
+                        <option>All Transactions</option>
+                        <option>Purchases</option>
+                        <option>Usage</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if credits.transactions %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transaction in credits.transactions %}
+                            <tr>
+                                <td>{{ transaction.timestamp|string|default(transaction.timestamp, true) }}</td>
+                                <td>{{ transaction.type|capitalize }}</td>
+                                <td>{{ transaction.description|default(transaction.type|capitalize) }}</td>
+                                <td class="{% if transaction.amount > 0 %}text-success{% else %}text-danger{% endif %}">
+                                    {% if transaction.amount > 0 %}+{% endif %}{{ transaction.amount }}
+                                </td>
+                                <td>
+                                    <span class="badge bg-success">{{ transaction.status }}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-credit-card display-1 text-muted"></i>
+                    <h4 class="mt-3">No Transactions Yet</h4>
+                    <p class="text-muted">Purchase credits to start using FLUX58 AI MEDIA LABS features</p>
+                    <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#purchaseModal">Purchase Credits</button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Credit Usage</h5>
+            </div>
+            <div class="card-body">
+                <p>Credits are used for the following features:</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Video Export (720p)
+                        <span class="badge bg-primary rounded-pill">5 credits</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Video Export (1080p)
+                        <span class="badge bg-primary rounded-pill">10 credits</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Video Export (4K)
+                        <span class="badge bg-primary rounded-pill">20 credits</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        AI Video Generation
+                        <span class="badge bg-primary rounded-pill">30 credits</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Credit Plans</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Starter</h5>
+                                <p class="display-4">100</p>
+                                <p class="text-muted">Credits</p>
+                                <h6 class="mb-3">$9.99</h6>
+                                <a href="{{ url_for('buy_credits_page') }}" class="btn btn-primary">Purchase</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-primary">
+                            <div class="card-header text-center text-white bg-primary">
+                                Best Value
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Pro</h5>
+                                <p class="display-4">300</p>
+                                <p class="text-muted">Credits</p>
+                                <h6 class="mb-3">$19.99</h6>
+                                <a href="{{ url_for('buy_credits_page') }}" class="btn btn-primary">Purchase</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Purchase Modal -->
+<div class="modal fade" id="purchaseModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Purchase Credits</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="creditAmount" class="form-label">Select Credit Package</label>
+                    <select class="form-select" id="creditAmount">
+                        <option value="100">100 Credits - $9.99</option>
+                        <option value="300">300 Credits - $19.99</option>
+                        <option value="1000">1000 Credits - $49.99</option>
+                        <option value="custom">Custom Amount</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3" id="customAmountContainer" style="display: none;">
+                    <label for="customAmount" class="form-label">Enter Custom Amount</label>
+                    <input type="number" class="form-control" id="customAmount" min="10" max="10000" value="100">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="paymentMethod" class="form-label">Payment Method</label>
+                    <select class="form-select" id="paymentMethod">
+                        <option value="card">Credit Card</option>
+                        <option value="paypal">PayPal</option>
+                    </select>
+                </div>
+                
+                <div id="cardPaymentForm">
+                    <div class="mb-3">
+                        <label for="cardNumber" class="form-label">Card Number</label>
+                        <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456">
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="expiryDate" class="form-label">Expiry Date</label>
+                            <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY">
+                        </div>
+                        <div class="col">
+                            <label for="cvv" class="form-label">CVV</label>
+                            <input type="text" class="form-control" id="cvv" placeholder="123">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="completePurchase">Complete Purchase</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle custom amount display
+        const creditAmount = document.getElementById('creditAmount');
+        const customAmountContainer = document.getElementById('customAmountContainer');
+        
+        creditAmount.addEventListener('change', function() {
+            if (this.value === 'custom') {
+                customAmountContainer.style.display = 'block';
+            } else {
+                customAmountContainer.style.display = 'none';
+            }
+        });
+        
+        // Handle purchase completion (demo only)
+        const completePurchase = document.getElementById('completePurchase');
+        completePurchase.addEventListener('click', function() {
+            const selectedAmount = creditAmount.value === 'custom' 
+                ? document.getElementById('customAmount').value 
+                : creditAmount.value;
+            
+            alert(`Purchase of ${selectedAmount} credits would be processed here. In this demo, no actual payment is processed.`);
+            
+            // In a real implementation, you would:
+            // 1. Process payment
+            // 2. Add credits on success
+            // 3. Redirect or update UI
+            
+            // Simulate successful payment
+            window.location.href = `/api/payment/add-credits?amount=${selectedAmount}`;
+        });
+    });
+</script>
+{% endblock %}

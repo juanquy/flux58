@@ -1,0 +1,82 @@
+[0;36m======================================[0m
+[0;36m  FLUX58 AI MEDIA LABS - LAUNCHER    [0m
+[0;36m======================================[0m
+[0;33mStarting with enhanced environment check...[0m
+[0;33mActivating Python virtual environment...[0m
+[0;32mUsing Python 3.12.3[0m
+[0;33mChecking Python dependencies...[0m
+[0;32mDependencies installed successfully.[0m
+[0;33mChecking PostgreSQL connection...[0m
+PostgreSQL connection successful
+[0;32mPostgreSQL connection successful.[0m
+[0;33mChecking and fixing OpenShot library integration...[0m
+Setting up OpenShot Library Python bindings...
+Set LD_LIBRARY_PATH: :/usr/lib:/usr/local/lib
+Added path to Python: /usr/lib/python3/dist-packages
+Found libopenshot.so at /usr/local/lib/libopenshot.so
+Found libopenshot-audio.so at /usr/local/lib/libopenshot-audio.so
+WARNING: Failed to import OpenShot Python bindings: No module named 'openshot'
+
+The OpenShot libraries are installed but Python bindings are not working.
+This is likely because the bindings weren't properly compiled or installed.
+
+Creating symlink to system OpenShot bindings in virtual environment...
+Could not find openshot.so file in system paths
+
+Unable to fix OpenShot Python bindings. The application will run in fallback mode.
+[0;33mVerifying OpenShot library...[0m
+[0;33mOpenShot library not available. The app will use a placeholder implementation.[0m
+[0;33mSome video editing features will be limited.[0m
+[0;33mCreating path file for OpenShot libraries...[0m
+./run_flux58.sh: line 255: /root/OpenShot/test_app/venv/lib/python3.8/site-packages/openshot.pth: No such file or directory
+./run_flux58.sh: line 256: /root/OpenShot/test_app/venv/lib/python3.8/site-packages/openshot.pth: No such file or directory
+./run_flux58.sh: line 257: /root/OpenShot/test_app/venv/lib/python3.8/site-packages/openshot.pth: No such file or directory
+[0;32mAll checks passed! Starting Flux58 on port 5090...[0m
+[0;32mAccess the application at http://localhost:5090[0m
+[0;32m--------------------------------------------[0m
+INFO:root:PostgreSQL database module loaded successfully
+INFO:root:PostgreSQL support is available
+INFO:root:PostgreSQL database module loaded successfully
+INFO:export_queue:Successfully imported OpenShotAPI
+INFO:root:PostgreSQL database initialized successfully
+INFO:root:PostgreSQL database initialized successfully
+Configuration loaded from config.py
+Warning: OpenShot library not available. Using fallback implementation.
+Error importing OpenShot API: cannot import name 'OpenShotVideoAPI' from 'openshot_api' (/root/OpenShot/test_app/openshot_api.py)
+Using PostgreSQL database
+DIRECT FIX: Forced PostgreSQL database connection
+DIRECT FIX: Database test: SUCCESS -> SUCCESS
+Using PostgreSQL database
+Using PostgreSQL database: flux58 on localhost:5432
+Initializing OpenShot library...
+DEBUG: System settings at startup: {'hero_bg_image': {'value': '', 'updated_at': datetime.datetime(2025, 3, 22, 0, 14, 27, 647736)}, 'landing_page_hero_image': {'value': 'img/custom/hero_1742602487.png', 'updated_at': datetime.datetime(2025, 3, 22, 0, 14, 47, 230990)}, 'landing_page_title': {'value': 'FLUX58 AI MEDIA LABS', 'updated_at': datetime.datetime(2025, 3, 22, 0, 14, 54, 625460)}, 'landing_page_subtitle': {'value': 'Powerful AI-Enhanced Video Editing', 'updated_at': datetime.datetime(2025, 3, 22, 0, 14, 54, 637874)}, 'landing_page_description': {'value': 'Create professional videos with our cloud-based video editor, powered by AI', 'updated_at': datetime.datetime(2025, 3, 22, 0, 14, 54, 640198)}, 'hero_bg_color': {'value': '#343a40', 'updated_at': datetime.datetime(2025, 3, 22, 0, 14, 54, 642691)}, 'hero_text_color': {'value': '#ffffff', 'updated_at': datetime.datetime(2025, 3, 22, 0, 14, 54, 644746)}, 'hero_bg_image_overlay': {'value': 'False', 'updated_at': datetime.datetime(2025, 3, 22, 0, 14, 54, 646875)}, 'navbar_logo': {'value': 'img/logo_1742595597.png', 'updated_at': datetime.datetime(2025, 3, 21, 22, 19, 57, 984611)}, 'test_fix_direct': {'value': 'SUCCESS', 'updated_at': datetime.datetime(2025, 3, 22, 1, 13, 34, 884418)}, 'test_setting': {'value': 'test_value_66a54f19', 'updated_at': datetime.datetime(2025, 3, 21, 21, 46, 46, 616935)}, 'features_title': {'value': 'Features', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 47958)}, 'features_accent_color': {'value': '#007bff', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 61071)}, 'feature1_icon': {'value': 'bi-camera-video', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 63261)}, 'feature1_title': {'value': 'Video Editing', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 65581)}, 'feature1_text': {'value': 'Edit video with our powerful cloud-based editor', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 67753)}, 'feature2_icon': {'value': 'bi-robot', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 69883)}, 'feature2_title': {'value': 'AI Enhancement', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 71904)}, 'feature2_text': {'value': 'Leverage AI to enhance your videos automatically', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 73961)}, 'feature3_icon': {'value': 'bi-cloud-upload', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 76152)}, 'feature3_title': {'value': 'Cloud Storage', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 78449)}, 'feature3_text': {'value': 'Store your projects securely in the cloud', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 80720)}, 'cta_title': {'value': 'Ready to get started?', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 82952)}, 'cta_subtitle': {'value': 'Sign up today and create amazing videos.', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 85210)}, 'cta_button_text': {'value': 'Get Started', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 87340)}, 'cta_button_color': {'value': '#007bff', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 89772)}, 'test_fix_script': {'value': 'test_value_from_fix_script', 'updated_at': datetime.datetime(2025, 3, 21, 21, 47, 46, 92037)}, 'test_db_impl_1742593686': {'value': 'test_value_2025-03-21T21:48:06.292557', 'updated_at': datetime.datetime(2025, 3, 21, 21, 48, 6, 292576)}, 'flux58_startup_1742593711': {'value': 'STARTUP_TEST', 'updated_at': datetime.datetime(2025, 3, 21, 21, 48, 31, 331425)}, 'navbar_brand_text': {'value': 'FLUX58 AI MEDIA LABS', 'updated_at': datetime.datetime(2025, 3, 22, 0, 5, 50, 228670)}, 'navbar_bg_color': {'value': '#212529', 'updated_at': datetime.datetime(2025, 3, 22, 0, 5, 50, 241362)}, 'navbar_text_color': {'value': '#000000', 'updated_at': datetime.datetime(2025, 3, 22, 0, 5, 50, 243688)}, 'navbar_menu_items': {'value': '[]', 'updated_at': datetime.datetime(2025, 3, 22, 0, 5, 50, 246071)}, 'page_bg_color': {'value': '#ffffff', 'updated_at': datetime.datetime(2025, 3, 22, 0, 6, 11, 207337)}, 'content_bg_color': {'value': '#ffffff', 'updated_at': datetime.datetime(2025, 3, 22, 0, 6, 11, 220414)}, 'content_text_color': {'value': '#212529', 'updated_at': datetime.datetime(2025, 3, 22, 0, 6, 11, 222631)}, 'page_bg_image': {'value': 'img/custom/page_bg_1742601971.png', 'updated_at': datetime.datetime(2025, 3, 22, 0, 6, 11, 228801)}}
+Configuration loaded from config.py
+Initializing OpenShot library...
+Warning: OpenShot library not found, using placeholder implementation
+Using PostgreSQL database: flux58 on localhost:5432
+Initializing OpenShot library...
+Warning: OpenShot library not found, using placeholder implementation
+Using demo project manager for testing
+Starting server on port 5090...
+ * Serving Flask app 'app'
+ * Debug mode: off
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5090
+ * Running on http://192.168.200.116:5090
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/Mar/2025 01:15:31] "GET /login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/Mar/2025 01:15:32] "[32mPOST /login HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [22/Mar/2025 01:15:32] "GET /dashboard HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/Mar/2025 01:15:32] "GET /projects/new HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/Mar/2025 01:15:32] "[32mPOST /projects/new HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [22/Mar/2025 01:15:32] "GET /editor?project_id=253a897b-5b6c-4e8b-a833-947cd6fa77f1 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/Mar/2025 01:15:32] "GET /projects/253a897b-5b6c-4e8b-a833-947cd6fa77f1 HTTP/1.1" 200 -
+INFO:werkzeug:192.168.200.112 - - [22/Mar/2025 01:17:29] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:192.168.200.112 - - [22/Mar/2025 01:17:29] "[36mGET /static/img/logo_1742595597.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:192.168.200.112 - - [22/Mar/2025 01:17:29] "[36mGET /static/img/custom/hero_1742602487.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:192.168.200.112 - - [22/Mar/2025 01:17:29] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:192.168.200.112 - - [22/Mar/2025 01:17:29] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:192.168.200.112 - - [22/Mar/2025 01:17:29] "[36mGET /static/img/custom/page_bg_1742601971.png HTTP/1.1[0m" 304 -
+Terminated
+[0;33mApplication terminated. Check logs for details: /root/OpenShot/test_app/logs/flux58.log[0m

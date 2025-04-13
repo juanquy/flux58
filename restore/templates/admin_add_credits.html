@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}Add Credits - Admin - FLUX58 AI MEDIA LABS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>Add Credits to User: {{ username }}</h1>
+        <p class="lead">Allocate additional credits to this user account.</p>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Credit Allocation</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('admin_add_credits', user_id=user_id) }}">
+                    <div class="mb-4">
+                        <label for="amount" class="form-label">Credit Amount</label>
+                        <input type="number" class="form-control form-control-lg" id="amount" name="amount" value="100" min="1" required>
+                        <div class="form-text">Enter the number of credits to add to the user's account.</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="reason" class="form-label">Reason (Optional)</label>
+                        <select class="form-select" id="reason" name="reason">
+                            <option value="purchase">Purchase</option>
+                            <option value="bonus">Bonus Credits</option>
+                            <option value="compensation">Compensation</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Add Credits</button>
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,322 @@
+{% extends "layout.html" %}
+
+{% block title %}Buy Credits - FLUX58 AI MEDIA LABS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>Purchase Credits</h1>
+        <p class="lead">Add more credits to your account to access premium features.</p>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Choose a Credit Package</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 credit-package" data-amount="9.99" data-credits="100">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Starter</h5>
+                                <div class="display-4 my-3">100</div>
+                                <div class="text-muted mb-3">Credits</div>
+                                <h4>$9.99</h4>
+                                <button class="btn btn-outline-primary w-100 mt-3 select-package">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 credit-package border-primary" data-amount="19.99" data-credits="300">
+                            <div class="card-header text-center text-white bg-primary">
+                                Best Value
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Professional</h5>
+                                <div class="display-4 my-3">300</div>
+                                <div class="text-muted mb-3">Credits</div>
+                                <h4>$19.99</h4>
+                                <button class="btn btn-primary w-100 mt-3 select-package">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 credit-package" data-amount="49.99" data-credits="1000">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Enterprise</h5>
+                                <div class="display-4 my-3">1000</div>
+                                <div class="text-muted mb-3">Credits</div>
+                                <h4>$49.99</h4>
+                                <button class="btn btn-outline-primary w-100 mt-3 select-package">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <h6>Custom Amount</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Credits</span>
+                                <input type="number" class="form-control" id="customCredits" min="10" max="10000" value="500">
+                                <button class="btn btn-outline-primary select-custom-package" type="button">Select</button>
+                            </div>
+                            <small class="text-muted">1 credit = $0.10 USD</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Order Summary</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    <span id="creditAmount">300 Credits</span>
+                    <span id="creditCost">$19.99</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between mb-2 fw-bold">
+                    <span>Total</span>
+                    <span id="totalCost">$19.99</span>
+                </div>
+                
+                <form id="paymentForm" action="{{ url_for('payment_create') }}" method="post" class="mt-4">
+                    <input type="hidden" name="amount" id="paymentAmount" value="19.99">
+                    <input type="hidden" name="credits" id="paymentCredits" value="300">
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg" id="paypalBtn">
+                            <i class="bi bi-paypal me-2"></i> Pay with PayPal
+                        </button>
+                        
+                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#cardPaymentSection">
+                            <i class="bi bi-credit-card me-2"></i> Pay with Card
+                        </button>
+                    </div>
+                    
+                    <div class="collapse mt-3" id="cardPaymentSection">
+                        <div class="card card-body">
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i> Credit card payments are processed securely through PayPal.
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="cardHolder" class="form-label">Cardholder Name</label>
+                                <input type="text" class="form-control" id="cardHolder" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="cardNumber" class="form-label">Card Number</label>
+                                <input type="text" class="form-control" id="cardNumber" required>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="expiration" class="form-label">Expiration</label>
+                                    <input type="text" class="form-control" id="expiration" placeholder="MM/YY" required>
+                                </div>
+                                <div class="col">
+                                    <label for="cvv" class="form-label">CVV</label>
+                                    <input type="text" class="form-control" id="cvv" required>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Process Payment</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Why Buy Credits?</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex">
+                        <div class="me-3">
+                            <i class="bi bi-film text-primary fs-4"></i>
+                        </div>
+                        <div>
+                            <h6>Export Videos</h6>
+                            <p class="small text-muted mb-0">Export your projects in HD and 4K quality</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex">
+                        <div class="me-3">
+                            <i class="bi bi-magic text-primary fs-4"></i>
+                        </div>
+                        <div>
+                            <h6>AI Features</h6>
+                            <p class="small text-muted mb-0">Access advanced AI video generation tools</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex">
+                        <div class="me-3">
+                            <i class="bi bi-stack text-primary fs-4"></i>
+                        </div>
+                        <div>
+                            <h6>Never Expires</h6>
+                            <p class="small text-muted mb-0">Your credits never expire - use them anytime</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Credit Usage Guide</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Video Export</h6>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Resolution</th>
+                                        <th>Credits</th>
+                                        <th>Cost ($)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>720p</td>
+                                        <td>5</td>
+                                        <td>$0.50</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1080p</td>
+                                        <td>10</td>
+                                        <td>$1.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4K</td>
+                                        <td>20</td>
+                                        <td>$2.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>AI Features</h6>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Feature</th>
+                                        <th>Credits</th>
+                                        <th>Cost ($)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Text to Video</td>
+                                        <td>30</td>
+                                        <td>$3.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>AI Video Enhancement</td>
+                                        <td>15</td>
+                                        <td>$1.50</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Auto Captions</td>
+                                        <td>10</td>
+                                        <td>$1.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Default values
+        let selectedAmount = 19.99;
+        let selectedCredits = 300;
+        
+        // Update payment form and summary
+        function updatePaymentForm(amount, credits) {
+            selectedAmount = amount;
+            selectedCredits = credits;
+            
+            document.getElementById('creditAmount').textContent = `${credits} Credits`;
+            document.getElementById('creditCost').textContent = `$${amount}`;
+            document.getElementById('totalCost').textContent = `$${amount}`;
+            
+            document.getElementById('paymentAmount').value = amount;
+            document.getElementById('paymentCredits').value = credits;
+        }
+        
+        // Package selection
+        const packageButtons = document.querySelectorAll('.select-package');
+        packageButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const card = this.closest('.credit-package');
+                const amount = parseFloat(card.dataset.amount);
+                const credits = parseInt(card.dataset.credits);
+                
+                updatePaymentForm(amount, credits);
+                
+                // Highlight selected package
+                document.querySelectorAll('.credit-package').forEach(c => {
+                    c.classList.remove('border-primary');
+                    c.querySelector('button').classList.remove('btn-primary');
+                    c.querySelector('button').classList.add('btn-outline-primary');
+                });
+                
+                card.classList.add('border-primary');
+                card.querySelector('button').classList.remove('btn-outline-primary');
+                card.querySelector('button').classList.add('btn-primary');
+            });
+        });
+        
+        // Custom amount
+        document.querySelector('.select-custom-package').addEventListener('click', function() {
+            const customCredits = parseInt(document.getElementById('customCredits').value);
+            
+            if (customCredits < 10) {
+                alert('Minimum purchase is 10 credits');
+                return;
+            }
+            
+            const customAmount = (customCredits * 0.10).toFixed(2);
+            updatePaymentForm(customAmount, customCredits);
+            
+            // Reset package highlighting
+            document.querySelectorAll('.credit-package').forEach(c => {
+                c.classList.remove('border-primary');
+                c.querySelector('button').classList.remove('btn-primary');
+                c.querySelector('button').classList.add('btn-outline-primary');
+            });
+        });
+    });
+</script>
+{% endblock %}

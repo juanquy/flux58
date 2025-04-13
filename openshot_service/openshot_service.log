@@ -1,0 +1,27 @@
+2025-03-21 19:00:29,340 - app - WARNING - OpenShot library not available
+2025-03-21 19:00:33,472 - __main__ - WARNING - OpenShot library not available
+2025-03-21 19:00:33,492 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.200.116:5000
+2025-03-21 19:00:33,492 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-21 19:00:33,493 - werkzeug - INFO -  * Restarting with stat
+2025-03-21 19:00:33,770 - __main__ - WARNING - OpenShot library not available
+2025-03-21 19:00:33,785 - werkzeug - WARNING -  * Debugger is active!
+2025-03-21 19:00:33,788 - werkzeug - INFO -  * Debugger PIN: 813-788-963
+2025-03-21 19:27:54,064 - __main__ - WARNING - OpenShot library not available
+2025-03-21 19:33:07,015 - __main__ - WARNING - OpenShot library not available
+2025-03-21 19:33:07,032 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.200.116:5000
+2025-03-21 19:33:07,032 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-21 19:33:07,032 - werkzeug - INFO -  * Restarting with stat
+2025-03-21 19:33:07,308 - __main__ - WARNING - OpenShot library not available
+2025-03-21 19:33:07,323 - werkzeug - WARNING -  * Debugger is active!
+2025-03-21 19:33:07,325 - werkzeug - INFO -  * Debugger PIN: 813-788-963
+2025-03-21 19:35:06,562 - werkzeug - INFO - 192.168.200.112 - - [21/Mar/2025 19:35:06] "GET / HTTP/1.1" 200 -
+2025-03-21 19:35:06,591 - werkzeug - INFO - 192.168.200.112 - - [21/Mar/2025 19:35:06] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-03-21 19:35:06,592 - werkzeug - INFO - 192.168.200.112 - - [21/Mar/2025 19:35:06] "GET /static/js/main.js HTTP/1.1" 200 -
+2025-03-21 19:35:06,603 - werkzeug - INFO - 192.168.200.112 - - [21/Mar/2025 19:35:06] "GET /health HTTP/1.1" 200 -
+2025-03-21 19:35:06,624 - werkzeug - INFO - 192.168.200.112 - - [21/Mar/2025 19:35:06] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -

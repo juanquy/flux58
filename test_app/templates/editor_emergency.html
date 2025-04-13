@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Editor - FLUX58 AI MEDIA LABS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #1a1a28;
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+            color: #e0e0e0;
+        }
+        .editor-container {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .editor-header {
+            background-color: #1e1e2d;
+            color: white;
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 10;
+            position: relative;
+        }
+        .editor-header h5 {
+            margin-bottom: 0;
+            font-weight: 600;
+        }
+        .editor-main {
+            display: flex;
+            height: calc(100% - 60px);
+        }
+        .media-panel {
+            width: 280px;
+            background-color: #252536;
+            border-right: 1px solid #353545;
+            display: flex;
+            flex-direction: column;
+        }
+        .preview-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #1a1a28;
+        }
+        .video-preview {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .video-canvas {
+            background-color: #000;
+            width: 100%;
+            max-width: 960px;
+            max-height: 540px;
+            aspect-ratio: 16/9;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .timeline-panel {
+            height: 220px;
+            border-top: 1px solid #353545;
+            background-color: #232334;
+            display: flex;
+            flex-direction: column;
+        }
+        .properties-panel {
+            width: 320px;
+            background-color: #252536;
+            border-left: 1px solid #353545;
+            padding: 0;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="editor-container">
+    <div class="editor-header">
+        <div class="d-flex align-items-center">
+            <h5>Video Editor</h5>
+            <span class="badge bg-success ms-2 d-none d-sm-inline">Saved</span>
+        </div>
+        <div>
+            <a href="/dashboard" class="btn btn-outline-light btn-sm ms-2">
+                <i class="bi bi-x"></i> Exit
+            </a>
+        </div>
+    </div>
+    
+    <div class="editor-main">
+        <!-- Media Library Panel -->
+        <div class="media-panel">
+            <div class="p-3">
+                <h6>Media Library</h6>
+                <p class="text-muted small">No assets available</p>
+            </div>
+        </div>
+        
+        <!-- Main Editing Area -->
+        <div class="preview-panel">
+            <!-- Video Preview -->
+            <div class="video-preview">
+                <div class="video-canvas" id="preview-canvas">
+                    <!-- Video preview content -->
+                    <div class="d-flex justify-content-center align-items-center h-100 text-white">
+                        <div class="text-center">
+                            <i class="bi bi-film display-1" style="color: #4a6cf7;"></i>
+                            <h5 class="mt-3">Preview</h5>
+                            <p>We're sorry, the video editor is temporarily in maintenance mode</p>
+                            <p class="small text-muted">Our team is working to restore full functionality</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Timeline -->
+            <div class="timeline-panel">
+                <div class="p-3">
+                    <h6>Timeline</h6>
+                    <p class="text-muted small">Timeline is temporarily unavailable</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Properties Panel -->
+        <div class="properties-panel">
+            <div class="p-3">
+                <h6>Properties</h6>
+                <p class="text-muted small">Properties panel is temporarily unavailable</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+{% extends "layout.html" %}
+
+{% block title %}FLUX58 AI MEDIA LABS - AI-Powered Video Creation and Editing{% endblock %}
+
+{% block content %}
+{% set landing_page = landing_page_settings %}
+
+{% if landing_page.hero.bg_image %}
+<style>
+    .hero-section {
+        background-image: url('{{ url_for('static', filename=landing_page.hero.bg_image) }}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: {{ landing_page.hero.text_color }};
+        position: relative;
+    }
+    
+    {% if landing_page.hero.bg_image_overlay %}
+    .hero-section:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    {% endif %}
+</style>
+
+<div class="jumbotron p-5 rounded mb-4 hero-section">
+    <div class="row align-items-center hero-content">
+        <div class="col-md-6">
+            <h1 class="display-4">{{ landing_page.hero.title }}</h1>
+            <p class="lead">{{ landing_page.hero.subtitle }}</p>
+            <hr class="my-4">
+            <p>{{ landing_page.hero.text }}</p>
+            <a class="btn btn-primary btn-lg" href="{{ url_for('login_page') }}" role="button">{{ landing_page.cta.button_text }}</a>
+            <a class="btn btn-outline-light btn-lg ms-2" href="{{ url_for('pricing') }}" role="button">View Pricing</a>
+        </div>
+        <div class="col-md-6">
+            <img src="{{ url_for('static', filename=landing_page.hero.image) }}" alt="OpenShot Cloud Editor" class="img-fluid rounded">
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="jumbotron p-5 rounded mb-4" style="background-color: {{ landing_page.hero.bg_color }}; color: {{ landing_page.hero.text_color }};">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h1 class="display-4">{{ landing_page.hero.title }}</h1>
+            <p class="lead">{{ landing_page.hero.subtitle }}</p>
+            <hr class="my-4">
+            <p>{{ landing_page.hero.text }}</p>
+            <a class="btn btn-primary btn-lg" href="{{ url_for('login_page') }}" role="button">{{ landing_page.cta.button_text }}</a>
+            <a class="btn btn-outline-light btn-lg ms-2" href="{{ url_for('pricing') }}" role="button">View Pricing</a>
+        </div>
+        <div class="col-md-6">
+            <img src="{{ url_for('static', filename=landing_page.hero.image) }}" alt="OpenShot Cloud Editor" class="img-fluid rounded">
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="row mb-5">
+    <div class="col-12 text-center mb-4">
+        <h2 style="color: {{ landing_page.features.accent_color }};">{{ landing_page.features.title }}</h2>
+    </div>
+    {% for card in landing_page.features.cards %}
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi {{ card.icon }} display-4 mb-3" style="color: {{ landing_page.features.accent_color }};"></i>
+                <h3 class="card-title">{{ card.title }}</h3>
+                <p class="card-text">{{ card.text }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row mb-5">
+    <div class="col-12 text-center mb-4">
+        <h2>How It Works</h2>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="bg-primary rounded-circle p-3 d-inline-block mb-3">
+                    <h2 class="text-white m-0">1</h2>
+                </div>
+                <h4>Sign Up</h4>
+                <p>Create your account in seconds and get started immediately.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="bg-primary rounded-circle p-3 d-inline-block mb-3">
+                    <h2 class="text-white m-0">2</h2>
+                </div>
+                <h4>Add Credits</h4>
+                <p>Purchase credits to power your editing sessions and exports.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="bg-primary rounded-circle p-3 d-inline-block mb-3">
+                    <h2 class="text-white m-0">3</h2>
+                </div>
+                <h4>Upload Media</h4>
+                <p>Upload your videos, images, and audio files to your project.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="bg-primary rounded-circle p-3 d-inline-block mb-3">
+                    <h2 class="text-white m-0">4</h2>
+                </div>
+                <h4>Edit & Export</h4>
+                <p>Use our intuitive editor to create your masterpiece and export it.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-12 text-center mb-4">
+        <h2>Coming Soon: AI-Powered Video Creation</h2>
+        <p class="lead">Generate videos from text or images using our LTX Video AI model integration.</p>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h4><i class="bi bi-chat-text me-2 text-primary"></i> Text to Video</h4>
+                <p>Simply describe your video, and our AI will generate it for you. Perfect for creating explainer videos, advertisements, or creative content quickly.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h4><i class="bi bi-image me-2 text-primary"></i> Image to Video</h4>
+                <p>Transform your still images into dynamic videos with motion, effects, and transitions automatically applied by our advanced AI.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <h2>{{ landing_page.cta.title }}</h2>
+    <p class="lead mb-4">{{ landing_page.cta.subtitle }}</p>
+    <a href="{{ url_for('login_page') }}" class="btn btn-lg px-5" style="background-color: {{ landing_page.cta.button_color }}; color: white;">{{ landing_page.cta.button_text }}</a>
+</div>
+{% endblock %}

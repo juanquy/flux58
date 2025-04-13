@@ -1,0 +1,322 @@
+/**
+ * OpenShot Video Editor - Workflow Mode Themes
+ * Visual styling for different workflow modes
+ */
+
+/* Color Correction Workflow Mode */
+body.workflow-color-mode .editor-header {
+    background: linear-gradient(to right, #1a1a28, #2c2c42);
+    border-bottom: 2px solid var(--theme-accent-primary);
+}
+
+.color-correction-preview {
+    background-color: #111118;
+}
+
+.color-correction-preview .video-canvas {
+    box-shadow: 0 0 30px rgba(74, 108, 247, 0.2);
+    position: relative;
+    max-width: calc(50% - 10px);
+    margin: 0 auto;
+}
+
+/* Create side-by-side preview for color correction mode */
+.preview-panel.color-correction-preview {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
+}
+
+.preview-panel.color-correction-preview:before {
+    content: "Original";
+    position: absolute;
+    top: 10px;
+    left: 25%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 10;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.preview-panel.color-correction-preview:after {
+    content: "Color Corrected";
+    position: absolute;
+    top: 10px;
+    left: 75%; 
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 10;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Color mode scopes and markers */
+.color-mode-markers {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.color-scope {
+    width: 120px;
+    height: 80px;
+    background-color: rgba(21, 21, 33, 0.8);
+    border: 1px solid var(--theme-accent-primary);
+    border-radius: 4px;
+    position: relative;
+    backdrop-filter: blur(3px);
+}
+
+.color-scope.histogram {
+    background-image: linear-gradient(to bottom, transparent, rgba(74, 108, 247, 0.3)),
+                     repeating-linear-gradient(to right,
+                     rgba(255, 255, 255, 0.05) 0px,
+                     rgba(255, 255, 255, 0.05) 1px,
+                     transparent 1px,
+                     transparent 10px);
+}
+
+.color-scope.waveform {
+    background-image: repeating-linear-gradient(to right,
+                     rgba(255, 255, 255, 0.05) 0px,
+                     rgba(255, 255, 255, 0.05) 1px,
+                     transparent 1px,
+                     transparent 10px),
+                     repeating-linear-gradient(to bottom,
+                     rgba(255, 255, 255, 0.05) 0px,
+                     rgba(255, 255, 255, 0.05) 1px,
+                     transparent 1px,
+                     transparent 10px);
+}
+
+.color-scope::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(to right,
+                     rgba(255, 0, 0, 0.1),
+                     rgba(0, 255, 0, 0.1),
+                     rgba(0, 0, 255, 0.1));
+    mix-blend-mode: screen;
+    pointer-events: none;
+    border-radius: 3px;
+}
+
+.scope-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-top-right-radius: 4px;
+}
+
+/* Color correction panel enhancements */
+.color-correction-panel .workflow-section {
+    transition: all 0.3s ease;
+}
+
+.color-correction-panel .workflow-section:hover {
+    background-color: rgba(74, 108, 247, 0.05);
+    border-radius: 8px;
+}
+
+.color-correction-panel input[type="range"]::-webkit-slider-thumb {
+    background: var(--theme-accent-primary, #4a6cf7);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.color-correction-panel input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* Audio Mixing Workflow Mode */
+body.workflow-audio-mode .editor-header {
+    background: linear-gradient(to right, #1a1a28, #244228);
+    border-bottom: 2px solid #50cd89;
+}
+
+.audio-mixing-timeline {
+    background-color: #161e1a;
+}
+
+/* Enhanced audio tracks in audio mode */
+body.workflow-audio-mode .track-content[data-track-type="audio"] {
+    background-image: linear-gradient(rgba(80, 205, 137, 0.05), rgba(80, 205, 137, 0.1));
+    border: 1px solid rgba(80, 205, 137, 0.3);
+}
+
+/* Toolbar styling for audio tools */
+body.workflow-audio-mode .timeline-header .tools button {
+    border-color: rgba(80, 205, 137, 0.4);
+}
+
+body.workflow-audio-mode .timeline-header .tools button:hover {
+    background-color: rgba(80, 205, 137, 0.2);
+}
+
+/* Visual Effects Workflow Mode */
+body.workflow-effects-mode .editor-header {
+    background: linear-gradient(to right, #1a1a28, #333124);
+    border-bottom: 2px solid #ffc700;
+}
+
+.effects-preview .video-canvas {
+    box-shadow: 0 0 30px rgba(255, 199, 0, 0.2);
+}
+
+.effects-properties {
+    background-color: #222230;
+}
+
+/* Toolbar styling for effects tools */
+body.workflow-effects-mode .timeline-header .tools button {
+    border-color: rgba(255, 199, 0, 0.4);
+}
+
+body.workflow-effects-mode .timeline-header .tools button:hover {
+    background-color: rgba(255, 199, 0, 0.2);
+}
+
+/* Text & Graphics Workflow Mode */
+body.workflow-text-mode .editor-header {
+    background: linear-gradient(to right, #1a1a28, #2d1c3a);
+    border-bottom: 2px solid #9400D3;
+}
+
+/* Toolbar styling for text tools */
+body.workflow-text-mode .timeline-header .tools button {
+    border-color: rgba(148, 0, 211, 0.4);
+}
+
+body.workflow-text-mode .timeline-header .tools button:hover {
+    background-color: rgba(148, 0, 211, 0.2);
+}
+
+/* AI-Assisted Workflow Mode */
+body.workflow-ai-mode {
+    --theme-accent-primary: #9400D3;
+    --theme-accent-secondary: #4B0082;
+    --theme-accent-gradient: linear-gradient(135deg, #9400D3, #4B0082);
+}
+
+body.workflow-ai-mode .editor-header {
+    background: linear-gradient(to right, #1a1a28, #2d1c3a);
+    border-bottom: 2px solid #9400D3;
+}
+
+.ai-mode .preview-panel .video-canvas {
+    box-shadow: 0 0 30px rgba(148, 0, 211, 0.2);
+}
+
+/* Toolbar styling for AI tools */
+body.workflow-ai-mode .timeline-header .tools button {
+    border-color: rgba(148, 0, 211, 0.4);
+}
+
+body.workflow-ai-mode .timeline-header .tools button:hover {
+    background-color: rgba(148, 0, 211, 0.2);
+}
+
+body.workflow-ai-mode .timeline-header .tools button#ai-auto-edit-btn {
+    background: linear-gradient(90deg, #9400D3, #4B0082);
+    border: none;
+}
+
+/* General workflow highlighting */
+.workflow-color-mode .color-correction-panel {
+    border-left: 3px solid var(--theme-accent-primary);
+    box-shadow: -5px 0 15px rgba(74, 108, 247, 0.1);
+}
+
+.workflow-audio-mode .audio-mixing-panel {
+    border-left: 3px solid #50cd89;
+    box-shadow: -5px 0 15px rgba(80, 205, 137, 0.1);
+}
+
+.workflow-effects-mode .visual-effects-panel {
+    border-left: 3px solid #ffc700;
+    box-shadow: -5px 0 15px rgba(255, 199, 0, 0.1);
+}
+
+.workflow-text-mode .text-graphics-panel {
+    border-left: 3px solid #9400D3;
+    box-shadow: -5px 0 15px rgba(148, 0, 211, 0.1);
+}
+
+.workflow-ai-mode .ai-assisted-panel {
+    border-left: 3px solid #9400D3;
+    box-shadow: -5px 0 15px rgba(148, 0, 211, 0.1);
+}
+
+/* Custom mode-specific transitions */
+.workflow-panel.color-correction-panel,
+.workflow-panel.audio-mixing-panel,
+.workflow-panel.visual-effects-panel,
+.workflow-panel.text-graphics-panel,
+.workflow-panel.ai-assisted-panel {
+    transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Workflow tool buttons animations */
+.timeline-header .tools button {
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.timeline-header .tools button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.timeline-header .tools button:hover::after {
+    opacity: 1;
+}
+
+/* Tools section highlights */
+.timeline-header .tools {
+    transition: background-color 0.3s ease;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+.workflow-color-mode .timeline-header .tools {
+    background-color: rgba(74, 108, 247, 0.05);
+}
+
+.workflow-audio-mode .timeline-header .tools {
+    background-color: rgba(80, 205, 137, 0.05);
+}
+
+.workflow-effects-mode .timeline-header .tools {
+    background-color: rgba(255, 199, 0, 0.05);
+}
+
+.workflow-text-mode .timeline-header .tools {
+    background-color: rgba(148, 0, 211, 0.05);
+}
+
+.workflow-ai-mode .timeline-header .tools {
+    background-color: rgba(148, 0, 211, 0.05);
+}

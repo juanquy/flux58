@@ -1,0 +1,403 @@
+/**
+ * OpenShot Video Editor - Workflow Modes CSS
+ * Styles for different editing workflow modes
+ */
+
+/* Common styles for all workflow panels */
+.workflow-panel {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 300px;
+    background-color: var(--theme-bg-tertiary, #252536);
+    border-left: 1px solid var(--theme-border, #353545);
+    z-index: 500;
+    padding: 15px;
+    overflow-y: auto;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.workflow-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--theme-border, #353545);
+}
+
+.workflow-panel-header h5 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.workflow-section {
+    margin-bottom: 20px;
+}
+
+.workflow-section-header {
+    font-weight: 600;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Color Correction Mode */
+.color-correction-panel .color-controls {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.color-correction-panel .form-range {
+    height: 8px;
+}
+
+.color-correction-panel .form-range::-webkit-slider-thumb {
+    background: var(--theme-accent-primary, #4a6cf7);
+}
+
+.color-correction-panel .preset-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.color-correction-panel .color-preset {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.color-correction-panel .color-preset:hover,
+.color-correction-panel .color-preset.active {
+    transform: scale(1.05);
+    border-color: white;
+}
+
+.color-correction-panel .color-preview {
+    width: 100%;
+    height: 100px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.color-correction-panel .color-preview::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 80%, rgba(0,0,0,0.5) 100%);
+    border-radius: 8px;
+}
+
+.color-correction-panel .preview-label {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+    font-size: 12px;
+    z-index: 1;
+}
+
+.color-correction-panel .color-scope {
+    width: 100%;
+    height: 150px;
+    background-color: #000;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 12px;
+}
+
+/* Audio Mixing Mode */
+.audio-mixing-panel .audio-track {
+    background-color: var(--theme-bg-quaternary, #2a2a3c);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.audio-mixing-panel .audio-controls {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.audio-mixing-panel .audio-visualizer {
+    width: 100%;
+    height: 60px;
+    background-color: #000;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.audio-mixing-panel .audio-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 5px;
+    gap: 2px;
+}
+
+.audio-mixing-panel .audio-wave .bar {
+    flex: 1;
+    background-color: var(--theme-accent-primary, #4a6cf7);
+    border-radius: 2px;
+    min-height: 2px;
+}
+
+/* Visual Effects Mode */
+.visual-effects-panel .effects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.visual-effects-panel .effect-item {
+    background-color: var(--theme-bg-quaternary, #2a2a3c);
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.visual-effects-panel .effect-item:hover {
+    background-color: var(--theme-accent-secondary, #7239ea);
+    transform: translateY(-2px);
+}
+
+.visual-effects-panel .effect-icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.visual-effects-panel .effect-controls {
+    background-color: var(--theme-bg-quaternary, #2a2a3c);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+/* Text & Graphics Mode */
+.text-graphics-panel .text-template {
+    background-color: var(--theme-bg-quaternary, #2a2a3c);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.text-graphics-panel .text-template:hover {
+    background-color: var(--theme-accent-secondary, #7239ea);
+    transform: translateY(-2px);
+}
+
+.text-graphics-panel .text-preview {
+    font-family: var(--current-font, 'Inter');
+    padding: 10px;
+    text-align: center;
+    color: var(--current-text-color, white);
+    text-shadow: var(--current-text-shadow, none);
+}
+
+.text-graphics-panel .font-selector {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.text-graphics-panel .font-item {
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.text-graphics-panel .font-item:hover {
+    background-color: var(--theme-bg-quaternary, #2a2a3c);
+}
+
+.text-graphics-panel .font-item.active {
+    background-color: var(--theme-accent-secondary, #7239ea);
+}
+
+/* AI-Assisted Mode */
+.ai-assisted-panel {
+    background: linear-gradient(135deg, #252536, #1a1a29);
+}
+
+.ai-assisted-panel .ai-prompt {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.ai-assisted-panel .ai-prompt input {
+    flex: 1;
+    background-color: var(--theme-bg-quaternary, #2a2a3c);
+    border-color: var(--theme-border, #353545);
+    color: var(--theme-text-primary, white);
+}
+
+.ai-assisted-panel .ai-suggestions {
+    background-color: var(--theme-bg-quaternary, #2a2a3c);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.ai-assisted-panel .ai-suggestion {
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ai-assisted-panel .ai-suggestion:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.ai-assisted-panel .ai-badge {
+    background: linear-gradient(90deg, #9400D3, #4B0082);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    margin-left: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .workflow-panel {
+        width: 250px;
+    }
+}
+
+@media (max-width: 992px) {
+    .workflow-panel {
+        width: 100%;
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        height: 50%;
+        z-index: 1000;
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .workflow-panel .workflow-panel-header {
+        position: sticky;
+        top: 0;
+        background-color: var(--theme-bg-tertiary, #252536);
+        padding-top: 10px;
+        z-index: 1;
+    }
+}
+
+/* Notification styles */
+#notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    width: 300px;
+}
+
+.notification {
+    background-color: #252536;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    animation: slide-in 0.3s ease-out;
+    transition: opacity 0.5s;
+}
+
+.notification.info {
+    border-left: 4px solid #4a6cf7;
+}
+
+.notification.success {
+    border-left: 4px solid #50cd89;
+}
+
+.notification.warning {
+    border-left: 4px solid #ffc700;
+}
+
+.notification.error {
+    border-left: 4px solid #f1416c;
+}
+
+.notification i {
+    margin-right: 8px;
+}
+
+.notification.info i {
+    color: #4a6cf7;
+}
+
+.notification.success i {
+    color: #50cd89;
+}
+
+.notification.warning i {
+    color: #ffc700;
+}
+
+.notification.error i {
+    color: #f1416c;
+}
+
+.notification.fade-out {
+    opacity: 0;
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

@@ -1,0 +1,147 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard - FLUX58 AI MEDIA LABS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>Welcome, {{ session.get('username', 'User') }}!</h1>
+        <p class="lead">Manage your projects and resources from your personal dashboard.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Available Credits</h5>
+                <p class="display-4">{{ credits.available }}</p>
+                <a href="{{ url_for('credits_page') }}" class="btn btn-light">Add Credits</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Active Projects</h5>
+                <p class="display-4">{{ projects|length }}</p>
+                <a href="{{ url_for('projects_page') }}" class="btn btn-light">View Projects</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">Recent Exports</h5>
+                <p class="display-4">{{ exports|length }}</p>
+                <a href="{{ url_for('exports_page') }}" class="btn btn-light">View Exports</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Recent Projects</h5>
+                <a href="{{ url_for('create_project_page') }}" class="btn btn-primary btn-sm">Create New Project</a>
+            </div>
+            <div class="card-body">
+                {% if projects %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+                                <th>Description</th>
+                                <th>Last Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for project in projects %}
+                            <tr>
+                                <td>{{ project.name }}</td>
+                                <td>{{ project.description }}</td>
+                                <td>{{ project.updated_at }}</td>
+                                <td>
+                                    <a href="{{ url_for('editor_page', project_id=project.id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="{{ url_for('project_details', project_id=project.id) }}" class="btn btn-info btn-sm">Details</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-film display-1 text-muted"></i>
+                    <h4 class="mt-3">No projects yet</h4>
+                    <p class="text-muted">Create your first video project to get started</p>
+                    <a href="{{ url_for('create_project_page') }}" class="btn btn-primary mt-2">Create New Project</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Recent Activity</h5>
+            </div>
+            <div class="card-body">
+                {% if activities %}
+                <ul class="list-group list-group-flush">
+                    {% for activity in activities %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi {{ activity.icon }} me-2 text-primary"></i>
+                            {{ activity.description }}
+                            <small class="d-block text-muted">{{ activity.time }}</small>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-center text-muted py-3">No recent activity</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Recent Transactions</h5>
+            </div>
+            <div class="card-body">
+                {% if transactions %}
+                <ul class="list-group list-group-flush">
+                    {% for transaction in transactions %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            {% if transaction.amount > 0 %}
+                            <i class="bi bi-plus-circle me-2 text-success"></i>
+                            {% else %}
+                            <i class="bi bi-dash-circle me-2 text-danger"></i>
+                            {% endif %}
+                            {{ transaction.description }}
+                            <small class="d-block text-muted">{{ transaction.time }}</small>
+                        </div>
+                        <span class="badge {% if transaction.amount > 0 %}bg-success{% else %}bg-danger{% endif %} rounded-pill">
+                            {{ transaction.amount }} credits
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-center text-muted py-3">No recent transactions</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

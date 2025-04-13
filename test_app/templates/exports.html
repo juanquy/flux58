@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+
+{% block title %}Exports - FLUX58 AI MEDIA LABS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>Export History</h1>
+        <p class="lead">View and download your exported videos.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Recent Exports</h5>
+                <div>
+                    <select class="form-select form-select-sm d-inline-block w-auto me-2">
+                        <option>All Formats</option>
+                        <option>MP4</option>
+                        <option>MOV</option>
+                        <option>WebM</option>
+                    </select>
+                    <button class="btn btn-sm btn-outline-secondary">
+                        <i class="bi bi-filter"></i> Filter
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if exports %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Filename</th>
+                                <th>Format</th>
+                                <th>Duration</th>
+                                <th>Size</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for export in exports %}
+                            <tr>
+                                <td>{{ export.project_name }}</td>
+                                <td>{{ export.filename }}</td>
+                                <td>{{ export.format }}</td>
+                                <td>{{ export.duration }}</td>
+                                <td>{{ export.size }}</td>
+                                <td>{{ export.date }}</td>
+                                <td>
+                                    <span class="badge bg-success">{{ export.status }}</span>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-download"></i>
+                                    </a>
+                                    <button class="btn btn-outline-danger btn-sm">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-file-earmark-play display-1 text-muted"></i>
+                    <h4 class="mt-3">No Exports Yet</h4>
+                    <p class="text-muted">Create and export your first video project to get started</p>
+                    <a href="{{ url_for('projects_page') }}" class="btn btn-primary mt-2">Go to Projects</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Export Statistics</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total Exports
+                        <span class="badge bg-primary rounded-pill">{{ exports|length }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total Duration
+                        <span class="badge bg-primary rounded-pill">0 min</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total Size
+                        <span class="badge bg-primary rounded-pill">0 MB</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Credits Used
+                        <span class="badge bg-primary rounded-pill">0</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Export Options</h5>
+            </div>
+            <div class="card-body">
+                <p>Export your videos in various formats and quality settings:</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i> MP4 (H.264)</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i> WebM (VP9)</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i> MOV (ProRes)</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i> 720p, 1080p, 4K</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i> Custom Bitrates</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i> Watermark Options</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

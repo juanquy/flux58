@@ -1,0 +1,123 @@
+/**
+ * Media Library Fixes - CSS
+ * This fixes issues with media thumbnails and preview functionality
+ */
+
+/* Media thumbnail fixes */
+.media-thumbnail {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    margin-right: 12px;
+    background-color: #2e2e40;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Keep icon as a fallback but make it visible */
+.media-thumbnail i {
+    font-size: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Position images and videos absolutely to fill the container */
+.media-thumbnail img,
+.media-thumbnail video,
+.thumbnail-img,
+.thumbnail-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2;
+}
+
+/* Make the play overlay visible and on top */
+.media-thumbnail .thumbnail-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10;
+}
+
+.media-thumbnail:hover .thumbnail-overlay {
+    opacity: 1;
+}
+
+.thumbnail-overlay i {
+    font-size: 1.5rem;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Fix for media item layout */
+.media-item {
+    margin-bottom: 8px;
+}
+
+.media-actions {
+    float: right;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.media-item:hover .media-actions {
+    opacity: 1;
+    display: inline-block;
+}
+
+/* Fix for theme button duplication */
+.theme-button:not(:first-of-type) {
+    display: none;
+}
+
+/* Preview play button fixes */
+.play-btn {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4a6cf7, #7239ea);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.play-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(74, 108, 247, 0.5);
+}
+
+.play-btn i {
+    font-size: 1.5rem;
+}
+
+/* Video preview container */
+.video-preview {
+    background-color: #0f0f1a;
+}
+
+.video-canvas {
+    position: relative;
+    overflow: hidden;
+}

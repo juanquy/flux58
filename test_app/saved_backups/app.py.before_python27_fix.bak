@@ -1,0 +1,1621 @@
+from flask import Flask, jsonify, request, redirect, url_for, render_template, session, send_file, flash
+from functools import wraps
+from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+import os
+import uuid
+import json
+import shutil
+import time
+import re
+from datetime import datetime, timedelta
+
+# Custom JSON encoder for datetime objects
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
+import secrets
+
+# Helper function to convert objects to JSON
+def to_json(obj):
+    return json.dumps(obj, cls=CustomJSONEncoder)
+
+# Import python-dotenv for loading environment variables from .env file
+try:
+    from dotenv import load_dotenv
+    # Load environment variables from .env file if it exists
+    load_dotenv()
+except ImportError:
+    # python-dotenv is not installed, log a warning
+    print("Warning: python-dotenv is not installed. Environment variables will not be loaded from .env file.")
+
+# Import our custom modules
+import logging
+from database import Database
+from projects import ProjectManager
+from openshot_api import OpenShotVideoAPI
+import logger
+import export_queue
+from admin_tools import AdminTools
+from paypal_integration import PayPalAPI
+from flask import request, g
+
+# Initialize Flask app
+app = Flask(__name__)
+
+# Configure the app to use our custom JSON encoder for datetimes
+app.json_encoder = CustomJSONEncoder
+
+# Add tojson filter
+app.jinja_env.filters['tojson'] = to_json
+
+# Load secret key from file
+try:
+    with open('.flask_secret_key', 'r') as f:
+        # Load secret key from file
+try:
+    with open('.flask_secret_key', 'r') as f:
+        app.config['SECRET_KEY'] = f.read().strip()
+except Exception as e:
+    app.config['SECRET_KEY'] = secrets.token_hex(32)
+    print(f"Warning: Using temporary secret key. Fix the secret key file.")
+except Exception as e:
+    # Load secret key from file
+try:
+    with open('.flask_secret_key', 'r') as f:
+        app.config['SECRET_KEY'] = f.read().strip()
+except Exception as e:
+    app.config['SECRET_KEY'] = secrets.token_hex(32)
+    print(f"Warning: Using temporary secret key. Fix the secret key file.")
+    print(f"Warning: Using temporary secret key. Fix the secret key file.")
+# Set permanent session lifetime to 7 days
+from datetime import timedelta
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
+app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024  # 500MB max upload
+app.config['UPLOAD_FOLDER'] = os.path.join('data', 'uploads')
+app.config['ALLOWED_EXTENSIONS'] = {
+    'video': {'mp4', 'mov', 'avi', 'mkv', 'webm'},
+    'audio': {'mp3', 'wav', 'ogg', 'aac'},
+    'image': {'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff'}
+}
+app.config['LOG_LEVEL'] = logging.INFO
+app.config['EXPORT_CONCURRENT_JOBS'] = 2  # Number of concurrent export jobs
+
+# Database configuration
+try:
+    # Use PostgreSQL
+    DB_HOST = os.environ.get('DB_HOST', 'localhost')
+    DB_PORT = int(os.environ.get('DB_PORT', '5432'))
+    DB_NAME = os.environ.get('DB_NAME', 'flux58')
+    DB_USER = os.environ.get('DB_USER', 'postgres')
+    DB_PASS = os.environ.get('DB_PASS', 'postgres')
+
+    # Try to initialize Postgres database
+    db = Database(host=DB_HOST, port=DB_PORT, 
+                  database=DB_NAME, user=DB_USER, password=DB_PASS)
+    print(f"Using PostgreSQL database: {DB_NAME} on {DB_HOST}:{DB_PORT}")
+except Exception as e:
+    print(f"Error initializing database: {str(e)}")
+    
+    # Create a simplified wrapper for demo purposes
+    class DemoDatabase:
+        """Simple in-memory database for demo/testing"""
+        def __init__(self):
+            self.users = {
+                "admin": {
+                    "id": "admin-uuid",
+                    "username": "admin",
+                    "password_hash": "admin-hash",
+                    "email": "admin@example.com",
+                    "role": "admin",
+                    "created_at": datetime.now()
+                }
+            }
+            self.projects = {}
+            self.assets = {}
+            self.exports = {}
+            self.settings = {}
+            self.credits = {"admin-uuid": {"total": 1000, "used": 0, "transactions": []}}
+            self.logs = []
+        
+        def get_user_by_username(self, username):
+            return self.users.get(username)
+            
+        def list_all_users(self):
+            return list(self.users.values())
+            
+        def get_user_credits(self, user_id):
+            return self.credits.get(user_id)
+            
+        def get_system_setting(self, name, default=None):
+            return self.settings.get(name, default)
+            
+        def set_system_setting(self, name, value):
+            self.settings[name] = value
+            return True
+            
+        def cleanup_expired_sessions(self):
+            pass
+            
+        def create_user(self, **kwargs):
+            user_id = kwargs.get('user_id')
+            self.users[kwargs.get('username')] = kwargs
+            return user_id
+            
+        def add_credits(self, **kwargs):
+            user_id = kwargs.get('user_id')
+            if user_id not in self.credits:
+                self.credits[user_id] = {"total": 0, "used": 0, "transactions": []}
+            self.credits[user_id]["total"] += kwargs.get('amount', 0)
+            tx = {
+                "amount": kwargs.get('amount', 0),
+                "description": kwargs.get('description', ''),
+                "timestamp": datetime.now()
+            }
+            self.credits[user_id]["transactions"].append(tx)
+            return True
+            
+        def get_project_assets(self, project_id):
+            return self.assets.get(project_id, [])
+            
+        def add_log(self, level, message, source=None, user_id=None, ip_address=None, request_path=None):
+            """Add a log entry"""
+            log_entry = {
+                "timestamp": datetime.now(),
+                "level": level,
+                "message": message,
+                "source": source,
+                "user_id": user_id,
+                "ip_address": ip_address,
+                "request_path": request_path
+            }
+            self.logs.append(log_entry)
+            print(f"LOG: [{level}] {message}")
+            return True
+            
+        def list_user_exports(self, user_id):
+            """List exports for a user"""
+            return []
+            
+        def add_export(self, project_id, export_id, export_data):
+            """Add export data"""
+            return True
+            
+        def add_asset(self, asset):
+            """Add an asset"""
+            project_id = asset.get('project_id')
+            if project_id not in self.assets:
+                self.assets[project_id] = []
+            self.assets[project_id].append(asset)
+            return True
+            
+        def get_asset(self, asset_id):
+            """Get an asset by ID"""
+            for project_assets in self.assets.values():
+                for asset in project_assets:
+                    if asset.get('id') == asset_id:
+                        return asset
+            return None
+            
+        def delete_asset(self, asset_id):
+            """Delete an asset"""
+            for project_id, project_assets in self.assets.items():
+                for i, asset in enumerate(project_assets):
+                    if asset.get('id') == asset_id:
+                        del self.assets[project_id][i]
+                        return True
+            return False
+    
+    # Use demo database
+    db = DemoDatabase()
+    print("Using in-memory database for testing")
+
+# Make database available to projects module before creating ProjectManager
+import projects
+
+# Template helper functions
+def get_landing_page_settings():
+    """Get landing page settings for templates"""
+    # Default settings
+    settings = {
+        "navbar": {
+            "bg_color": "#212529",
+            "brand_text": "FLUX58 AI MEDIA LABS",
+            "logo": "img/flux58-logo.png"
+        },
+        "footer": {
+            "bg_color": "#212529",
+            "copyright_text": "© 2025 FLUX58 AI MEDIA LABS. All rights reserved.",
+            "show_social": True
+        },
+        "hero": {
+            "title": "FLUX58 AI MEDIA LABS",
+            "subtitle": "Powerful AI-Enhanced Video Editing",
+            "text": "Create professional videos with our cloud-based video editor, powered by AI",
+            "image": "img/custom/openshot-banner.jpg",
+            "bg_color": "#343a40",
+            "text_color": "#ffffff"
+        },
+        "features": {
+            "title": "Features",
+            "accent_color": "#007bff",
+            "cards": [
+                {
+                    "icon": "bi-camera-video",
+                    "title": "Video Editing",
+                    "text": "Edit video with our powerful cloud-based editor"
+                },
+                {
+                    "icon": "bi-robot",
+                    "title": "AI Enhancement",
+                    "text": "Leverage AI to enhance your videos automatically"
+                },
+                {
+                    "icon": "bi-cloud-upload",
+                    "title": "Cloud Storage",
+                    "text": "Store your projects securely in the cloud"
+                }
+            ]
+        },
+        "cta": {
+            "title": "Ready to get started?",
+            "subtitle": "Sign up today and create amazing videos.",
+            "button_text": "Get Started",
+            "button_color": "#007bff"
+        },
+        "page": {
+            "bg_color": "#ffffff",
+            "content_bg_color": "#ffffff",
+            "content_text_color": "#212529"
+        }
+    }
+    
+    # Override with database settings if available
+    try:
+        # Get settings from database
+        navbar_bg = db.get_system_setting('navbar_bg_color')
+        if navbar_bg:
+            settings['navbar']['bg_color'] = navbar_bg
+        
+        brand_text = db.get_system_setting('navbar_brand_text')
+        if brand_text:
+            settings['navbar']['brand_text'] = brand_text
+        
+        logo = db.get_system_setting('navbar_logo')
+        if logo:
+            settings['navbar']['logo'] = logo
+        
+        footer_bg = db.get_system_setting('footer_bg_color')
+        if footer_bg:
+            settings['footer']['bg_color'] = footer_bg
+        
+        copyright_text = db.get_system_setting('footer_copyright_text')
+        if copyright_text:
+            settings['footer']['copyright_text'] = copyright_text
+        
+        show_social = db.get_system_setting('footer_show_social')
+        if show_social:
+            settings['footer']['show_social'] = show_social == 'True'
+            
+        # Page background settings
+        page_bg_color = db.get_system_setting('page_bg_color')
+        if page_bg_color:
+            settings['page']['bg_color'] = page_bg_color
+            
+        content_bg_color = db.get_system_setting('content_bg_color')
+        if content_bg_color:
+            settings['page']['content_bg_color'] = content_bg_color
+            
+        content_text_color = db.get_system_setting('content_text_color')
+        if content_text_color:
+            settings['page']['content_text_color'] = content_text_color
+    except Exception as e:
+        print(f"Error getting landing page settings: {e}")
+    
+    return settings
+
+projects.db = db
+
+# Check if we need to create a test project manager
+if isinstance(db, DemoDatabase):
+    print("Using DemoDatabase instance")
+    # Create a simplified project manager for testing
+    class DemoProjectManager:
+        """Simple project manager for demo/testing"""
+        def __init__(self, base_path):
+            self.projects_path = os.path.join(base_path, 'projects')
+            os.makedirs(self.projects_path, exist_ok=True)
+            self.projects = {
+                "demo-project-id": {
+                    "id": "demo-project-id",
+                    "name": "Demo Project",
+                    "description": "A demo project for testing",
+                    "user_id": "admin-uuid",
+                    "created_at": datetime.now(),
+                    "updated_at": datetime.now(),
+                    "timeline": {
+                        "tracks": [
+                            {
+                                "id": 1,
+                                "name": "Video 1",
+                                "type": "video",
+                                "clips": []
+                            },
+                            {
+                                "id": 2,
+                                "name": "Audio 1",
+                                "type": "audio",
+                                "clips": []
+                            }
+                        ],
+                        "duration": 60.0,
+                        "scale": 1.0
+                    },
+                    "assets": []
+                }
+            }
+        
+        def list_user_projects(self, user_id):
+            return [project for project in self.projects.values() if project["user_id"] == user_id]
+        
+        def get_project(self, project_id):
+            return self.projects.get(project_id)
+        
+        def create_project(self, user_id, name, description=""):
+            project_id = f"project-{len(self.projects) + 1}"
+            project = {
+                "id": project_id,
+                "name": name,
+                "description": description,
+                "user_id": user_id,
+                "created_at": datetime.now(),
+                "updated_at": datetime.now(),
+                "timeline": {
+                    "tracks": [
+                        {
+                            "id": 1,
+                            "name": "Video 1",
+                            "type": "video",
+                            "clips": []
+                        },
+                        {
+                            "id": 2,
+                            "name": "Audio 1",
+                            "type": "audio",
+                            "clips": []
+                        }
+                    ],
+                    "duration": 60.0,
+                    "scale": 1.0
+                },
+                "assets": []
+            }
+            self.projects[project_id] = project
+            return project
+        
+        def update_project(self, project_id, name, description):
+            if project_id in self.projects:
+                self.projects[project_id]["name"] = name
+                self.projects[project_id]["description"] = description
+                self.projects[project_id]["updated_at"] = datetime.now()
+                return True
+            return False
+        
+        def delete_project(self, project_id):
+            if project_id in self.projects:
+                del self.projects[project_id]
+                return True
+            return False
+    
+    # Use demo project manager
+    project_manager = DemoProjectManager(base_path='data')
+    print("Using demo project manager for testing")
+else:
+    # Use real project manager
+    # Pass the same database instance to ProjectManager
+project_manager = ProjectManager(base_path='data')
+# Make the db instance available to ProjectManager
+projects.db = db
+openshot_api = OpenShotVideoAPI(data_path='data')
+
+# Initialize logging system with fallback to basic logging
+try:
+    log = logger.init_logger(database=db, log_dir='logs', log_level=app.config['LOG_LEVEL'])
+except Exception as e:
+    print(f"Error initializing logger: {str(e)}. Using basic logging.")
+    import logging
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    log = logging.getLogger('flux58')
+
+# Log application start
+try:
+    logger.info("Application starting", "app")
+except Exception as e:
+    print(f"Error logging application start: {str(e)}")
+    print("Application starting")
+
+# Initialize admin tools
+admin_tools = AdminTools(database=db, backup_dir='backups')
+
+# Create admin account if it doesn't exist
+admin = db.get_user_by_username('admin')
+if not admin:
+    logger.info("Creating admin account", "app")
+    admin_id = str(uuid.uuid4())
+    db.create_user(
+        user_id=admin_id,
+        username="admin",
+        password_hash=generate_password_hash("admin123"),
+        email="admin@flux58.com",
+        role="admin"
+    )
+    
+    # Initialize admin credits
+    db.add_credits(
+        user_id=admin_id,
+        amount=9999,
+        transaction_type="initial",
+        description="Admin account setup"
+    )
+    
+    logger.info("Admin account created successfully", "app")
+
+# Initialize PayPal API
+paypal_api = PayPalAPI()
+    
+# Clean up expired sessions
+db.cleanup_expired_sessions()
+
+# Make sessions permanent by default
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+
+# Decorator for admin-only routes
+def admin_required(f):
+    """Decorator to require admin privileges"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        print(f"ADMIN_REQUIRED DECORATOR - Session: {session}")
+        
+        if 'user_id' not in session:
+            print("No user_id in session - redirecting to login")
+            flash('Please log in to access the admin panel', 'warning')
+            return redirect(url_for('login_page'))
+        
+        user_id = session['user_id']
+        username = session.get('username')
+        role = session.get('role')
+        
+        print(f"Admin check - User ID: {user_id}, Username: {username}, Role from session: {role}")
+        
+        # Get user from database
+        user = db.get_user_by_username(username)
+        print(f"User from database: {user}")
+        
+        if not user:
+            print("User not found in database")
+            flash('Admin privileges required', 'danger')
+            return redirect(url_for('dashboard'))
+            
+        db_role = user.get('role')
+        print(f"Role from database: {db_role}")
+        
+        if db_role != 'admin':
+            print(f"User doesn't have admin role (role={db_role})")
+            flash('Admin privileges required', 'danger')
+            return redirect(url_for('dashboard'))
+            
+        print("Admin check passed - user is an admin")
+        return f(*args, **kwargs)
+    return decorated_function
+
+# Helper function for formatting timestamps
+def format_timestamp(timestamp):
+    """Format timestamp for display"""
+    if isinstance(timestamp, str):
+        try:
+            dt = datetime.fromisoformat(timestamp)
+        except ValueError:
+            return timestamp
+    else:
+        dt = timestamp
+    
+    now = datetime.now()
+    diff = now - dt
+    
+    if diff.days == 0:
+        if diff.seconds < 60:
+            return "Just now"
+        elif diff.seconds < 3600:
+            minutes = diff.seconds // 60
+            return f"{minutes} minute{'s' if minutes > 1 else ''} ago"
+        else:
+            hours = diff.seconds // 3600
+            return f"{hours} hour{'s' if hours > 1 else ''} ago"
+    elif diff.days == 1:
+        return "Yesterday"
+    elif diff.days < 7:
+        return f"{diff.days} days ago"
+    else:
+        return dt.strftime("%b %d, %Y")
+
+# Home page
+@app.route('/')
+def home():
+    """Home page"""
+    # Check if user is logged in
+    if 'user_id' in session:
+        if session.get('role') == 'admin':
+            return redirect(url_for('admin_dashboard'))
+        else:
+            return redirect(url_for('dashboard'))
+    
+    # Home page settings
+    title = db.get_system_setting('landing_page_title', 'FLUX58 AI MEDIA LABS')
+    subtitle = db.get_system_setting('landing_page_subtitle', 'Powerful AI-Enhanced Video Editing')
+    description = db.get_system_setting('landing_page_description', 
+                               'Create professional videos with our cloud-based video editor, powered by AI')
+    
+    hero_image = db.get_system_setting('landing_page_hero_image', '/static/img/custom/openshot-banner.jpg')
+    
+    # Try to initialize landing page settings if they don't exist
+    try:
+        if not title or not subtitle or not description:
+            db.set_system_setting('landing_page_title', 'FLUX58 AI MEDIA LABS')
+            db.set_system_setting('landing_page_subtitle', 'Powerful AI-Enhanced Video Editing')
+            db.set_system_setting('landing_page_description', 
+                                 'Create professional videos with our cloud-based video editor, powered by AI')
+            db.set_system_setting('landing_page_hero_image', '/static/img/custom/openshot-banner.jpg')
+            print("Initialized default landing page settings")
+    except Exception as e:
+        print(f"Error initializing landing page settings: {e}")
+    
+    return render_template('index.html', 
+                          title=title, 
+                          subtitle=subtitle, 
+                          description=description,
+                          hero_image=hero_image, landing_page_settings=get_landing_page_settings())
+
+# Login page
+@app.route('/login', methods=['GET', 'POST'])
+def login_page():
+    """Handle user login"""
+    print("LOGIN PAGE ACCESSED")
+    print(f"Method: {request.method}")
+    print(f"Session before: {session}")
+    
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        print(f"Login attempt - Username: {username}, Password: {'*' * len(password)}")
+        
+        if not username or not password:
+            print("Missing username or password")
+            flash('Please provide both username and password', 'danger')
+            return render_template('login.html', landing_page_settings=get_landing_page_settings())
+        
+        # Get user from database
+        user = db.get_user_by_username(username)
+        print(f"User from database: {user}")
+        
+        if not user:
+            print("User not found in database")
+            flash('Invalid credentials', 'danger')
+            return render_template('login.html', landing_page_settings=get_landing_page_settings())
+        
+        # Check password
+        password_valid = check_password_hash(user['password_hash'], password)
+        print(f"Password hash from DB: {user['password_hash']}")
+        print(f"Password valid: {password_valid}")
+        
+        if not password_valid:
+            print("Password does not match")
+            flash('Invalid credentials', 'danger')
+            return render_template('login.html', landing_page_settings=get_landing_page_settings())
+        
+        # Store user info in session
+        session['user_id'] = user['id']
+        session['username'] = user['username']
+        session['role'] = user['role']  # Store the role in the session
+        
+        print(f"Session after login: {session}")
+        print(f"User role: {user['role']}")
+        
+        flash('Login successful!', 'success')
+        
+        # Redirect based on role
+        if user['role'] == 'admin':
+            print("Redirecting to admin dashboard")
+            return redirect(url_for('admin_dashboard'))
+        else:
+            print("Redirecting to user dashboard")
+            return redirect(url_for('dashboard'))
+    
+    return render_template('login.html', landing_page_settings=get_landing_page_settings())
+
+# Logout
+@app.route('/logout')
+def logout():
+    """Handle user logout"""
+    # Clear session
+    session.clear()
+    flash('You have been logged out', 'info')
+    return redirect(url_for('home'))
+
+# Dashboard
+@app.route('/dashboard')
+def dashboard():
+    """User dashboard"""
+    if 'user_id' not in session:
+        flash('Please log in to access the dashboard', 'warning')
+        return redirect(url_for('login_page'))
+    
+    user_id = session['user_id']
+    
+    # Get user projects from database
+    projects = project_manager.list_user_projects(user_id)
+    
+    # Get user credit information from database
+    user_credits = db.get_user_credits(user_id) or {"total": 0, "used": 0, "transactions": []}
+    
+    # Calculate available credits
+    available_credits = user_credits.get("total", 0) - user_credits.get("used", 0)
+    user_credits["available"] = available_credits
+    
+    # Get user's export jobs
+    exports = db.list_user_exports(user_id) or []
+    
+    # Generate some activities based on real data
+    activities = []
+    
+    # Add project creation activities
+    for project in projects[:2]:  # Use up to 2 most recent projects
+        activities.append({
+            "icon": "bi-plus-circle",
+            "description": f"Created project '{project['name']}'",
+            "time": format_timestamp(project['created_at'])
+        })
+    
+    # Add export activities
+    for export in exports[:2]:  # Use up to 2 most recent exports
+        activities.append({
+            "icon": "bi-cloud-arrow-up",
+            "description": f"Exported project (format: {export['format']})",
+            "time": format_timestamp(export['started_at'])
+        })
+    
+    # Sort activities by time (most recent first)
+    activities.sort(key=lambda x: x["time"], reverse=True)
+    
+    # Format credit transactions for display
+    transactions = []
+    for tx in user_credits.get('transactions', [])[:5]:  # Show 5 most recent
+        transactions.append({
+            "amount": tx['amount'],
+            "description": tx['description'] or ("Used credits" if tx['amount'] < 0 else "Added credits"),
+            "time": format_timestamp(tx['timestamp'])
+        })
+    
+    return render_template(
+        'dashboard.html',
+        projects=projects,
+        credits=user_credits,
+        exports=exports,
+        activities=activities,
+        transactions=transactions
+    , landing_page_settings=get_landing_page_settings())
+
+# Admin dashboard
+@app.route('/admin')
+@admin_required
+def admin_dashboard():
+    """Admin dashboard"""
+    # Get all users from database
+    all_users = db.list_all_users()
+    
+    # Get all projects and organize by user
+    all_projects = []
+    user_projects = {}
+    credits = {}
+    
+    for user in all_users:
+        user_id = user['id']
+        projects = project_manager.list_user_projects(user_id)
+        all_projects.extend(projects)
+        user_projects[user_id] = projects
+        
+        # Get credits for each user
+        user_credits = db.get_user_credits(user_id)
+        if user_credits:
+            credits[user_id] = user_credits
+    
+    # Collect all export jobs from database
+    # For simplicity, we'll just get exports from each user
+    all_exports = []
+    for user in all_users:
+        user_exports = db.list_user_exports(user['id']) or []
+        all_exports.extend(user_exports)
+    
+    # Calculate real system statistics
+    total_storage = 0
+    total_processing_time = 0
+    project_sizes = []
+    export_times = []
+    
+    # Calculate storage usage
+    for project_id in os.listdir(project_manager.projects_path):
+        project_dir = os.path.join(project_manager.projects_path, project_id)
+        if os.path.isdir(project_dir):
+            # Get directory size recursively
+            total_size = 0
+            for dirpath, dirnames, filenames in os.walk(project_dir):
+                for f in filenames:
+                    fp = os.path.join(dirpath, f)
+                    if os.path.exists(fp):
+                        total_size += os.path.getsize(fp)
+            
+            total_storage += total_size
+            project_sizes.append(total_size / (1024 * 1024))  # Convert to MB
+    
+    # Calculate export processing times
+    for export in all_exports:
+        if export.get('completed_at') and export.get('started_at'):
+            try:
+                start = datetime.fromisoformat(export['started_at'])
+                end = datetime.fromisoformat(export['completed_at'])
+                duration = (end - start).total_seconds()
+                total_processing_time += duration
+                export_times.append(duration)
+            except:
+                pass
+    
+    # Create system stats object
+    system_stats = {
+        "storage": round(total_storage / (1024 * 1024), 2),  # Convert to MB
+        "processing_time": round(total_processing_time / 60, 2),  # Convert to minutes
+        "avg_project_size": round(sum(project_sizes) / len(project_sizes), 2) if project_sizes else 0,
+        "avg_export_time": round(sum(export_times) / len(export_times), 2) if export_times else 0
+    }
+    
+    # Generate recent activity based on real data
+    recent_activity = []
+    
+    # Add user registrations
+    for user in sorted(all_users, key=lambda x: x['created_at'], reverse=True)[:3]:
+        recent_activity.append({
+            "icon": "bi-person-plus",
+            "description": f"New user registered: {user['username']}",
+            "time": format_timestamp(user['created_at'])
+        })
+    
+    # Add project creations
+    for project in sorted(all_projects, key=lambda x: x['created_at'], reverse=True)[:3]:
+        # Find username for this project
+        username = "Unknown"
+        for user in all_users:
+            if user['id'] == project['user_id']:
+                username = user['username']
+                break
+                
+        recent_activity.append({
+            "icon": "bi-film",
+            "description": f"{username} created project: {project['name']}",
+            "time": format_timestamp(project['created_at'])
+        })
+    
+    # Add exports
+    for export in sorted(all_exports, key=lambda x: x['started_at'], reverse=True)[:3]:
+        # Find username for this export
+        username = "Unknown"
+        for user in all_users:
+            if user['id'] == export['user_id']:
+                username = user['username']
+                break
+                
+        recent_activity.append({
+            "icon": "bi-cloud-arrow-up",
+            "description": f"{username} exported project (format: {export['format']})",
+            "time": format_timestamp(export['started_at'])
+        })
+    
+    # Sort activities by time (most recent first)
+    recent_activity.sort(key=lambda x: x["time"], reverse=True)
+    
+    # Calculate total projects for summary card
+    total_projects = len(all_projects)
+    
+    # Add 'user' field to each activity for display
+    for activity in recent_activity:
+        activity['user'] = activity.get('description', '').split(' ')[0]
+    
+    return render_template(
+        'admin_dashboard.html',
+        users=all_users,
+        projects=all_projects,
+        user_projects=user_projects,
+        exports=all_exports,
+        credits=credits,
+        system_stats=system_stats,
+        recent_activity=recent_activity,
+        total_projects=total_projects,
+        landing_page_settings=get_landing_page_settings()
+    )
+
+# Project management routes
+@app.route('/projects')
+def projects_page():
+    """List all user projects"""
+    if 'user_id' not in session:
+        flash('Please log in to view your projects', 'warning')
+        return redirect(url_for('login_page'))
+    
+    user_id = session['user_id']
+    projects = project_manager.list_user_projects(user_id)
+    
+    return render_template('projects.html', projects=projects, landing_page_settings=get_landing_page_settings())
+
+@app.route('/projects/new', methods=['GET', 'POST'])
+def create_project_page():
+    """Create a new project"""
+    if 'user_id' not in session:
+        flash('Please log in to create a project', 'warning')
+        return redirect(url_for('login_page'))
+    
+    if request.method == 'POST':
+        name = request.form.get('name')
+        description = request.form.get('description', '')
+        
+        if not name:
+            flash('Project name is required', 'danger')
+            return render_template('create_project.html', landing_page_settings=get_landing_page_settings())
+        
+        user_id = session['user_id']
+        
+        try:
+            # Create the project
+            project = project_manager.create_project(user_id, name, description)
+            
+            if project:
+                # Project created successfully
+                flash('Project created successfully!', 'success')
+                return redirect(url_for('editor_page', project_id=project['id']))
+            else:
+                # Project creation failed
+                flash('Failed to create project. Please try again.', 'danger')
+                return render_template('create_project.html')
+        except Exception as e:
+            print(f"Error creating project: {str(e)}")
+            flash('An error occurred while creating the project', 'danger')
+            return render_template('create_project.html')
+    
+    # GET request
+    return render_template('create_project.html')
+
+@app.route('/projects/<project_id>')
+def project_details(project_id):
+    """View project details"""
+    if 'user_id' not in session:
+        flash('Please log in to view project details', 'warning')
+        return redirect(url_for('login_page'))
+    
+    user_id = session['user_id']
+    
+    try:
+        # Get project from database
+        project = project_manager.get_project(project_id)
+        
+        if not project:
+            flash('Project not found', 'danger')
+            return redirect(url_for('projects_page'))
+        
+        # Check if user owns the project or is admin
+        if project['user_id'] != user_id and session.get('role') != 'admin':
+            flash('Access denied', 'danger')
+            return redirect(url_for('projects_page'))
+        
+        # Get user credits
+        user_credits = db.get_user_credits(user_id) or {"total": 0, "used": 0}
+        available_credits = user_credits["total"] - user_credits["used"]
+        
+        return render_template(
+            'project_details.html', 
+            project=project,
+            credits=available_credits
+        , landing_page_settings=get_landing_page_settings())
+    except Exception as e:
+        print(f"Error getting project details: {str(e)}")
+        flash('An error occurred while loading project details', 'danger')
+        return redirect(url_for('projects_page'))
+
+@app.route('/projects/<project_id>/delete', methods=['POST'])
+def delete_project(project_id):
+    """Delete a project"""
+    if 'user_id' not in session:
+        flash('Please log in to delete projects', 'warning')
+        return redirect(url_for('login_page'))
+    
+    user_id = session['user_id']
+    
+    try:
+        project = project_manager.get_project(project_id)
+        
+        if not project:
+            flash('Project not found', 'danger')
+            return redirect(url_for('projects_page'))
+        
+        # Check if user owns the project or is admin
+        if project['user_id'] != user_id and session.get('role') != 'admin':
+            flash('Access denied', 'danger')
+            return redirect(url_for('projects_page'))
+        
+        # Delete the project
+        success = project_manager.delete_project(project_id)
+        
+        if success:
+            flash('Project deleted successfully', 'success')
+        else:
+            flash('Failed to delete project', 'danger')
+        
+        return redirect(url_for('projects_page'))
+    except Exception as e:
+        print(f"Error deleting project: {str(e)}")
+        flash('An error occurred while deleting the project', 'danger')
+        return redirect(url_for('projects_page'))
+
+@app.route('/editor')
+def editor_page():
+    """Video editor page"""
+    if 'user_id' not in session:
+        flash('Please log in to access the editor', 'warning')
+        return redirect(url_for('login_page'))
+    
+    project_id = request.args.get('project_id')
+    if not project_id:
+        flash('Project ID is required', 'danger')
+        return redirect(url_for('projects_page'))
+    
+    user_id = session['user_id']
+    
+    try:
+        # Get project from database
+        project = project_manager.get_project(project_id)
+        
+        if not project:
+            flash('Project not found', 'danger')
+            return redirect(url_for('projects_page'))
+        
+        # Check if user owns the project or is admin
+        if project['user_id'] != user_id and session.get('role') != 'admin':
+            flash('Access denied', 'danger')
+            return redirect(url_for('projects_page'))
+        
+        # Get user credits
+        user_credits = db.get_user_credits(user_id) or {"total": 0, "used": 0}
+        available_credits = user_credits["total"] - user_credits["used"]
+        
+        # Initialize timeline if it doesn't exist
+        if not project.get('timeline'):
+            project['timeline'] = {
+                'tracks': [],
+                'duration': 60.0,
+                'scale': 1.0
+            }
+        
+        # Initialize assets if it doesn't exist
+        if not project.get('assets'):
+            # Try to get assets from database
+            try:
+                project['assets'] = db.get_project_assets(project_id) or []
+            except Exception as asset_error:
+                logger.error(f"Error getting project assets: {str(asset_error)}")
+                project['assets'] = []
+        
+        # Convert datetime objects to strings to avoid JSON serialization issues
+        if isinstance(project.get('created_at'), datetime):
+            project['created_at'] = project['created_at'].isoformat()
+        
+        if isinstance(project.get('updated_at'), datetime):
+            project['updated_at'] = project['updated_at'].isoformat()
+        
+        # Ensure all assets have proper format and convert datetime objects
+        if project.get('assets'):
+            for asset in project['assets']:
+                if isinstance(asset.get('created_at'), datetime):
+                    asset['created_at'] = asset['created_at'].isoformat()
+        
+        # Log project data for debugging
+        print(f"Project loaded for editor - ID: {project_id}, Name: {project.get('name')}")
+        print(f"Project timeline: {project.get('timeline')}")
+        print(f"Project assets count: {len(project.get('assets', []))}")
+        
+        return render_template(
+            'editor.html', 
+            project=project,
+            credits=available_credits,
+            landing_page_settings=get_landing_page_settings()
+        )
+    except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
+        logger.error(f"Error loading editor: {str(e)}\n{error_details}")
+        print(f"Error loading editor: {str(e)}\n{error_details}")
+        flash('An error occurred while loading the editor', 'danger')
+        return redirect(url_for('projects_page'))
+
+# Admin users page
+@app.route('/admin/users')
+@admin_required
+def admin_users():
+    """Admin users page"""
+    try:
+        # Get all users from database
+        all_users = db.list_all_users()
+        
+        # Get credits for each user
+        credits = {}
+        for user in all_users:
+            user_id = user['id']
+            user_credits = db.get_user_credits(user_id)
+            if user_credits:
+                credits[user_id] = user_credits
+        
+        return render_template('admin_dashboard.html', 
+                              users=all_users,
+                              credits=credits,
+                              landing_page_settings=get_landing_page_settings())
+    except Exception as e:
+        print(f"Error in admin_users: {str(e)}")
+        flash('An error occurred while loading the admin users page', 'danger')
+        return redirect(url_for('admin_dashboard'))
+
+# Admin projects page
+@app.route('/admin/projects')
+@admin_required
+def admin_projects():
+    """Admin projects page"""
+    try:
+        # Get all users from database
+        all_users = db.list_all_users()
+        
+        # Get all projects and organize by user
+        all_projects = []
+        user_projects = {}
+        
+        for user in all_users:
+            user_id = user['id']
+            projects = project_manager.list_user_projects(user_id)
+            all_projects.extend(projects)
+            user_projects[user_id] = projects
+        
+        return render_template('admin_dashboard.html', 
+                              projects=all_projects,
+                              users=all_users,
+                              user_projects=user_projects,
+                              landing_page_settings=get_landing_page_settings())
+    except Exception as e:
+        print(f"Error in admin_projects: {str(e)}")
+        flash('An error occurred while loading the admin projects page', 'danger')
+        return redirect(url_for('admin_dashboard'))
+
+# Admin exports page
+@app.route('/admin/exports')
+@admin_required
+def admin_exports():
+    """Admin exports page"""
+    try:
+        # Get all users from database
+        all_users = db.list_all_users()
+        
+        # Collect all export jobs from database
+        all_exports = []
+        for user in all_users:
+            user_exports = db.list_user_exports(user['id']) or []
+            all_exports.extend(user_exports)
+        
+        return render_template('admin_dashboard.html', 
+                              exports=all_exports,
+                              users=all_users,
+                              landing_page_settings=get_landing_page_settings())
+    except Exception as e:
+        print(f"Error in admin_exports: {str(e)}")
+        flash('An error occurred while loading the admin exports page', 'danger')
+        return redirect(url_for('admin_dashboard'))
+
+# Admin system page
+@app.route('/admin/system')
+@admin_required
+def admin_system():
+    """Admin system page"""
+    try:
+        # Calculate system statistics
+        total_storage = 0
+        total_processing_time = 0
+        
+        # Calculate storage usage
+        for project_id in os.listdir(project_manager.projects_path):
+            project_dir = os.path.join(project_manager.projects_path, project_id)
+            if os.path.isdir(project_dir):
+                # Get directory size recursively
+                total_size = 0
+                for dirpath, dirnames, filenames in os.walk(project_dir):
+                    for f in filenames:
+                        fp = os.path.join(dirpath, f)
+                        if os.path.exists(fp):
+                            total_size += os.path.getsize(fp)
+                
+                total_storage += total_size
+        
+        # Get exports for calculating processing time
+        all_users = db.list_all_users()
+        all_exports = []
+        for user in all_users:
+            user_exports = db.list_user_exports(user['id']) or []
+            all_exports.extend(user_exports)
+        
+        # Calculate export processing times
+        for export in all_exports:
+            if export.get('completed_at') and export.get('started_at'):
+                try:
+                    start = datetime.fromisoformat(export['started_at'])
+                    end = datetime.fromisoformat(export['completed_at'])
+                    duration = (end - start).total_seconds()
+                    total_processing_time += duration
+                except:
+                    pass
+        
+        # Create system stats object
+        system_stats = {
+            "storage": round(total_storage / (1024 * 1024), 2),  # Convert to MB
+            "processing_time": round(total_processing_time / 60, 2),  # Convert to minutes
+            "users_count": len(all_users),
+            "projects_count": sum(len(project_manager.list_user_projects(user['id'])) for user in all_users),
+            "exports_count": len(all_exports)
+        }
+        
+        return render_template('admin_dashboard.html', 
+                              system_stats=system_stats,
+                              landing_page_settings=get_landing_page_settings())
+    except Exception as e:
+        print(f"Error in admin_system: {str(e)}")
+        flash('An error occurred while loading the admin system page', 'danger')
+        return redirect(url_for('admin_dashboard'))
+
+# Admin payment settings page
+@app.route('/admin/payment_settings')
+@admin_required
+def admin_payment_settings():
+    """Admin payment settings page"""
+    try:
+        # Get payment settings from database
+        payment_settings = {
+            "paypal_client_id": db.get_system_setting('paypal_client_id', ''),
+            "paypal_client_secret": db.get_system_setting('paypal_client_secret', ''),
+            "paypal_sandbox_mode": db.get_system_setting('paypal_sandbox_mode', 'True') == 'True',
+            "stripe_public_key": db.get_system_setting('stripe_public_key', ''),
+            "stripe_secret_key": db.get_system_setting('stripe_secret_key', ''),
+            "stripe_test_mode": db.get_system_setting('stripe_test_mode', 'True') == 'True'
+        }
+        
+        return render_template('admin_dashboard.html', 
+                              payment_settings=payment_settings,
+                              landing_page_settings=get_landing_page_settings())
+    except Exception as e:
+        print(f"Error in admin_payment_settings: {str(e)}")
+        flash('An error occurred while loading the admin payment settings page', 'danger')
+        return redirect(url_for('admin_dashboard'))
+
+# Admin landing page editor
+@app.route('/admin/landing_page', methods=['GET', 'POST'])
+@admin_required
+def admin_landing_page_editor():
+    """Admin landing page editor"""
+    try:
+        # Handle form submission
+        if request.method == 'POST':
+            section = request.form.get('section')
+            
+            if section == 'page':
+                # Update page background settings
+                page_bg_color = request.form.get('page_bg_color')
+                content_bg_color = request.form.get('content_bg_color')
+                content_text_color = request.form.get('content_text_color')
+                
+                # Save to database
+                if page_bg_color:
+                    db.set_system_setting('page_bg_color', page_bg_color)
+                if content_bg_color:
+                    db.set_system_setting('content_bg_color', content_bg_color)
+                if content_text_color:
+                    db.set_system_setting('content_text_color', content_text_color)
+                    
+                # Display success message
+                flash('Page background settings updated successfully!', 'success')
+            
+            # Redirect to refresh the page
+            return redirect(url_for('admin_landing_page_editor'))
+        
+        # Get landing page settings from database
+        landing_page_settings = get_landing_page_settings()
+        
+        return render_template('admin_landing_page.html', 
+                              landing_page=landing_page_settings,
+                              landing_page_settings=landing_page_settings)
+    except Exception as e:
+        print(f"Error in admin_landing_page_editor: {str(e)}")
+        flash('An error occurred while loading the admin landing page editor', 'danger')
+        return redirect(url_for('admin_dashboard'))
+
+# Credits page
+@app.route('/credits')
+def credits_page():
+    """Show credits page"""
+    if 'user_id' not in session:
+        flash('Please log in to view credits', 'warning')
+        return redirect(url_for('login_page'))
+    
+    user_id = session['user_id']
+    user_credits = db.get_user_credits(user_id) or {"total": 0, "used": 0, "transactions": []}
+    
+    # Format transactions for display
+    transactions = []
+    for tx in user_credits.get('transactions', []):
+        transactions.append({
+            "amount": tx['amount'],
+            "description": tx['description'] or ("Used credits" if tx['amount'] < 0 else "Added credits"),
+            "time": format_timestamp(tx['timestamp'])
+        })
+    
+    return render_template('credits.html', 
+                          credits=user_credits,
+                          transactions=transactions,
+                          landing_page_settings=get_landing_page_settings())
+
+# Exports page
+@app.route('/exports')
+def exports_page():
+    """Show exports page"""
+    if 'user_id' not in session:
+        flash('Please log in to view exports', 'warning')
+        return redirect(url_for('login_page'))
+    
+    user_id = session['user_id']
+    exports = db.list_user_exports(user_id) or []
+    
+    return render_template('exports.html', 
+                          exports=exports,
+                          landing_page_settings=get_landing_page_settings())
+
+# Pricing page
+@app.route('/pricing')
+def pricing():
+    """Show pricing plans"""
+    # Define pricing plans
+    plans = [
+        {
+            "name": "Free",
+            "price": 0,
+            "credits": 10,
+            "featured": False,
+            "features": [
+                "Basic video editing",
+                "720p exports",
+                "1GB storage",
+                "Standard support"
+            ]
+        },
+        {
+            "name": "Basic",
+            "price": 9.99,
+            "credits": 100,
+            "featured": False,
+            "features": [
+                "Advanced video editing",
+                "1080p exports",
+                "5GB storage",
+                "Standard support",
+                "Access to templates"
+            ]
+        },
+        {
+            "name": "Professional",
+            "price": 24.99,
+            "credits": 300,
+            "featured": True,
+            "features": [
+                "Full video editing suite",
+                "4K exports",
+                "20GB storage",
+                "Priority support",
+                "Access to templates",
+                "AI video enhancement",
+                "Commercial usage"
+            ]
+        },
+        {
+            "name": "Enterprise",
+            "price": 49.99,
+            "credits": 800,
+            "featured": False,
+            "features": [
+                "Everything in Professional",
+                "Unlimited 4K exports",
+                "50GB storage",
+                "24/7 premium support",
+                "API access",
+                "Team collaboration",
+                "Custom branding"
+            ]
+        }
+    ]
+    
+    return render_template('pricing.html', plans=plans, landing_page_settings=get_landing_page_settings())
+
+# Error handlers
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html', landing_page_settings=get_landing_page_settings()), 404
+
+@app.errorhandler(500)
+def server_error(e):
+    return render_template('500.html', landing_page_settings=get_landing_page_settings()), 500
+
+# API endpoints for editor
+@app.route('/api/project/<project_id>', methods=['GET'])
+def api_get_project(project_id):
+    try:
+        # Get project details from database
+        project = project_manager.get_project(project_id)
+        
+        if not project:
+            return jsonify({'error': 'Project not found'}), 404
+            
+        # Get project timeline data if available
+        project_path = os.path.join(project_manager.projects_path, project_id)
+        timeline_path = os.path.join(project_path, 'project.json')
+        
+        if os.path.exists(timeline_path):
+            with open(timeline_path, 'r') as f:
+                timeline_data = json.load(f)
+            project['timeline'] = timeline_data
+        else:
+            # Create default timeline structure
+            project['timeline'] = {
+                'duration': 60.0,
+                'scale': 1.0,
+                'tracks': [
+                    {
+                        'id': 1,
+                        'name': 'Video 1',
+                        'type': 'video',
+                        'clips': []
+                    },
+                    {
+                        'id': 2,
+                        'name': 'Audio 1',
+                        'type': 'audio',
+                        'clips': []
+                    }
+                ]
+            }
+            
+        # Get project assets
+        project['assets'] = db.get_project_assets(project_id)
+            
+        return jsonify(project)
+        
+    except Exception as e:
+        logger.error(f"API error getting project: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/project/<project_id>', methods=['PUT'])
+def api_update_project(project_id):
+    try:
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+            
+        # Update project in database
+        project_manager.update_project(project_id, data.get('name', ''), data.get('description', ''))
+        
+        # Save timeline data
+        if 'timeline' in data:
+            project_path = os.path.join(project_manager.projects_path, project_id)
+            os.makedirs(project_path, exist_ok=True)
+            
+            timeline_path = os.path.join(project_path, 'project.json')
+            with open(timeline_path, 'w') as f:
+                json.dump(data['timeline'], f, indent=4)
+        
+        return jsonify({'success': True})
+        
+    except Exception as e:
+        logger.error(f"API error updating project: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/assets/upload', methods=['POST'])
+def api_upload_asset():
+    try:
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file provided'}), 400
+            
+        project_id = request.form.get('project_id')
+        if not project_id:
+            return jsonify({'error': 'No project ID provided'}), 400
+            
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({'error': 'No file selected'}), 400
+            
+        # Create uploads directory if it doesn't exist
+        uploads_path = os.path.join('data', 'uploads')
+        os.makedirs(uploads_path, exist_ok=True)
+        
+        # Save file with a unique filename
+        filename = secure_filename(file.filename)
+        file_ext = os.path.splitext(filename)[1].lower()
+        asset_id = str(uuid.uuid4())
+        new_filename = f"{asset_id}{file_ext}"
+        
+        file_path = os.path.join(uploads_path, new_filename)
+        file.save(file_path)
+        
+        # Determine file type
+        file_type = 'unknown'
+        if file_ext in ['.mp4', '.mov', '.avi', '.mkv', '.webm']:
+            file_type = 'video'
+        elif file_ext in ['.mp3', '.wav', '.ogg', '.aac']:
+            file_type = 'audio'
+        elif file_ext in ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff']:
+            file_type = 'image'
+            
+        # Get file info using OpenShot API
+        file_info = openshot_api.get_file_info(file_path)
+        
+        # Add asset to database
+        asset = {
+            'id': asset_id,
+            'project_id': project_id,
+            'name': os.path.splitext(filename)[0],
+            'type': file_type,
+            'path': file_path,
+            'info': file_info
+        }
+        
+        # Add to database
+        db.add_asset(asset)
+        
+        # Generate thumbnail if it's a video or image
+        if file_type in ['video', 'image']:
+            thumbnail_path = os.path.join(uploads_path, f"{asset_id}_thumb.jpg")
+            openshot_api.generate_thumbnail(file_path, thumbnail_path)
+            
+        return jsonify({
+            'success': True,
+            'asset': asset
+        })
+        
+    except Exception as e:
+        logger.error(f"API error uploading asset: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/assets/<asset_id>', methods=['DELETE'])
+def api_delete_asset(asset_id):
+    try:
+        # Get asset from database
+        asset = db.get_asset(asset_id)
+        
+        if not asset:
+            return jsonify({'error': 'Asset not found'}), 404
+            
+        # Delete asset file
+        if os.path.exists(asset['path']):
+            os.remove(asset['path'])
+            
+        # Delete thumbnail if it exists
+        thumbnail_path = os.path.join('data', 'uploads', f"{asset_id}_thumb.jpg")
+        if os.path.exists(thumbnail_path):
+            os.remove(thumbnail_path)
+            
+        # Delete from database
+        db.delete_asset(asset_id)
+        
+        return jsonify({'success': True})
+        
+    except Exception as e:
+        logger.error(f"API error deleting asset: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/assets/<asset_id>/enhance', methods=['POST'])
+def api_enhance_asset(asset_id):
+    try:
+        # Get asset from database
+        asset = db.get_asset(asset_id)
+        
+        if not asset:
+            return jsonify({'error': 'Asset not found'}), 404
+        
+        # In a real app, this would apply AI enhancement to the asset
+        # For now, we'll just return a success message
+        
+        # Simulate processing time
+        time.sleep(1)
+        
+        return jsonify({
+            'success': True,
+            'message': 'Asset enhanced successfully'
+        })
+        
+    except Exception as e:
+        logger.error(f"API error enhancing asset: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/exports', methods=['POST'])
+def api_create_export():
+    try:
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+            
+        project_id = data.get('project_id')
+        if not project_id:
+            return jsonify({'error': 'No project ID provided'}), 400
+            
+        # Create export object
+        export_id = str(uuid.uuid4())
+        format = data.get('format', 'mp4')
+        
+        # Determine quality settings
+        quality = data.get('quality', 'high')
+        if quality == 'high':
+            width, height = 1920, 1080
+            video_bitrate = '8000k'
+        elif quality == 'medium':
+            width, height = 1280, 720
+            video_bitrate = '4000k'
+        else:
+            width, height = 854, 480
+            video_bitrate = '2000k'
+            
+        # Generate output filename
+        project = project_manager.get_project(project_id)
+        
+        if not project:
+            return jsonify({'error': 'Project not found'}), 404
+            
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        safe_name = re.sub(r'[^\w]', '_', project['name'])
+        output_filename = f"{safe_name}_{timestamp}.{format}"
+        
+        # Start export
+        export_data = openshot_api.export_video(
+            project_id=project_id,
+            output_filename=output_filename,
+            format=format,
+            width=width,
+            height=height,
+            video_bitrate=video_bitrate,
+            audio_bitrate='192k',
+            enhance=data.get('enhance', False)
+        )
+        
+        # Save export data to database
+        db.add_export(project_id, export_id, export_data)
+        
+        return jsonify({
+            'success': True,
+            'export_id': export_id,
+            'message': 'Export started successfully'
+        })
+        
+    except Exception as e:
+        logger.error(f"API error creating export: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')

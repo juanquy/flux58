@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Editor - {{ project.name }} - FLUX58 AI MEDIA LABS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/editor.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/media_thumbnails.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/timeline_fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/workflow_modes.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/workflow_theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/panel_resize.css') }}">
+</head>
+<body>
+<div class="editor-container">
+    <div class="editor-header">
+        <div class="d-flex align-items-center">
+            <h5>{{ project.name }}</h5>
+            <span class="badge bg-success ms-2 d-none d-sm-inline">Saved</span>
+            
+            <!-- Workflow Selector -->
+            <div class="dropdown ms-3">
+                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="workflowSelector" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-gear-wide-connected"></i> Edit Mode
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="workflowSelector">
+                    <li><a class="dropdown-item active" href="#" data-workflow="standard"><i class="bi bi-film"></i> Standard Editing</a></li>
+                    <li><a class="dropdown-item" href="#" data-workflow="color"><i class="bi bi-palette"></i> Color Correction</a></li>
+                    <li><a class="dropdown-item" href="#" data-workflow="audio"><i class="bi bi-music-note-beamed"></i> Audio Mixing</a></li>
+                    <li><a class="dropdown-item" href="#" data-workflow="effects"><i class="bi bi-magic"></i> Visual Effects</a></li>
+                    <li><a class="dropdown-item" href="#" data-workflow="text"><i class="bi bi-fonts"></i> Text & Graphics</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" data-workflow="ai"><i class="bi bi-stars"></i> AI-Assisted Mode</a></li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-sm" style="background: linear-gradient(90deg, #9400D3, #4B0082); color: white;" id="ai-assist-btn">
+                <i class="bi bi-robot"></i> AI Assist
+            </button>
+            <button class="btn btn-primary btn-sm ms-2" id="export-btn">
+                <i class="bi bi-download"></i> Export
+            </button>
+            <button class="btn btn-outline-light btn-sm ms-2" id="save-btn">
+                <i class="bi bi-save"></i> Save
+            </button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light btn-sm ms-2">
+                <i class="bi bi-x"></i> Exit
+            </a>
+        </div>
+    </div>
+    
+    <div class="editor-main">
+        <!-- Media Library Panel -->
+        <div class="media-panel">
+            <div class="media-panel-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">Media Library</h6>
+                    <button class="btn btn-sm" style="background: linear-gradient(135deg, #4a6cf7, #7239ea); color: white;" id="upload-media-btn">
+                        <i class="bi bi-plus"></i> Add
+                    </button>
+                </div>
+            </div>
+            <div class="media-list">
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" placeholder="Search media...">
+                        <button class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="ai-tools mb-3">
+                    <h6><i class="bi bi-stars"></i> AI Tools</h6>
+                    <div class="ai-prompt">
+                        <input type="text" class="form-control form-control-sm" placeholder="Generate content with AI...">
+                        <button class="btn btn-sm">
+                            <i class="bi bi-lightning"></i>
+                        </button>
+                    </div>
+                    <div class="d-flex gap-2 mt-2">
+                        <button class="btn btn-sm btn-outline-secondary w-100">Text to Speech</button>
+                        <button class="btn btn-sm btn-outline-secondary w-100">Create Music</button>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between mb-2">
+                    <div>
+                        <span class="text-light">Files</span>
+                    </div>
+                    <div>
+                        <a href="#" class="text-light small"><i class="bi bi-sort-down"></i> Date</a>
+                    </div>
+                </div>
+                
+                <div class="media-items-container">
+                    {% if project.assets %}
+                    {% for asset in project.assets %}
+                    <div class="media-item" data-asset-id="{{ asset.id }}">
+                        <div class="media-item-thumbnail">
+                            {% if asset.type == 'video' %}
+                                <i class="bi bi-film me-2" style="color: #4a6cf7;"></i>
+                            {% elif asset.type == 'audio' %}
+                                <i class="bi bi-music-note-beamed me-2" style="color: #50cd89;"></i>
+                            {% elif asset.type == 'image' %}
+                                <i class="bi bi-image me-2" style="color: #ffc700;"></i>
+                            {% endif %}
+                        </div>
+                        <div class="media-item-info">
+                            <div class="fw-bold">{{ asset.name }}
+                                {% if loop.index == 1 %}
+                                <span class="ai-badge"><i class="bi bi-stars"></i>AI</span>
+                                {% endif %}
+                            </div>
+                            <small style="color: #a0a0c2;">{{ asset.info.duration|default('--') }}s</small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="bi bi-upload display-6" style="color: #4a6cf7;"></i>
+                        <p class="mt-2" style="color: #a0a0c2;">No media files</p>
+                        <button class="btn btn-sm mt-2" style="background: linear-gradient(135deg, #4a6cf7, #7239ea); color: white;" id="upload-first-media-btn">Upload Media</button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Editing Area -->
+        <div class="preview-panel">
+            <!-- Video Preview -->
+            <div class="video-preview">
+                <div class="video-canvas" id="preview-canvas">
+                    <!-- Video preview content -->
+                    <div class="d-flex justify-content-center align-items-center h-100 text-white">
+                        <div class="text-center">
+                            <i class="bi bi-film display-1" style="color: #4a6cf7;"></i>
+                            <h5 class="mt-3">Preview</h5>
+                            <p>Add clips to the timeline to see a preview</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Preview Controls -->
+            <div class="preview-controls">
+                <button class="btn btn-outline-light" id="prev-frame-btn">
+                    <i class="bi bi-skip-backward-fill"></i>
+                </button>
+                <button class="btn btn-primary play-btn" id="play-btn">
+                    <i class="bi bi-play-fill"></i>
+                </button>
+                <button class="btn btn-outline-light" id="next-frame-btn">
+                    <i class="bi bi-skip-forward-fill"></i>
+                </button>
+                
+                <div class="timeline-scrubber mx-3">
+                    <div class="progress"></div>
+                    <div class="handle"></div>
+                </div>
+                
+                <div class="ms-2 text-white">
+                    <span id="current-time">00:00:00</span> / <span id="total-time">00:01:00</span>
+                </div>
+                <button class="btn btn-outline-light ms-2" id="mute-btn">
+                    <i class="bi bi-volume-up-fill"></i>
+                </button>
+            </div>
+            
+            <!-- Timeline -->
+            <div class="timeline-panel">
+                <div class="timeline-header">
+                    <div class="tools">
+                        <button class="btn btn-sm btn-outline-light" title="Split Clip" id="split-clip-btn">
+                            <i class="bi bi-scissors"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-light" title="Delete Selected" id="delete-clip-btn">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-light" title="Add Track" id="add-track-btn">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </div>
+                    <div class="zoom">
+                        <button class="btn btn-sm btn-outline-light" title="Zoom Out" id="zoom-out-btn">
+                            <i class="bi bi-zoom-out"></i>
+                        </button>
+                        <span id="zoom-level">100%</span>
+                        <button class="btn btn-sm btn-outline-light" title="Zoom In" id="zoom-in-btn">
+                            <i class="bi bi-zoom-in"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="timeline-time-markers" id="timeline-markers">
+                    <!-- Time markers will be dynamically generated -->
+                </div>
+                
+                <div class="timeline-tracks" id="timeline-tracks">
+                    <div class="timeline-playhead" id="timeline-playhead"></div>
+                    
+                    <!-- Video Track -->
+                    <div class="track">
+                        <div class="track-label">Video 1</div>
+                        <div class="track-content" id="video-track-1" data-track-type="video" data-track-id="1">
+                            <!-- Clips will be placed here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Audio Track -->
+                    <div class="track">
+                        <div class="track-label">Audio 1</div>
+                        <div class="track-content" id="audio-track-1" data-track-type="audio" data-track-id="2">
+                            <!-- Audio clips will be placed here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Effects Track -->
+                    <div class="track">
+                        <div class="track-label">Effects</div>
+                        <div class="track-content" id="effects-track" data-track-type="effect" data-track-id="3">
+                            <!-- Effect clips will be placed here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Text Track -->
+                    <div class="track">
+                        <div class="track-label">Text</div>
+                        <div class="track-content" id="text-track" data-track-type="text" data-track-id="4">
+                            <!-- Text clips will be placed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Properties Panel -->
+        <div class="properties-panel">
+            <div class="properties-header">
+                <h6 class="mb-0">Properties</h6>
+                <button class="btn btn-sm btn-outline-light"><i class="bi bi-gear"></i></button>
+            </div>
+            
+            <div id="no-selection" class="text-center py-4">
+                <i class="bi bi-info-circle display-6" style="color: #7239ea;"></i>
+                <p class="mt-2" style="color: #a0a0c2;">Select a clip to edit properties</p>
+            </div>
+            
+            <div id="clip-properties" style="display: none;">
+                <!-- AI Assistant Section -->
+                <div class="panel-section">
+                    <div class="panel-section-header">
+                        <span>AI Assistant <span class="ai-badge"><i class="bi bi-stars"></i>POWER8</span></span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="panel-section-content">
+                        <div class="ai-tools">
+                            <h6><i class="bi bi-magic"></i> Enhance Selected Clip</h6>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-sm" style="background: linear-gradient(90deg, #9400D3, #4B0082); color: white;">
+                                    <i class="bi bi-image"></i> Improve Quality
+                                </button>
+                                <button class="btn btn-sm btn-outline-light">
+                                    <i class="bi bi-volume-up"></i> Enhance Audio
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-tools">
+                            <h6><i class="bi bi-chat-square-text"></i> Ask AI for Help</h6>
+                            <div class="ai-prompt">
+                                <input type="text" class="form-control form-control-sm" placeholder="How do I add transitions?">
+                                <button class="btn btn-sm">
+                                    <i class="bi bi-send"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Clip Settings Section -->
+                <div class="panel-section">
+                    <div class="panel-section-header">
+                        <span>Clip Settings</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="panel-section-content">
+                        <div class="property-group">
+                            <div class="property-row">
+                                <div class="property-label">Start Time</div>
+                                <div class="property-value">
+                                    <input type="number" class="form-control form-control-sm" id="clip-start-time" min="0" step="0.1" value="0.0">
+                                </div>
+                            </div>
+                            
+                            <div class="property-row">
+                                <div class="property-label">Duration</div>
+                                <div class="property-value">
+                                    <input type="number" class="form-control form-control-sm" id="clip-duration" min="0.1" step="0.1" value="5.0">
+                                </div>
+                            </div>
+                            
+                            <div class="property-row">
+                                <div class="property-label">Volume</div>
+                                <div class="property-value">
+                                    <input type="range" class="form-range" id="clip-volume" min="0" max="1" step="0.01" value="1.0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Transform Section -->
+                <div class="panel-section">
+                    <div class="panel-section-header">
+                        <span>Transform</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="panel-section-content">
+                        <div class="property-group">
+                            <div class="property-row">
+                                <div class="property-label">Position X</div>
+                                <div class="property-value">
+                                    <input type="number" class="form-control form-control-sm" id="clip-position-x" value="0">
+                                </div>
+                            </div>
+                            
+                            <div class="property-row">
+                                <div class="property-label">Position Y</div>
+                                <div class="property-value">
+                                    <input type="number" class="form-control form-control-sm" id="clip-position-y" value="0">
+                                </div>
+                            </div>
+                            
+                            <div class="property-row">
+                                <div class="property-label">Scale</div>
+                                <div class="property-value">
+                                    <input type="range" class="form-range" id="clip-scale" min="0.1" max="2" step="0.05" value="1">
+                                </div>
+                            </div>
+                            
+                            <div class="property-row">
+                                <div class="property-label">Rotation</div>
+                                <div class="property-value">
+                                    <input type="range" class="form-range" id="clip-rotation" min="0" max="360" step="1" value="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Effects Section -->
+                <div class="panel-section">
+                    <div class="panel-section-header">
+                        <span>Effects</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="panel-section-content">
+                        <div class="mb-3">
+                            <select class="form-select form-select-sm" id="add-effect-select">
+                                <option value="">Add Effect...</option>
+                                <option value="fade">Fade</option>
+                                <option value="blur">Blur</option>
+                                <option value="color">Color Correction</option>
+                                <option value="crop">Crop</option>
+                                <option value="ai_enhance">AI Enhancement</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Active effects -->
+                        <div class="list-group" id="active-effects">
+                            <!-- Effects will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Project data initialization -->
+<script>
+// Add project data to JavaScript
+const projectData = {
+    id: "{{ project.id }}",
+    name: "{{ project.name }}",
+    user_id: "{{ project.user_id }}",
+    description: "{{ project.description|default('') }}",
+    created_at: "{{ project.created_at|string }}",
+    updated_at: "{{ project.updated_at|string|default('') }}",
+    timeline: {
+        tracks: [],
+        duration: 60.0,
+        scale: 1.0
+    },
+    assets: []
+};
+
+// Add timeline data safely
+try {
+    // First, try to use the timeline object directly
+    projectData.timeline = {
+        tracks: [
+            {% if project.get('timeline') and project.get('timeline').get('tracks') %}
+                {% for track in project.get('timeline').get('tracks') %}
+                {
+                    id: "{{ track.get('id', loop.index)|string }}",
+                    name: "{{ track.get('name', 'Track ' + loop.index|string) }}",
+                    type: "{{ track.get('type', 'video') }}",
+                    clips: []
+                }{% if not loop.last %},{% endif %}
+                {% endfor %}
+            {% else %}
+                { id: "1", name: "Video 1", type: "video", clips: [] },
+                { id: "2", name: "Audio 1", type: "audio", clips: [] },
+                { id: "3", name: "Effects", type: "effect", clips: [] },
+                { id: "4", name: "Text", type: "text", clips: [] }
+            {% endif %}
+        ],
+        duration: {{ project.get('timeline', {}).get('duration', 60.0) }},
+        scale: {{ project.get('timeline', {}).get('scale', 1.0) }}
+    };
+    
+    console.log("Timeline loaded successfully");
+} catch (e) {
+    console.error("Error loading timeline:", e);
+    projectData.timeline = {
+        tracks: [
+            { id: "1", name: "Video 1", type: "video", clips: [] },
+            { id: "2", name: "Audio 1", type: "audio", clips: [] },
+            { id: "3", name: "Effects", type: "effect", clips: [] },
+            { id: "4", name: "Text", type: "text", clips: [] }
+        ],
+        duration: 60.0,
+        scale: 1.0
+    };
+}
+
+// Add assets separately to avoid datetime issues
+{% if project.get('assets') and project.get('assets')|length > 0 %}
+    {% for asset in project.get('assets') %}
+    try {
+        projectData.assets.push({
+            id: "{{ asset.get('id', 'asset-'+(loop.index|string)) }}",
+            name: "{{ asset.get('name', 'Asset '+(loop.index|string)) }}",
+            type: "{{ asset.get('type', 'video') }}",
+            path: "{{ asset.get('path', '')|default('') }}",
+            file_path: "{{ asset.get('file_path', '')|default('') }}",
+            created_at: "{{ asset.get('created_at', '')|string|default('') }}"
+        });
+    } catch (e) {
+        console.error("Error adding asset:", e);
+    }
+    {% endfor %}
+{% else %}
+    // Add dummy assets for testing
+    projectData.assets.push({
+        id: "dummy-asset-1",
+        name: "Demo Video",
+        type: "video",
+        path: "/path/to/demo.mp4",
+        file_path: "/path/to/demo.mp4",
+        created_at: new Date().toISOString()
+    });
+    
+    projectData.assets.push({
+        id: "dummy-asset-2",
+        name: "Demo Audio",
+        type: "audio",
+        path: "/path/to/demo.mp3",
+        file_path: "/path/to/demo.mp3",
+        created_at: new Date().toISOString()
+    });
+{% endif %}
+</script>
+
+<!-- Workflow Panels -->
+<!-- Color Correction Panel -->
+<div id="colorCorrectionPanel" class="workflow-panel color-correction-panel">
+    <div class="workflow-panel-header">
+        <h5><i class="bi bi-palette"></i> Color Correction</h5>
+        <button class="btn btn-sm btn-outline-light close-panel" data-panel="colorCorrectionPanel">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+    
+    <div class="workflow-section">
+        <div class="color-preview" style="background-image: url('https://picsum.photos/seed/color/300/200')">
+            <div class="preview-label">Preview</div>
+        </div>
+    </div>
+    
+    <div class="workflow-section">
+        <div class="workflow-section-header">Basic Correction</div>
+        
+        <div class="color-controls">
+            <label>Brightness</label>
+            <input type="range" class="form-range" id="brightness" min="-100" max="100" value="0">
+        </div>
+        
+        <div class="color-controls">
+            <label>Contrast</label>
+            <input type="range" class="form-range" id="contrast" min="-100" max="100" value="0">
+        </div>
+        
+        <div class="color-controls">
+            <label>Saturation</label>
+            <input type="range" class="form-range" id="saturation" min="-100" max="100" value="0">
+        </div>
+        
+        <div class="color-controls">
+            <label>Temperature</label>
+            <input type="range" class="form-range" id="temperature" min="-100" max="100" value="0">
+        </div>
+    </div>
+    
+    <div class="workflow-section">
+        <div class="workflow-section-header">Color Grading</div>
+        
+        <div class="color-controls">
+            <label>Highlights</label>
+            <input type="range" class="form-range" id="highlights" min="-100" max="100" value="0">
+        </div>
+        
+        <div class="color-controls">
+            <label>Shadows</label>
+            <input type="range" class="form-range" id="shadows" min="-100" max="100" value="0">
+        </div>
+        
+        <div class="color-controls">
+            <label>Vibrance</label>
+            <input type="range" class="form-range" id="vibrance" min="-100" max="100" value="0">
+        </div>
+    </div>
+    
+    <div class="workflow-section">
+        <div class="workflow-section-header">Presets</div>
+        <div class="preset-buttons">
+            <div class="color-preset" style="background: linear-gradient(135deg, #ff9966, #ff5e62);" title="Warm"></div>
+            <div class="color-preset" style="background: linear-gradient(135deg, #7F7FD5, #86A8E7, #91EAE4);" title="Cool"></div>
+            <div class="color-preset" style="background: linear-gradient(135deg, #333333, #666666);" title="Desaturated"></div>
+            <div class="color-preset" style="background: linear-gradient(135deg, #00c6ff, #0072ff);" title="Cool Blue"></div>
+            <div class="color-preset" style="background: linear-gradient(135deg, #f2994a, #f2c94c);" title="Golden"></div>
+            <div class="color-preset" style="background: linear-gradient(135deg, #4a6cf7, #7239ea);" title="Purple"></div>
+        </div>
+    </div>
+    
+    <div class="workflow-section">
+        <button class="btn btn-primary w-100">Apply Correction</button>
+    </div>
+</div>
+
+<!-- Audio Mixing Panel -->
+<div id="audioMixingPanel" class="workflow-panel audio-mixing-panel">
+    <div class="workflow-panel-header">
+        <h5><i class="bi bi-music-note-beamed"></i> Audio Mixing</h5>
+        <button class="btn btn-sm btn-outline-light close-panel" data-panel="audioMixingPanel">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+    
+    <div class="workflow-section">
+        <div class="audio-visualizer">
+            <div class="audio-wave">
+                <!-- Bars will be generated by JS -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="workflow-section">
+        <div class="workflow-section-header">Master Track</div>
+        
+        <div class="audio-controls">
+            <label>Volume</label>
+            <input type="range" class="form-range" id="masterVolume" min="0" max="100" value="80">
+        </div>
+    </div>
+    
+    <div class="workflow-section">
+        <div class="workflow-section-header">Audio Tracks</div>
+        
+        <div class="audio-track mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div><i class="bi bi-music-note-beamed"></i> Main Audio</div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                </div>
+            </div>
+            
+            <div class="audio-controls">
+                <label>Volume</label>
+                <input type="range" class="form-range" min="0" max="100" value="100">
+            </div>
+            
+            <div class="audio-controls">
+                <label>Pan</label>
+                <input type="range" class="form-range" min="-100" max="100" value="0">
+            </div>
+        </div>
+        
+        <div class="audio-track">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div><i class="bi bi-music-note-beamed"></i> Background Music</div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                </div>
+            </div>
+            
+            <div class="audio-controls">
+                <label>Volume</label>
+                <input type="range" class="form-range" min="0" max="100" value="60">
+            </div>
+            
+            <div class="audio-controls">
+                <label>Pan</label>
+                <input type="range" class="form-range" min="-100" max="100" value="0">
+            </div>
+        </div>
+    </div>
+    
+    <div class="workflow-section">
+        <button class="btn btn-primary w-100">Apply Audio Mix</button>
+    </div>
+</div>
+
+<!-- Visual Effects Panel -->
+<div id="visualEffectsPanel" class="workflow-panel visual-effects-panel">
+    <div class="workflow-panel-header">
+        <h5><i class="bi bi-magic"></i> Visual Effects</h5>
+        <button class="btn btn-sm btn-outline-light close-panel" data-panel="visualEffectsPanel">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+    
+    <div class="workflow-section">
+        <div class="workflow-section-header">Effects Library</div>
+        
+        <div class="effects-grid">
+            <div class="effect-item">
+                <div class="effect-icon"><i class="bi bi-stars"></i></div>
+                <div>Glow</div>
+            </div>
+            <div class="effect-item">
+                <div class="effect-icon"><i class="bi bi-droplet"></i></div>
+                <div>Blur</div>
+            </div>
+            <div class="effect-item">
+                <div class="effect-icon"><i class="bi bi-lightning"></i></div>
+                <div>Sharpen</div>
+            </div>
+            <div class="effect-item">
+                <div class="effect-icon"><i class="bi bi-film"></i></div>
+                <div>Film Grain</div>
+            </div>
+            <div class="effect-item">
+                <div class="effect-icon"><i class="bi bi-symmetry-vertical"></i></div>
+                <div>Mirror</div>
+            </div>
+            <div class="effect-item">
+                <div class="effect-icon"><i class="bi bi-palette"></i></div>
+                <div>Chromatic</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="workflow-section">
+        <div class="workflow-section-header">Effect Controls</div>
+        
+        <div class="effect-controls">
+            <div class="mb-3">
+                <label class="form-label">Effect</label>
+                <select class="form-select bg-dark text-light">
+                    <option>Glow</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Intensity</label>
+                <input type="range" class="form-range" min="0" max="100" value="50">
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Size</label>
+                <input type="range" class="form-range" min="0" max="100" value="30">
+            </div>
+            
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" checked>
+                <label class="form-check-label">Apply to entire clip</label>
+            </div>
+        </div>
+    </div>
+    
+    <div class="workflow-section">
+        <button class="btn btn-primary w-100">Apply Effect</button>
+    </div>
+</div>
+
+<!-- Text & Graphics Panel -->
+<div id="textGraphicsPanel" class="workflow-panel text-graphics-panel">
+    <div class="workflow-panel-header">
+        <h5><i class="bi bi-fonts"></i> Text & Graphics</h5>
+        <button class="btn btn-sm btn-outline-light close-panel" data-panel="textGraphicsPanel">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+    
+    <div class="workflow-section">
+        <div class="workflow-section-header">Text Templates</div>
+        
+        <div class="text-template">
+            <div class="text-preview" style="font-size: 18px;">Title Text</div>
+        </div>
+        
+        <div class="text-template">
+            <div class="text-preview" style="font-size: 14px;">Subtitle Text</div>
+        </div>
+        
+        <div class="text-template">
+            <div class="text-preview" style="font-size: 12px; background-color: rgba(0,0,0,0.5);">Lower Third</div>
+        </div>
+        
+        <div class="text-template">
+            <div class="text-preview" style="font-size: 10px;">Credits Text</div>
+        </div>
+    </div>
+    
+    <div class="workflow-section">
+        <div class="workflow-section-header">Text Properties</div>
+        
+        <div class="mb-3">
+            <label class="form-label">Text</label>
+            <input type="text" class="form-control bg-dark text-light" value="Sample Text">
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Font Family</label>
+            <select class="form-select bg-dark text-light">
+                <option>Inter</option>
+                <option>Arial</option>
+                <option>Times New Roman</option>
+                <option>Georgia</option>
+                <option>Verdana</option>
+            </select>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Size</label>
+                <input type="number" class="form-control bg-dark text-light" value="24">
+            </div>
+            <div class="col">
+                <label class="form-label">Color</label>
+                <input type="color" class="form-control form-control-color bg-dark" value="#ffffff">
+            </div>
+        </div>
+    </div>
+    
+    <div class="workflow-section">
+        <button class="btn btn-primary w-100">Add Text to Timeline</button>
+    </div>
+</div>
+
+<!-- AI-Assisted Mode Panel -->
+<div id="aiAssistedPanel" class="workflow-panel ai-assisted-panel">
+    <div class="workflow-panel-header">
+        <h5><i class="bi bi-stars"></i> AI Assistant</h5>
+        <button class="btn btn-sm btn-outline-light close-panel" data-panel="aiAssistedPanel">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+    
+    <div class="workflow-section">
+        <label class="form-label">What would you like help with?</label>
+        <div class="ai-prompt">
+            <input type="text" class="form-control" placeholder="Ask AI for help...">
+            <button class="btn btn-primary ms-2">
+                <i class="bi bi-lightning"></i>
+            </button>
+        </div>
+    </div>
+    
+    <div class="workflow-section">
+        <div class="workflow-section-header">Recommendations</div>
+        
+        <div class="ai-suggestions">
+            <div class="ai-suggestion">
+                <i class="bi bi-magic"></i>
+                <div>Auto-correct colors</div>
+                <span class="ai-badge"><i class="bi bi-stars"></i>AI</span>
+            </div>
+            <div class="ai-suggestion">
+                <i class="bi bi-scissors"></i>
+                <div>Auto-trim silent parts</div>
+                <span class="ai-badge"><i class="bi bi-stars"></i>AI</span>
+            </div>
+            <div class="ai-suggestion">
+                <i class="bi bi-volume-up"></i>
+                <div>Enhance audio quality</div>
+                <span class="ai-badge"><i class="bi bi-stars"></i>AI</span>
+            </div>
+            <div class="ai-suggestion">
+                <i class="bi bi-layout-text-window"></i>
+                <div>Generate captions</div>
+                <span class="ai-badge"><i class="bi bi-stars"></i>AI</span>
+            </div>
+            <div class="ai-suggestion">
+                <i class="bi bi-people"></i>
+                <div>Remove background</div>
+                <span class="ai-badge"><i class="bi bi-stars"></i>AI</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="workflow-section">
+        <div class="alert alert-info d-flex align-items-center">
+            <i class="bi bi-info-circle me-2"></i>
+            <div>AI features require credits</div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/editor.js') }}"></script>
+<script src="{{ url_for('static', filename='js/timeline_fix.js') }}"></script>
+<script src="{{ url_for('static', filename='js/workflow_modes.js') }}"></script>
+<script src="{{ url_for('static', filename='js/panel_resize.js') }}"></script>
+</body>
+</html>

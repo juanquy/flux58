@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}Payment Successful - FLUX58 AI MEDIA LABS{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <div class="mb-4">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+                </div>
+                <h1 class="mb-4">Payment Successful!</h1>
+                <p class="lead mb-4">Thank you for your purchase. Your credits have been added to your account.</p>
+                
+                <div class="card mb-4 bg-light">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 text-md-end border-end">
+                                <h5>Transaction Details</h5>
+                                <p class="mb-1"><strong>Order ID:</strong> {{ order_id }}</p>
+                                <p class="mb-1"><strong>Date:</strong> {{ timestamp }}</p>
+                                <p class="mb-0"><strong>Status:</strong> <span class="badge bg-success">Completed</span></p>
+                            </div>
+                            <div class="col-md-6 text-md-start">
+                                <h5>Purchase Summary</h5>
+                                <p class="mb-1"><strong>Amount:</strong> ${{ amount }}</p>
+                                <p class="mb-1"><strong>Credits Added:</strong> {{ credits }}</p>
+                                <p class="mb-0"><strong>Total Credits:</strong> {{ total_credits }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 d-md-block">
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg mx-2">Go to Dashboard</a>
+                    <a href="{{ url_for('credits_page') }}" class="btn btn-outline-primary btn-lg mx-2">View Credits</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

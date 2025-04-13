@@ -1,0 +1,194 @@
+{% extends "layout.html" %}
+
+{% block title %}Edit User - Admin - FLUX58 AI MEDIA LABS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>Edit User: {{ username }}</h1>
+        <p class="lead">Modify user details and settings.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded">
+            <div class="container-fluid">
+                <span class="navbar-brand">Admin</span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="adminNavbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_users') }}">User Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_projects') }}">Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_exports') }}">Exports</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_system') }}">System</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_payment_settings') }}">Payment Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_landing_page_editor') }}">Landing Page</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">User Information</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('admin_edit_user', user_id=user.id) }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" value="{{ username }}" disabled>
+                        <div class="form-text">Username cannot be changed</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                        <div class="form-text">Leave blank to keep current password</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" name="role">
+                            <option value="user" {% if user.role == 'user' %}selected{% endif %}>User</option>
+                            <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">User ID</label>
+                        <input type="text" class="form-control" value="{{ user.id }}" disabled>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Registration Date</label>
+                        <input type="text" class="form-control" value="{{ user.created_at }}" disabled>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Credit Management</h5>
+                <a href="{{ url_for('admin_add_credits', user_id=user.id) }}" class="btn btn-primary btn-sm">Add Credits</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card bg-primary text-white">
+                            <div class="card-body text-center py-3">
+                                <h6 class="card-title">Total</h6>
+                                <p class="h3 mb-0">
+                                    {% if user.id in credits %}
+                                    {{ credits[user.id].total }}
+                                    {% else %}
+                                    0
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-success text-white">
+                            <div class="card-body text-center py-3">
+                                <h6 class="card-title">Available</h6>
+                                <p class="h3 mb-0">
+                                    {% if user.id in credits %}
+                                    {{ credits[user.id].total - credits[user.id].used }}
+                                    {% else %}
+                                    0
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-secondary text-white">
+                            <div class="card-body text-center py-3">
+                                <h6 class="card-title">Used</h6>
+                                <p class="h3 mb-0">
+                                    {% if user.id in credits %}
+                                    {{ credits[user.id].used }}
+                                    {% else %}
+                                    0
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('admin_impersonate', user_id=user.id) }}" class="btn btn-warning">
+                        <i class="bi bi-person-bounding-box me-2"></i> Impersonate User
+                    </a>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
+                        <i class="bi bi-trash me-2"></i> Delete User
+                    </button>
+                </div>
+                
+                <!-- Delete User Modal -->
+                <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirm Delete</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete user "{{ username }}"?</p>
+                                <p class="text-danger">This action cannot be undone. All user data, projects, and credits will be permanently deleted.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <a href="{{ url_for('admin_delete_user', user_id=user.id) }}" class="btn btn-danger">Delete User</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

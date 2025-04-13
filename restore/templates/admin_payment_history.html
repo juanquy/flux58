@@ -1,0 +1,342 @@
+{% extends "layout.html" %}
+
+{% block title %}Payment History - Admin - FLUX58 AI MEDIA LABS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>Payment History</h1>
+        <p class="lead">View all payment transactions.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded">
+            <div class="container-fluid">
+                <span class="navbar-brand">Admin</span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="adminNavbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_users') }}">User Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_projects') }}">Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_exports') }}">Exports</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_system') }}">System</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('admin_payment_settings') }}">Payment Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_landing_page_editor') }}">Landing Page</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Payment Transactions</h5>
+                <div>
+                    <a href="{{ url_for('admin_payment_settings') }}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-arrow-left me-1"></i>Back to Payment Settings
+                    </a>
+                    <button class="btn btn-outline-success btn-sm ms-2" id="exportCSV">
+                        <i class="bi bi-file-earmark-spreadsheet me-1"></i>Export CSV
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <div class="row g-2">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                <input type="text" class="form-control" id="paymentSearch" placeholder="Search...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="statusFilter">
+                                <option value="all">All Statuses</option>
+                                <option value="completed">Completed</option>
+                                <option value="pending">Pending</option>
+                                <option value="failed">Failed</option>
+                                <option value="refunded">Refunded</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="date" class="form-control" id="dateFilter" placeholder="Filter by date">
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-secondary w-100" id="resetFilters">Reset Filters</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover" id="paymentsTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Transaction ID</th>
+                                <th>User</th>
+                                <th>Credits</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for payment in payments %}
+                            <tr>
+                                <td>{{ payment.timestamp[:16] }}</td>
+                                <td>
+                                    <small class="text-monospace">{{ payment.transaction_id }}</small>
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('admin_edit_user', user_id=payment.user_id) }}">{{ payment.username }}</a>
+                                </td>
+                                <td>{{ payment.credits }}</td>
+                                <td>{{ currency_symbol }}{{ payment.amount }}</td>
+                                <td>
+                                    {% if payment.payment_method == 'paypal' %}
+                                    <span class="badge bg-primary">PayPal</span>
+                                    {% elif payment.payment_method == 'stripe' %}
+                                    <span class="badge bg-info">Stripe</span>
+                                    {% elif payment.payment_method == 'admin' %}
+                                    <span class="badge bg-warning">Admin</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">{{ payment.payment_method }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="badge 
+                                        {% if payment.status == 'completed' %}bg-success{% endif %}
+                                        {% if payment.status == 'pending' %}bg-warning{% endif %}
+                                        {% if payment.status == 'failed' %}bg-danger{% endif %}
+                                        {% if payment.status == 'refunded' %}bg-info{% endif %}
+                                    ">
+                                        {{ payment.status|title }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <button type="button" class="btn btn-outline-primary view-details" data-payment-id="{{ payment.id }}">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        {% if payment.status == 'pending' %}
+                                        <button type="button" class="btn btn-outline-success approve-payment" data-payment-id="{{ payment.id }}">
+                                            <i class="bi bi-check-lg"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger reject-payment" data-payment-id="{{ payment.id }}">
+                                            <i class="bi bi-x-lg"></i>
+                                        </button>
+                                        {% endif %}
+                                        {% if payment.status == 'completed' %}
+                                        <button type="button" class="btn btn-outline-info refund-payment" data-payment-id="{{ payment.id }}">
+                                            <i class="bi bi-arrow-return-left"></i>
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="8" class="text-center">No payment history available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted">Showing {{ payments|length }} payments</span>
+                    <div>
+                        <span class="badge bg-success me-2">Completed: <span class="fw-bold">{{ payments|selectattr('status', 'equalto', 'completed')|list|length }}</span></span>
+                        <span class="badge bg-warning me-2">Pending: <span class="fw-bold">{{ payments|selectattr('status', 'equalto', 'pending')|list|length }}</span></span>
+                        <span class="badge bg-danger me-2">Failed: <span class="fw-bold">{{ payments|selectattr('status', 'equalto', 'failed')|list|length }}</span></span>
+                        <span class="badge bg-info">Refunded: <span class="fw-bold">{{ payments|selectattr('status', 'equalto', 'refunded')|list|length }}</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Details Modal -->
+<div class="modal fade" id="paymentDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Payment Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    Select a payment to view details
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Filter functionality for the payments table
+    const paymentSearch = document.getElementById('paymentSearch');
+    const statusFilter = document.getElementById('statusFilter');
+    const dateFilter = document.getElementById('dateFilter');
+    const resetFilters = document.getElementById('resetFilters');
+    const rows = document.querySelectorAll('#paymentsTable tbody tr');
+    
+    function filterTable() {
+        const searchText = paymentSearch.value.toLowerCase();
+        const status = statusFilter.value;
+        const date = dateFilter.value;
+        
+        rows.forEach(row => {
+            // Skip the "no payments" row if it exists
+            if (row.cells.length === 1) {
+                return;
+            }
+            
+            const rowData = row.textContent.toLowerCase();
+            const rowStatus = row.querySelector('td:nth-child(7)').textContent.trim().toLowerCase();
+            const rowDate = row.querySelector('td:nth-child(1)').textContent.trim().split(' ')[0]; // Get just the date part
+            
+            let showRow = true;
+            
+            // Apply search filter
+            if (searchText && !rowData.includes(searchText)) {
+                showRow = false;
+            }
+            
+            // Apply status filter
+            if (status !== 'all' && !rowStatus.includes(status)) {
+                showRow = false;
+            }
+            
+            // Apply date filter
+            if (date && rowDate !== date) {
+                showRow = false;
+            }
+            
+            row.style.display = showRow ? '' : 'none';
+        });
+    }
+    
+    // Add event listeners
+    if (paymentSearch) paymentSearch.addEventListener('input', filterTable);
+    if (statusFilter) statusFilter.addEventListener('change', filterTable);
+    if (dateFilter) dateFilter.addEventListener('change', filterTable);
+    
+    // Reset filters
+    if (resetFilters) {
+        resetFilters.addEventListener('click', function() {
+            paymentSearch.value = '';
+            statusFilter.value = 'all';
+            dateFilter.value = '';
+            
+            rows.forEach(row => {
+                row.style.display = '';
+            });
+        });
+    }
+    
+    // CSV export functionality
+    const exportCSV = document.getElementById('exportCSV');
+    if (exportCSV) {
+        exportCSV.addEventListener('click', function() {
+            // Get table headers
+            const headers = Array.from(document.querySelectorAll('#paymentsTable thead th'))
+                .map(th => th.textContent.trim())
+                .slice(0, -1); // Remove the Actions column
+            
+            // Get visible table rows
+            const visibleRows = Array.from(rows).filter(row => row.style.display !== 'none' && row.cells.length > 1);
+            
+            // Convert rows to CSV data
+            const rowData = visibleRows.map(row => {
+                return Array.from(row.cells)
+                    .slice(0, -1) // Remove the Actions column
+                    .map(cell => {
+                        // Get text content and remove any inner HTML tags
+                        let text = cell.textContent.trim().replace(/\s+/g, ' ');
+                        // Escape double quotes
+                        return `"${text.replace(/"/g, '""')}"`;
+                    })
+                    .join(',');
+            });
+            
+            // Combine headers and rows
+            const csv = [headers.join(','), ...rowData].join('\n');
+            
+            // Create download link
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `payment_history_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
+    
+    // Payment details modal
+    const viewButtons = document.querySelectorAll('.view-details');
+    const paymentModal = document.getElementById('paymentDetailsModal');
+    
+    if (viewButtons.length > 0 && paymentModal) {
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const paymentId = this.getAttribute('data-payment-id');
+                // In a real application, you'd fetch the payment details via AJAX
+                // For now, we'll just display a message
+                
+                const modalBody = paymentModal.querySelector('.modal-body');
+                modalBody.innerHTML = `
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        Payment details for ID: ${paymentId} would be loaded here.
+                    </div>
+                    <p>In a production environment, this would show complete transaction details including:</p>
+                    <ul>
+                        <li>Customer information</li>
+                        <li>Payment gateway response</li>
+                        <li>Transaction timeline</li>
+                        <li>Invoice/receipt details</li>
+                    </ul>
+                `;
+                
+                new bootstrap.Modal(paymentModal).show();
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

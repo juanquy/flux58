@@ -1,0 +1,16 @@
+# Database Configuration
+DB_TYPE=postgres
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=flux58
+DB_USER=flux58_user
+DB_PASS=flux58_password
+
+# Flask Configuration
+FLASK_ENV=production
+FLASK_DEBUG=0
+FLASK_APP=app.py
+
+# Application Settings
+LOG_LEVEL=INFO
+EXPORT_CONCURRENT_JOBS=2

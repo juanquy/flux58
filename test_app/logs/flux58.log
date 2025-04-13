@@ -1,0 +1,1091 @@
+2025-03-15 17:46:37,022 - INFO - logger - Application starting
+2025-03-15 17:46:37,024 - INFO - logger - Creating admin account
+2025-03-15 17:46:37,089 - INFO - logger - Admin account created successfully
+2025-03-15 17:46:46,632 - INFO - logger - Application starting
+2025-03-15 17:46:46,664 - INFO - logger - Cleaning up expired sessions
+2025-03-15 17:46:46,665 - WARNING - logger - OpenShot library not available - using fallback implementation
+2025-03-15 17:46:46,667 - INFO - logger - Initializing export queue
+2025-03-15 17:46:46,668 - INFO - logger - Starting export queue processor
+2025-03-15 17:46:46,669 - INFO - logger - Export queue processor worker started
+2025-03-15 17:46:46,669 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 17:46:46,672 - INFO - logger - Starting maintenance worker
+2025-03-15 17:46:55,354 - INFO - logger - Application starting
+2025-03-15 17:46:55,386 - INFO - logger - Cleaning up expired sessions
+2025-03-15 17:46:55,387 - WARNING - logger - OpenShot library not available - using fallback implementation
+2025-03-15 17:46:55,389 - INFO - logger - Initializing export queue
+2025-03-15 17:46:55,390 - INFO - logger - Starting export queue processor
+2025-03-15 17:46:55,391 - INFO - logger - Export queue processor worker started
+2025-03-15 17:46:55,391 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 17:46:55,395 - INFO - logger - Starting maintenance worker
+2025-03-15 17:46:55,397 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 17:46:55,397 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 131561186938032 and this is thread id 131561137566080
+2025-03-15 17:46:55,398 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 131561137566080 and this is thread id 131561186938032
+2025-03-15 17:46:56,249 - INFO - logger - Application starting
+2025-03-15 17:46:56,281 - INFO - logger - Cleaning up expired sessions
+2025-03-15 17:46:56,282 - WARNING - logger - OpenShot library not available - using fallback implementation
+2025-03-15 17:46:56,283 - INFO - logger - Initializing export queue
+2025-03-15 17:46:56,285 - INFO - logger - Starting export queue processor
+2025-03-15 17:46:56,286 - INFO - logger - Export queue processor worker started
+2025-03-15 17:46:56,286 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 17:46:56,288 - INFO - logger - Starting maintenance worker
+2025-03-15 17:46:56,289 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 140079265828016 and this is thread id 140079216259456
+2025-03-15 17:46:56,290 - ERROR - logger - Failed to log to database: 'NoneType' object has no attribute 'commit'
+2025-03-15 17:46:56,290 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 18:34:45,508 - INFO - logger - Application starting
+2025-03-15 18:34:45,520 - INFO - logger - Creating admin account
+2025-03-15 18:34:45,622 - INFO - logger - Admin account created successfully
+2025-03-15 18:34:45,652 - INFO - logger - Cleaning up expired sessions
+2025-03-15 18:34:45,653 - INFO - logger - OpenShot library integration is active
+2025-03-15 18:34:45,653 - INFO - logger - Initializing export queue
+2025-03-15 18:34:45,653 - INFO - logger - Starting export queue processor
+2025-03-15 18:34:45,654 - INFO - logger - Export queue processor worker started
+2025-03-15 18:34:45,654 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 18:34:45,655 - INFO - logger - Starting maintenance worker
+2025-03-15 18:34:45,655 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 18:34:46,005 - INFO - logger - Application starting
+2025-03-15 18:34:46,048 - INFO - logger - Cleaning up expired sessions
+2025-03-15 18:34:46,049 - INFO - logger - OpenShot library integration is active
+2025-03-15 18:34:46,049 - INFO - logger - Initializing export queue
+2025-03-15 18:34:46,050 - INFO - logger - Starting export queue processor
+2025-03-15 18:34:46,050 - INFO - logger - Export queue processor worker started
+2025-03-15 18:34:46,050 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 18:34:46,051 - INFO - logger - Starting maintenance worker
+2025-03-15 18:34:46,052 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 19:05:31,970 - INFO - logger - Application starting
+2025-03-15 19:05:31,987 - INFO - logger - Application starting
+2025-03-15 19:05:32,040 - INFO - logger - Application starting
+2025-03-15 19:05:32,111 - INFO - logger - Application starting
+2025-03-15 19:12:31,128 - INFO - logger - Application starting
+2025-03-15 19:12:31,159 - INFO - logger - Cleaning up expired sessions
+2025-03-15 19:12:31,161 - WARNING - logger - OpenShot library not available - using fallback implementation
+2025-03-15 19:12:31,162 - INFO - logger - Initializing export queue
+2025-03-15 19:12:31,163 - INFO - logger - Starting export queue processor
+2025-03-15 19:12:31,165 - INFO - logger - Export queue processor worker started
+2025-03-15 19:12:31,165 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 19:12:31,167 - INFO - logger - Starting maintenance worker
+2025-03-15 19:12:31,169 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 19:12:31,172 - ERROR - logger - Failed to log to database: 'NoneType' object has no attribute 'commit'
+2025-03-15 19:12:32,014 - INFO - logger - Application starting
+2025-03-15 19:12:32,046 - INFO - logger - Cleaning up expired sessions
+2025-03-15 19:12:32,048 - WARNING - logger - OpenShot library not available - using fallback implementation
+2025-03-15 19:12:32,049 - INFO - logger - Initializing export queue
+2025-03-15 19:12:32,050 - INFO - logger - Starting export queue processor
+2025-03-15 19:12:32,052 - INFO - logger - Export queue processor worker started
+2025-03-15 19:12:32,052 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 19:12:32,054 - INFO - logger - Starting maintenance worker
+2025-03-15 19:12:32,055 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 130566362713264 and this is thread id 130566313144704
+2025-03-15 19:12:32,057 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 130566313144704 and this is thread id 130566362713264
+2025-03-15 19:12:32,057 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 19:12:32,058 - ERROR - logger - Failed to log to database: 'NoneType' object has no attribute 'commit'
+2025-03-15 19:19:20,801 - INFO - logger - Application starting
+2025-03-15 19:19:20,833 - INFO - logger - Cleaning up expired sessions
+2025-03-15 19:19:20,834 - WARNING - logger - OpenShot library not available - using fallback implementation
+2025-03-15 19:19:20,836 - INFO - logger - Initializing export queue
+2025-03-15 19:19:20,837 - INFO - logger - Starting export queue processor
+2025-03-15 19:19:20,838 - INFO - logger - Export queue processor worker started
+2025-03-15 19:19:20,838 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 19:19:20,842 - INFO - logger - Starting maintenance worker
+2025-03-15 19:19:20,843 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 19:19:20,844 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 127992890084528 and this is thread id 127992840647040
+2025-03-15 19:19:20,845 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 127992840647040 and this is thread id 127992890084528
+2025-03-15 19:19:21,688 - INFO - logger - Application starting
+2025-03-15 19:19:21,720 - INFO - logger - Cleaning up expired sessions
+2025-03-15 19:19:21,721 - WARNING - logger - OpenShot library not available - using fallback implementation
+2025-03-15 19:19:21,723 - INFO - logger - Initializing export queue
+2025-03-15 19:19:21,724 - INFO - logger - Starting export queue processor
+2025-03-15 19:19:21,725 - INFO - logger - Export queue processor worker started
+2025-03-15 19:19:21,725 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 19:19:21,729 - INFO - logger - Starting maintenance worker
+2025-03-15 19:19:21,730 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 19:19:21,731 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 134193239379120 and this is thread id 134193189941632
+2025-03-15 19:19:21,732 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 134193189941632 and this is thread id 134193239379120
+2025-03-15 19:25:21,583 - INFO - logger - Application starting
+2025-03-15 19:25:21,616 - INFO - logger - Cleaning up expired sessions
+2025-03-15 19:25:21,617 - WARNING - logger - OpenShot library not available - using fallback implementation
+2025-03-15 19:25:21,618 - INFO - logger - Initializing export queue
+2025-03-15 19:25:21,620 - INFO - logger - Starting export queue processor
+2025-03-15 19:25:21,621 - INFO - logger - Export queue processor worker started
+2025-03-15 19:25:21,621 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 19:25:21,624 - INFO - logger - Starting maintenance worker
+2025-03-15 19:25:21,625 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 137337258593456 and this is thread id 137337209155968
+2025-03-15 19:25:21,626 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 137337209155968 and this is thread id 137337258593456
+2025-03-15 19:25:21,626 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 19:25:21,627 - ERROR - logger - Error in export queue processor: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 137337258593456 and this is thread id 137337209155968
+Traceback (most recent call last):
+  File "/home/juanquy/OpenShot/test_app/database.py", line 1262, in get_next_pending_export
+    row = self.cursor.fetchone()
+sqlite3.ProgrammingError: Recursive use of cursors not allowed.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/juanquy/OpenShot/test_app/export_queue.py", line 70, in _processor_worker
+    next_export = self.db.get_next_pending_export()
+  File "/home/juanquy/OpenShot/test_app/database.py", line 1265, in get_next_pending_export
+    self._disconnect()
+  File "/home/juanquy/OpenShot/test_app/database.py", line 61, in _disconnect
+    self.connection.close()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 137337258593456 and this is thread id 137337209155968
+2025-03-15 19:25:22,477 - INFO - logger - Application starting
+2025-03-15 19:25:22,509 - INFO - logger - Cleaning up expired sessions
+2025-03-15 19:25:22,511 - WARNING - logger - OpenShot library not available - using fallback implementation
+2025-03-15 19:25:22,512 - INFO - logger - Initializing export queue
+2025-03-15 19:25:22,513 - INFO - logger - Starting export queue processor
+2025-03-15 19:25:22,515 - INFO - logger - Export queue processor worker started
+2025-03-15 19:25:22,515 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 19:25:22,519 - INFO - logger - Starting maintenance worker
+2025-03-15 19:25:22,520 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 19:25:22,521 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 138343502335152 and this is thread id 138343452897664
+2025-03-15 19:25:22,521 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 138343452897664 and this is thread id 138343502335152
+2025-03-15 19:29:47,787 - INFO - logger - Application starting
+2025-03-15 19:29:47,822 - INFO - logger - Cleaning up expired sessions
+2025-03-15 19:29:47,823 - WARNING - logger - OpenShot library not available - using fallback implementation
+2025-03-15 19:29:47,825 - INFO - logger - Initializing export queue
+2025-03-15 19:29:47,826 - INFO - logger - Starting export queue processor
+2025-03-15 19:29:47,827 - INFO - logger - Export queue processor worker started
+2025-03-15 19:29:47,827 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 19:29:47,831 - INFO - logger - Starting maintenance worker
+2025-03-15 19:29:47,832 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 19:29:47,833 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 131404483284144 and this is thread id 131404428734848
+2025-03-15 19:29:47,834 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 131404428734848 and this is thread id 131404483284144
+2025-03-15 19:29:48,892 - INFO - logger - Application starting
+2025-03-15 19:29:48,926 - INFO - logger - Cleaning up expired sessions
+2025-03-15 19:29:48,928 - WARNING - logger - OpenShot library not available - using fallback implementation
+2025-03-15 19:29:48,929 - INFO - logger - Initializing export queue
+2025-03-15 19:29:48,930 - INFO - logger - Starting export queue processor
+2025-03-15 19:29:48,932 - INFO - logger - Export queue processor worker started
+2025-03-15 19:29:48,932 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 19:29:48,936 - INFO - logger - Starting maintenance worker
+2025-03-15 19:29:48,937 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 19:29:48,938 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 133221258120368 and this is thread id 133221203833216
+2025-03-15 19:29:48,938 - ERROR - logger - Failed to log to database: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 133221203833216 and this is thread id 133221258120368
+2025-03-15 19:53:54,452 - INFO - logger - Application starting
+2025-03-15 19:53:54,487 - INFO - logger - Cleaning up expired sessions
+2025-03-15 19:53:54,488 - INFO - logger - OpenShot library integration is active
+2025-03-15 19:53:54,488 - INFO - logger - Initializing export queue
+2025-03-15 19:53:54,489 - INFO - logger - Starting export queue processor
+2025-03-15 19:53:54,489 - INFO - logger - Export queue processor worker started
+2025-03-15 19:53:54,489 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 19:53:54,490 - INFO - logger - Starting maintenance worker
+2025-03-15 19:53:54,491 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 19:53:54,919 - INFO - logger - Application starting
+2025-03-15 19:53:54,961 - INFO - logger - Cleaning up expired sessions
+2025-03-15 19:53:54,962 - INFO - logger - OpenShot library integration is active
+2025-03-15 19:53:54,962 - INFO - logger - Initializing export queue
+2025-03-15 19:53:54,963 - INFO - logger - Starting export queue processor
+2025-03-15 19:53:54,963 - INFO - logger - Export queue processor worker started
+2025-03-15 19:53:54,963 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 19:53:54,964 - INFO - logger - Starting maintenance worker
+2025-03-15 19:53:54,965 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 19:56:46,017 - INFO - logger - Application starting
+2025-03-15 19:56:46,065 - INFO - logger - Cleaning up expired sessions
+2025-03-15 19:56:46,066 - INFO - logger - OpenShot library integration is active
+2025-03-15 19:56:46,067 - INFO - logger - Initializing export queue
+2025-03-15 19:56:46,067 - INFO - logger - Starting export queue processor
+2025-03-15 19:56:46,067 - INFO - logger - Export queue processor worker started
+2025-03-15 19:56:46,068 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 19:56:46,068 - INFO - logger - Starting maintenance worker
+2025-03-15 19:56:46,069 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 19:56:46,486 - INFO - logger - Application starting
+2025-03-15 19:56:46,533 - INFO - logger - Cleaning up expired sessions
+2025-03-15 19:56:46,533 - INFO - logger - OpenShot library integration is active
+2025-03-15 19:56:46,534 - INFO - logger - Initializing export queue
+2025-03-15 19:56:46,534 - INFO - logger - Starting export queue processor
+2025-03-15 19:56:46,535 - INFO - logger - Export queue processor worker started
+2025-03-15 19:56:46,535 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 19:56:46,536 - INFO - logger - Starting maintenance worker
+2025-03-15 19:56:46,536 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:01:10,221 - INFO - logger - Application starting
+2025-03-15 20:01:10,261 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:01:10,262 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:01:10,262 - INFO - logger - Initializing export queue
+2025-03-15 20:01:10,263 - INFO - logger - Starting export queue processor
+2025-03-15 20:01:10,263 - INFO - logger - Export queue processor worker started
+2025-03-15 20:01:10,263 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:01:10,264 - INFO - logger - Starting maintenance worker
+2025-03-15 20:01:10,264 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:01:10,687 - INFO - logger - Application starting
+2025-03-15 20:01:10,734 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:01:10,735 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:01:10,736 - INFO - logger - Initializing export queue
+2025-03-15 20:01:10,736 - INFO - logger - Starting export queue processor
+2025-03-15 20:01:10,737 - INFO - logger - Export queue processor worker started
+2025-03-15 20:01:10,737 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:01:10,737 - INFO - logger - Starting maintenance worker
+2025-03-15 20:01:10,738 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:04:41,798 - INFO - logger - Application starting
+2025-03-15 20:04:41,842 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:04:41,843 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:04:41,843 - INFO - logger - Initializing export queue
+2025-03-15 20:04:41,844 - INFO - logger - Starting export queue processor
+2025-03-15 20:04:41,844 - INFO - logger - Export queue processor worker started
+2025-03-15 20:04:41,844 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:04:41,845 - INFO - logger - Starting maintenance worker
+2025-03-15 20:04:41,846 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:04:42,276 - INFO - logger - Application starting
+2025-03-15 20:04:42,321 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:04:42,322 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:04:42,323 - INFO - logger - Initializing export queue
+2025-03-15 20:04:42,323 - INFO - logger - Starting export queue processor
+2025-03-15 20:04:42,324 - INFO - logger - Export queue processor worker started
+2025-03-15 20:04:42,324 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:04:42,324 - INFO - logger - Starting maintenance worker
+2025-03-15 20:04:42,325 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:08:23,997 - INFO - logger - Application starting
+2025-03-15 20:08:24,038 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:08:24,039 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:08:24,039 - INFO - logger - Initializing export queue
+2025-03-15 20:08:24,040 - INFO - logger - Starting export queue processor
+2025-03-15 20:08:24,040 - INFO - logger - Export queue processor worker started
+2025-03-15 20:08:24,040 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:08:24,041 - INFO - logger - Starting maintenance worker
+2025-03-15 20:08:24,042 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:08:24,467 - INFO - logger - Application starting
+2025-03-15 20:08:24,513 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:08:24,514 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:08:24,515 - INFO - logger - Initializing export queue
+2025-03-15 20:08:24,515 - INFO - logger - Starting export queue processor
+2025-03-15 20:08:24,516 - INFO - logger - Export queue processor worker started
+2025-03-15 20:08:24,516 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:08:24,516 - INFO - logger - Starting maintenance worker
+2025-03-15 20:08:24,517 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:12:04,810 - INFO - logger - Application starting
+2025-03-15 20:12:04,851 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:12:04,852 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:12:04,852 - INFO - logger - Initializing export queue
+2025-03-15 20:12:04,853 - INFO - logger - Starting export queue processor
+2025-03-15 20:12:04,853 - INFO - logger - Export queue processor worker started
+2025-03-15 20:12:04,853 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:12:04,854 - INFO - logger - Starting maintenance worker
+2025-03-15 20:12:04,855 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:12:05,282 - INFO - logger - Application starting
+2025-03-15 20:12:05,329 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:12:05,329 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:12:05,330 - INFO - logger - Initializing export queue
+2025-03-15 20:12:05,330 - INFO - logger - Starting export queue processor
+2025-03-15 20:12:05,331 - INFO - logger - Export queue processor worker started
+2025-03-15 20:12:05,331 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:12:05,332 - INFO - logger - Starting maintenance worker
+2025-03-15 20:12:05,332 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:14:36,353 - INFO - logger - Application starting
+2025-03-15 20:14:36,417 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:14:36,419 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:14:36,420 - INFO - logger - Initializing export queue
+2025-03-15 20:14:36,421 - INFO - logger - Starting export queue processor
+2025-03-15 20:14:36,424 - INFO - logger - Export queue processor worker started
+2025-03-15 20:14:36,425 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:14:36,434 - INFO - logger - Starting maintenance worker
+2025-03-15 20:14:36,441 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:14:36,865 - INFO - logger - Application starting
+2025-03-15 20:14:36,911 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:14:36,912 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:14:36,912 - INFO - logger - Initializing export queue
+2025-03-15 20:14:36,912 - INFO - logger - Starting export queue processor
+2025-03-15 20:14:36,913 - INFO - logger - Export queue processor worker started
+2025-03-15 20:14:36,913 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:14:36,914 - INFO - logger - Starting maintenance worker
+2025-03-15 20:14:36,914 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:17:44,825 - INFO - logger - Application starting
+2025-03-15 20:17:44,866 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:17:44,867 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:17:44,867 - INFO - logger - Initializing export queue
+2025-03-15 20:17:44,867 - INFO - logger - Starting export queue processor
+2025-03-15 20:17:44,868 - INFO - logger - Export queue processor worker started
+2025-03-15 20:17:44,868 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:17:44,869 - INFO - logger - Starting maintenance worker
+2025-03-15 20:17:44,869 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:17:45,291 - INFO - logger - Application starting
+2025-03-15 20:17:45,337 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:17:45,338 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:17:45,338 - INFO - logger - Initializing export queue
+2025-03-15 20:17:45,339 - INFO - logger - Starting export queue processor
+2025-03-15 20:17:45,339 - INFO - logger - Export queue processor worker started
+2025-03-15 20:17:45,339 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:17:45,340 - INFO - logger - Starting maintenance worker
+2025-03-15 20:17:45,340 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:30:53,985 - INFO - logger - Application starting
+2025-03-15 20:30:54,033 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:30:54,034 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:30:54,035 - INFO - logger - Initializing export queue
+2025-03-15 20:30:54,035 - INFO - logger - Starting export queue processor
+2025-03-15 20:30:54,036 - INFO - logger - Export queue processor worker started
+2025-03-15 20:30:54,036 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:30:54,037 - INFO - logger - Starting maintenance worker
+2025-03-15 20:30:54,037 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:30:54,466 - INFO - logger - Application starting
+2025-03-15 20:30:54,514 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:30:54,515 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:30:54,516 - INFO - logger - Initializing export queue
+2025-03-15 20:30:54,516 - INFO - logger - Starting export queue processor
+2025-03-15 20:30:54,516 - INFO - logger - Export queue processor worker started
+2025-03-15 20:30:54,517 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:30:54,517 - INFO - logger - Starting maintenance worker
+2025-03-15 20:30:54,518 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:36:27,878 - INFO - logger - Application starting
+2025-03-15 20:36:27,927 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:36:27,927 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:36:27,928 - INFO - logger - Initializing export queue
+2025-03-15 20:36:27,928 - INFO - logger - Starting export queue processor
+2025-03-15 20:36:27,929 - INFO - logger - Export queue processor worker started
+2025-03-15 20:36:27,929 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:36:27,929 - INFO - logger - Starting maintenance worker
+2025-03-15 20:36:27,930 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:36:28,355 - INFO - logger - Application starting
+2025-03-15 20:36:28,403 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:36:28,404 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:36:28,404 - INFO - logger - Initializing export queue
+2025-03-15 20:36:28,405 - INFO - logger - Starting export queue processor
+2025-03-15 20:36:28,405 - INFO - logger - Export queue processor worker started
+2025-03-15 20:36:28,405 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:36:28,406 - INFO - logger - Starting maintenance worker
+2025-03-15 20:36:28,406 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:43:05,775 - INFO - logger - Application starting
+2025-03-15 20:43:05,818 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:43:05,819 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:43:05,819 - INFO - logger - Initializing export queue
+2025-03-15 20:43:05,819 - INFO - logger - Starting export queue processor
+2025-03-15 20:43:05,820 - INFO - logger - Export queue processor worker started
+2025-03-15 20:43:05,820 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:43:05,821 - INFO - logger - Starting maintenance worker
+2025-03-15 20:43:05,821 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 20:43:06,240 - INFO - logger - Application starting
+2025-03-15 20:43:06,287 - INFO - logger - Cleaning up expired sessions
+2025-03-15 20:43:06,288 - INFO - logger - OpenShot library integration is active
+2025-03-15 20:43:06,289 - INFO - logger - Initializing export queue
+2025-03-15 20:43:06,289 - INFO - logger - Starting export queue processor
+2025-03-15 20:43:06,290 - INFO - logger - Export queue processor worker started
+2025-03-15 20:43:06,290 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 20:43:06,290 - INFO - logger - Starting maintenance worker
+2025-03-15 20:43:06,291 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 21:29:06,716 - INFO - logger - Application starting
+2025-03-15 21:31:29,467 - INFO - logger - Application starting
+2025-03-15 21:31:29,517 - INFO - logger - Cleaning up expired sessions
+2025-03-15 21:31:29,518 - INFO - logger - OpenShot library integration is active
+2025-03-15 21:31:29,518 - INFO - logger - Initializing export queue
+2025-03-15 21:31:29,518 - INFO - logger - Starting export queue processor
+2025-03-15 21:31:29,519 - INFO - logger - Export queue processor worker started
+2025-03-15 21:31:29,519 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 21:31:29,520 - INFO - logger - Starting maintenance worker
+2025-03-15 21:31:29,520 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 21:31:30,065 - INFO - logger - Application starting
+2025-03-15 21:31:30,115 - INFO - logger - Cleaning up expired sessions
+2025-03-15 21:31:30,116 - INFO - logger - OpenShot library integration is active
+2025-03-15 21:31:30,116 - INFO - logger - Initializing export queue
+2025-03-15 21:31:30,117 - INFO - logger - Starting export queue processor
+2025-03-15 21:31:30,117 - INFO - logger - Export queue processor worker started
+2025-03-15 21:31:30,117 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 21:31:30,118 - INFO - logger - Starting maintenance worker
+2025-03-15 21:31:30,118 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 21:46:28,781 - INFO - logger - Application starting
+2025-03-15 21:46:28,829 - INFO - logger - Cleaning up expired sessions
+2025-03-15 21:46:28,830 - INFO - logger - OpenShot library integration is active
+2025-03-15 21:46:28,830 - INFO - logger - Initializing export queue
+2025-03-15 21:46:28,831 - INFO - logger - Starting export queue processor
+2025-03-15 21:46:28,831 - INFO - logger - Export queue processor worker started
+2025-03-15 21:46:28,831 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 21:46:28,832 - INFO - logger - Starting maintenance worker
+2025-03-15 21:46:28,832 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 21:46:29,267 - INFO - logger - Application starting
+2025-03-15 21:46:29,316 - INFO - logger - Cleaning up expired sessions
+2025-03-15 21:46:29,317 - INFO - logger - OpenShot library integration is active
+2025-03-15 21:46:29,317 - INFO - logger - Initializing export queue
+2025-03-15 21:46:29,317 - INFO - logger - Starting export queue processor
+2025-03-15 21:46:29,318 - INFO - logger - Export queue processor worker started
+2025-03-15 21:46:29,318 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 21:46:29,319 - INFO - logger - Starting maintenance worker
+2025-03-15 21:46:29,319 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 21:47:04,312 - INFO - logger - Admin accessed landing page editor
+2025-03-15 21:48:36,972 - INFO - logger - Application starting
+2025-03-15 21:48:37,021 - INFO - logger - Cleaning up expired sessions
+2025-03-15 21:48:37,022 - INFO - logger - OpenShot library integration is active
+2025-03-15 21:48:37,022 - INFO - logger - Initializing export queue
+2025-03-15 21:48:37,023 - INFO - logger - Starting export queue processor
+2025-03-15 21:48:37,023 - INFO - logger - Export queue processor worker started
+2025-03-15 21:48:37,024 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 21:48:37,024 - INFO - logger - Starting maintenance worker
+2025-03-15 21:48:37,025 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 21:48:37,506 - INFO - logger - Application starting
+2025-03-15 21:48:37,559 - INFO - logger - Cleaning up expired sessions
+2025-03-15 21:48:37,560 - INFO - logger - OpenShot library integration is active
+2025-03-15 21:48:37,561 - INFO - logger - Initializing export queue
+2025-03-15 21:48:37,561 - INFO - logger - Starting export queue processor
+2025-03-15 21:48:37,562 - INFO - logger - Export queue processor worker started
+2025-03-15 21:48:37,562 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 21:48:37,562 - INFO - logger - Starting maintenance worker
+2025-03-15 21:48:37,563 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 21:49:26,537 - INFO - logger - Admin accessed landing page editor
+2025-03-15 21:53:22,580 - INFO - logger - Application starting
+2025-03-15 21:53:22,630 - INFO - logger - Cleaning up expired sessions
+2025-03-15 21:53:22,631 - INFO - logger - OpenShot library integration is active
+2025-03-15 21:53:22,632 - INFO - logger - Initializing export queue
+2025-03-15 21:53:22,632 - INFO - logger - Starting export queue processor
+2025-03-15 21:53:22,633 - INFO - logger - Export queue processor worker started
+2025-03-15 21:53:22,633 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 21:53:22,633 - INFO - logger - Starting maintenance worker
+2025-03-15 21:53:22,634 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 21:53:23,065 - INFO - logger - Application starting
+2025-03-15 21:53:23,114 - INFO - logger - Cleaning up expired sessions
+2025-03-15 21:53:23,115 - INFO - logger - OpenShot library integration is active
+2025-03-15 21:53:23,115 - INFO - logger - Initializing export queue
+2025-03-15 21:53:23,115 - INFO - logger - Starting export queue processor
+2025-03-15 21:53:23,116 - INFO - logger - Export queue processor worker started
+2025-03-15 21:53:23,116 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 21:53:23,117 - INFO - logger - Starting maintenance worker
+2025-03-15 21:53:23,117 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 21:53:57,956 - INFO - logger - Admin accessed landing page editor
+2025-03-15 21:57:25,176 - INFO - logger - Application starting
+2025-03-15 21:57:25,225 - INFO - logger - Cleaning up expired sessions
+2025-03-15 21:57:25,226 - INFO - logger - OpenShot library integration is active
+2025-03-15 21:57:25,226 - INFO - logger - Initializing export queue
+2025-03-15 21:57:25,226 - INFO - logger - Starting export queue processor
+2025-03-15 21:57:25,227 - INFO - logger - Export queue processor worker started
+2025-03-15 21:57:25,227 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 21:57:25,228 - INFO - logger - Starting maintenance worker
+2025-03-15 21:57:25,228 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 21:57:25,659 - INFO - logger - Application starting
+2025-03-15 21:57:25,709 - INFO - logger - Cleaning up expired sessions
+2025-03-15 21:57:25,709 - INFO - logger - OpenShot library integration is active
+2025-03-15 21:57:25,710 - INFO - logger - Initializing export queue
+2025-03-15 21:57:25,710 - INFO - logger - Starting export queue processor
+2025-03-15 21:57:25,711 - INFO - logger - Export queue processor worker started
+2025-03-15 21:57:25,711 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 21:57:25,712 - INFO - logger - Starting maintenance worker
+2025-03-15 21:57:25,712 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 21:58:07,718 - INFO - logger - Admin accessed landing page editor
+2025-03-15 21:58:21,990 - INFO - logger - Admin accessed landing page editor
+2025-03-15 21:59:19,190 - INFO - logger - Admin accessed landing page editor
+2025-03-15 22:00:37,719 - INFO - logger - Application starting
+2025-03-15 22:00:37,768 - INFO - logger - Cleaning up expired sessions
+2025-03-15 22:00:37,769 - INFO - logger - OpenShot library integration is active
+2025-03-15 22:00:37,769 - INFO - logger - Initializing export queue
+2025-03-15 22:00:37,769 - INFO - logger - Starting export queue processor
+2025-03-15 22:00:37,770 - INFO - logger - Export queue processor worker started
+2025-03-15 22:00:37,770 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 22:00:37,771 - INFO - logger - Starting maintenance worker
+2025-03-15 22:00:37,771 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 22:00:38,206 - INFO - logger - Application starting
+2025-03-15 22:00:38,255 - INFO - logger - Cleaning up expired sessions
+2025-03-15 22:00:38,255 - INFO - logger - OpenShot library integration is active
+2025-03-15 22:00:38,256 - INFO - logger - Initializing export queue
+2025-03-15 22:00:38,256 - INFO - logger - Starting export queue processor
+2025-03-15 22:00:38,257 - INFO - logger - Export queue processor worker started
+2025-03-15 22:00:38,257 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 22:00:38,257 - INFO - logger - Starting maintenance worker
+2025-03-15 22:00:38,258 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 22:01:36,186 - INFO - logger - Admin accessed landing page editor
+2025-03-15 22:01:53,311 - INFO - logger - Admin accessed landing page editor
+2025-03-15 22:02:02,908 - INFO - logger - Admin accessed landing page editor
+2025-03-15 22:02:36,143 - INFO - logger - Admin accessed landing page editor
+2025-03-15 22:05:24,008 - INFO - logger - Application starting
+2025-03-15 22:05:24,058 - INFO - logger - Cleaning up expired sessions
+2025-03-15 22:05:24,059 - INFO - logger - OpenShot library integration is active
+2025-03-15 22:05:24,059 - INFO - logger - Initializing export queue
+2025-03-15 22:05:24,060 - INFO - logger - Starting export queue processor
+2025-03-15 22:05:24,060 - INFO - logger - Export queue processor worker started
+2025-03-15 22:05:24,061 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 22:05:24,061 - INFO - logger - Starting maintenance worker
+2025-03-15 22:05:24,062 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 22:05:24,499 - INFO - logger - Application starting
+2025-03-15 22:05:24,547 - INFO - logger - Cleaning up expired sessions
+2025-03-15 22:05:24,548 - INFO - logger - OpenShot library integration is active
+2025-03-15 22:05:24,548 - INFO - logger - Initializing export queue
+2025-03-15 22:05:24,548 - INFO - logger - Starting export queue processor
+2025-03-15 22:05:24,549 - INFO - logger - Export queue processor worker started
+2025-03-15 22:05:24,549 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 22:05:24,550 - INFO - logger - Starting maintenance worker
+2025-03-15 22:05:24,550 - INFO - logger - Starting FLUX58 AI MEDIA LABS server...
+2025-03-15 22:05:43,797 - INFO - logger - Admin accessed landing page editor
+2025-03-15 22:06:06,449 - INFO - logger - Admin accessed landing page editor
+2025-03-15 22:06:35,509 - INFO - logger - Admin accessed landing page editor
+2025-03-15 22:06:39,401 - INFO - logger - Admin accessed landing page editor
+2025-03-15 22:11:15,913 - INFO - logger - Application starting
+2025-03-15 22:11:15,957 - INFO - logger - Cleaning up expired sessions
+2025-03-15 22:11:15,958 - INFO - logger - OpenShot library integration is active
+2025-03-15 22:11:15,958 - INFO - logger - Initializing export queue
+2025-03-15 22:11:15,959 - INFO - logger - Starting export queue processor
+2025-03-15 22:11:15,959 - INFO - logger - Export queue processor worker started
+2025-03-15 22:11:15,959 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 22:22:56,148 - INFO - logger - Application starting
+2025-03-15 22:22:56,192 - INFO - logger - Cleaning up expired sessions
+2025-03-15 22:22:56,193 - INFO - logger - OpenShot library integration is active
+2025-03-15 22:22:56,194 - INFO - logger - Initializing export queue
+2025-03-15 22:22:56,194 - INFO - logger - Starting export queue processor
+2025-03-15 22:22:56,195 - INFO - logger - Export queue processor worker started
+2025-03-15 22:22:56,195 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 22:34:08,003 - INFO - logger - Application starting
+2025-03-15 22:34:08,051 - INFO - logger - Cleaning up expired sessions
+2025-03-15 22:34:08,052 - INFO - logger - OpenShot library integration is active
+2025-03-15 22:34:08,052 - INFO - logger - Initializing export queue
+2025-03-15 22:34:08,052 - INFO - logger - Starting export queue processor
+2025-03-15 22:34:08,053 - INFO - logger - Export queue processor worker started
+2025-03-15 22:34:08,053 - INFO - logger - Export queue initialized with max 2 concurrent exports
+2025-03-15 23:32:35,706 - INFO - logger - Application starting
+2025-03-15 23:32:35,757 - INFO - logger - Application starting
+2025-03-15 23:32:35,782 - INFO - logger - Application starting
+2025-03-15 23:32:35,849 - INFO - logger - Application starting
+2025-03-15 23:36:54,450 - INFO - logger - Application starting
+2025-03-15 23:36:54,493 - INFO - logger - Application starting
+2025-03-15 23:36:54,541 - INFO - logger - Application starting
+2025-03-15 23:36:54,606 - INFO - logger - Application starting
+2025-03-15 23:39:42,078 - INFO - logger - Application starting
+2025-03-15 23:39:42,158 - INFO - logger - Application starting
+2025-03-15 23:39:42,159 - INFO - logger - Application starting
+2025-03-15 23:39:42,166 - INFO - logger - Application starting
+2025-03-15 23:41:29,747 - INFO - logger - Application starting
+2025-03-15 23:41:29,827 - INFO - logger - Application starting
+2025-03-15 23:41:29,915 - INFO - logger - Application starting
+2025-03-15 23:41:30,011 - INFO - logger - Application starting
+2025-03-15 23:42:24,844 - INFO - logger - Application starting
+2025-03-15 23:42:24,905 - INFO - logger - Application starting
+2025-03-15 23:42:24,994 - INFO - logger - Application starting
+2025-03-15 23:42:25,088 - INFO - logger - Application starting
+2025-03-15 23:43:04,340 - INFO - logger - Application starting
+2025-03-15 23:43:04,399 - INFO - logger - Application starting
+2025-03-15 23:43:04,450 - INFO - logger - Application starting
+2025-03-15 23:43:04,542 - INFO - logger - Application starting
+2025-03-15 23:47:12,601 - INFO - logger - Application starting
+2025-03-15 23:47:12,613 - INFO - logger - Initialized default landing page settings
+2025-03-15 23:47:13,066 - INFO - logger - Application starting
+2025-03-15 23:49:38,770 - INFO - logger - Application starting
+2025-03-15 23:49:38,831 - INFO - logger - Application starting
+2025-03-15 23:49:38,896 - INFO - logger - Application starting
+2025-03-15 23:49:38,945 - INFO - logger - Application starting
+2025-03-15 23:52:42,496 - INFO - logger - Application starting
+2025-03-15 23:52:42,592 - INFO - logger - Application starting
+2025-03-15 23:52:42,688 - INFO - logger - Application starting
+2025-03-15 23:52:42,735 - INFO - logger - Application starting
+2025-03-15 23:53:28,206 - INFO - logger - Application starting
+2025-03-15 23:53:28,241 - INFO - logger - Application starting
+2025-03-15 23:53:28,242 - INFO - logger - Application starting
+2025-03-15 23:53:28,289 - INFO - logger - Application starting
+2025-03-16 00:00:27,524 - INFO - logger - Application starting
+2025-03-16 00:00:27,985 - INFO - logger - Application starting
+2025-03-16 00:01:08,171 - INFO - logger - Admin accessed landing page editor
+2025-03-16 00:01:35,247 - INFO - logger - Admin accessed landing page editor
+2025-03-16 00:08:06,721 - INFO - logger - Application starting
+2025-03-16 00:08:06,774 - INFO - logger - Application starting
+2025-03-16 00:08:06,832 - INFO - logger - Application starting
+2025-03-16 00:08:06,919 - INFO - logger - Application starting
+2025-03-16 00:13:26,114 - INFO - logger - Application starting
+2025-03-16 00:13:26,159 - INFO - logger - Application starting
+2025-03-16 00:13:26,240 - INFO - logger - Application starting
+2025-03-16 00:13:26,337 - INFO - logger - Application starting
+2025-03-16 00:22:14,471 - INFO - logger - Application starting
+2025-03-16 00:22:14,486 - INFO - logger - Application starting
+2025-03-16 00:22:14,514 - INFO - logger - Application starting
+2025-03-16 00:22:14,531 - INFO - logger - Application starting
+2025-03-16 00:25:57,482 - INFO - logger - Admin accessed landing page editor
+2025-03-16 00:26:12,957 - INFO - logger - Admin accessed landing page editor
+2025-03-16 00:26:28,878 - INFO - logger - Admin accessed landing page editor
+2025-03-16 00:26:40,084 - INFO - logger - Admin accessed landing page editor
+2025-03-16 00:26:48,611 - INFO - logger - Admin accessed landing page editor
+2025-03-16 00:27:02,026 - INFO - logger - Admin accessed landing page editor
+2025-03-16 00:27:53,709 - INFO - logger - Admin accessed landing page editor
+2025-03-16 00:28:00,680 - INFO - logger - Admin accessed landing page editor
+2025-03-16 00:30:46,217 - INFO - logger - Application starting
+2025-03-16 00:41:54,850 - INFO - logger - Application starting
+2025-03-16 00:41:54,922 - INFO - logger - Application starting
+2025-03-16 00:41:54,929 - INFO - logger - Application starting
+2025-03-16 00:41:54,947 - INFO - logger - Application starting
+2025-03-16 00:45:14,024 - INFO - logger - Application starting
+2025-03-16 00:45:14,074 - INFO - logger - Application starting
+2025-03-16 00:45:14,149 - INFO - logger - Application starting
+2025-03-16 00:45:14,237 - INFO - logger - Application starting
+2025-03-16 00:45:14,877 - INFO - logger - Application starting
+2025-03-16 00:45:14,978 - INFO - logger - Application starting
+2025-03-16 00:45:15,056 - INFO - logger - Application starting
+2025-03-16 00:45:15,105 - INFO - logger - Application starting
+2025-03-16 00:45:15,878 - INFO - logger - Application starting
+2025-03-16 00:45:15,894 - INFO - logger - Application starting
+2025-03-16 00:45:15,994 - INFO - logger - Application starting
+2025-03-16 00:45:16,065 - INFO - logger - Application starting
+2025-03-16 00:45:16,873 - INFO - logger - Application starting
+2025-03-16 00:45:16,895 - INFO - logger - Application starting
+2025-03-16 00:45:16,916 - INFO - logger - Application starting
+2025-03-16 00:45:17,011 - INFO - logger - Application starting
+2025-03-16 00:45:17,872 - INFO - logger - Application starting
+2025-03-16 00:45:17,903 - INFO - logger - Application starting
+2025-03-16 00:45:17,993 - INFO - logger - Application starting
+2025-03-16 00:45:18,070 - INFO - logger - Application starting
+2025-03-16 00:45:27,053 - INFO - logger - Application starting
+2025-03-16 00:45:27,530 - INFO - logger - Application starting
+2025-03-16 00:46:00,844 - INFO - logger - Admin accessed landing page editor
+2025-03-16 00:46:31,684 - INFO - logger - Admin accessed landing page editor
+2025-03-16 00:49:04,694 - INFO - logger - Application starting
+2025-03-16 00:49:05,151 - INFO - logger - Application starting
+2025-03-16 00:49:12,330 - INFO - logger - Application starting
+2025-03-16 00:49:12,399 - INFO - logger - Application starting
+2025-03-16 00:49:12,459 - INFO - logger - Application starting
+2025-03-16 00:49:12,525 - INFO - logger - Application starting
+2025-03-16 00:50:48,551 - INFO - logger - Application starting
+2025-03-16 00:50:48,587 - INFO - logger - Application starting
+2025-03-16 00:50:48,624 - INFO - logger - Application starting
+2025-03-16 00:50:48,628 - INFO - logger - Application starting
+2025-03-16 00:53:29,737 - INFO - logger - Application starting
+2025-03-16 00:53:29,782 - INFO - logger - Application starting
+2025-03-16 00:53:29,843 - INFO - logger - Application starting
+2025-03-16 00:53:29,893 - INFO - logger - Application starting
+2025-03-16 01:00:34,693 - INFO - logger - Application starting
+2025-03-16 01:00:34,757 - INFO - logger - Application starting
+2025-03-16 01:00:34,796 - INFO - logger - Application starting
+2025-03-16 01:00:34,828 - INFO - logger - Application starting
+2025-03-16 01:00:35,624 - INFO - logger - Application starting
+2025-03-16 01:00:35,706 - INFO - logger - Application starting
+2025-03-16 01:00:35,750 - INFO - logger - Application starting
+2025-03-16 01:00:35,836 - INFO - logger - Application starting
+2025-03-16 01:00:36,622 - INFO - logger - Application starting
+2025-03-16 01:00:36,637 - INFO - logger - Application starting
+2025-03-16 01:00:36,688 - INFO - logger - Application starting
+2025-03-16 01:00:36,709 - INFO - logger - Application starting
+2025-03-16 01:00:37,377 - INFO - logger - Application starting
+2025-03-16 01:00:37,422 - INFO - logger - Application starting
+2025-03-16 01:00:37,502 - INFO - logger - Application starting
+2025-03-16 01:00:37,514 - INFO - logger - Application starting
+2025-03-16 01:00:38,132 - INFO - logger - Application starting
+2025-03-16 01:00:38,222 - INFO - logger - Application starting
+2025-03-16 01:00:38,237 - INFO - logger - Application starting
+2025-03-16 01:00:38,276 - INFO - logger - Application starting
+2025-03-16 01:15:03,382 - INFO - logger - Application starting
+2025-03-16 01:17:58,582 - INFO - logger - Application starting
+2025-03-16 01:19:34,726 - INFO - logger - Application starting
+2025-03-16 01:19:35,142 - INFO - logger - Application starting
+2025-03-16 01:23:34,285 - INFO - logger - Application starting
+2025-03-16 01:23:34,702 - INFO - logger - Application starting
+2025-03-16 01:24:25,527 - INFO - logger - Application starting
+2025-03-16 01:24:25,953 - INFO - logger - Application starting
+2025-03-16 01:26:49,464 - INFO - logger - Application starting
+2025-03-16 01:26:49,877 - INFO - logger - Application starting
+2025-03-16 01:29:32,230 - INFO - logger - Application starting
+2025-03-16 01:29:32,646 - INFO - logger - Application starting
+2025-03-16 01:29:57,968 - INFO - logger - Application starting
+2025-03-16 01:29:58,389 - INFO - logger - Application starting
+2025-03-16 01:34:56,989 - INFO - logger - Application starting
+2025-03-16 01:34:57,030 - INFO - logger - Application starting
+2025-03-16 01:34:57,101 - INFO - logger - Application starting
+2025-03-16 01:34:57,124 - INFO - logger - Application starting
+2025-03-16 01:38:05,970 - INFO - logger - Application starting
+2025-03-16 01:38:05,986 - INFO - logger - Application starting
+2025-03-16 01:38:06,045 - INFO - logger - Application starting
+2025-03-16 01:38:06,057 - INFO - logger - Application starting
+2025-03-16 01:39:03,226 - INFO - logger - Application starting
+2025-03-16 01:39:11,555 - INFO - logger - Application starting
+2025-03-16 01:39:11,617 - INFO - logger - Application starting
+2025-03-16 01:39:11,684 - INFO - logger - Application starting
+2025-03-16 01:39:11,739 - INFO - logger - Application starting
+2025-03-16 01:39:33,897 - INFO - logger - Application starting
+2025-03-16 01:39:33,980 - INFO - logger - Application starting
+2025-03-16 01:39:34,062 - INFO - logger - Application starting
+2025-03-16 01:39:34,091 - INFO - logger - Application starting
+2025-03-16 01:44:08,990 - INFO - logger - Application starting
+2025-03-16 01:44:09,062 - INFO - logger - Application starting
+2025-03-16 01:44:09,142 - INFO - logger - Application starting
+2025-03-16 01:44:09,152 - INFO - logger - Application starting
+2025-03-16 01:46:38,367 - INFO - logger - Application starting
+2025-03-16 01:47:25,515 - INFO - logger - Application starting
+2025-03-16 01:47:25,567 - INFO - logger - Application starting
+2025-03-16 01:47:41,052 - INFO - logger - Application starting
+2025-03-16 01:47:41,145 - INFO - logger - Application starting
+2025-03-16 01:47:41,202 - INFO - logger - Application starting
+2025-03-16 01:47:41,273 - INFO - logger - Application starting
+2025-03-16 01:48:47,444 - INFO - logger - Application starting
+2025-03-16 01:49:25,775 - INFO - logger - Application starting
+2025-03-16 01:49:25,837 - INFO - logger - Application starting
+2025-03-16 01:49:25,925 - INFO - logger - Application starting
+2025-03-16 01:49:25,954 - INFO - logger - Application starting
+2025-03-16 01:50:44,181 - INFO - logger - Application starting
+2025-03-16 01:50:44,226 - INFO - logger - Application starting
+2025-03-16 01:50:44,329 - INFO - logger - Application starting
+2025-03-16 01:50:44,358 - INFO - logger - Application starting
+2025-03-16 01:51:55,576 - INFO - logger - Application starting
+2025-03-16 01:51:55,593 - INFO - logger - Application starting
+2025-03-16 01:51:55,618 - INFO - logger - Application starting
+2025-03-16 01:51:55,694 - INFO - logger - Application starting
+2025-03-16 01:52:16,900 - INFO - logger - Application starting
+2025-03-16 01:52:16,980 - INFO - logger - Application starting
+2025-03-16 01:52:16,983 - INFO - logger - Application starting
+2025-03-16 01:52:16,991 - INFO - logger - Application starting
+2025-03-16 01:52:50,817 - INFO - logger - Application starting
+2025-03-16 01:52:50,860 - INFO - logger - Application starting
+2025-03-16 01:52:50,914 - INFO - logger - Application starting
+2025-03-16 01:52:51,006 - INFO - logger - Application starting
+2025-03-16 01:54:17,236 - INFO - logger - Application starting
+2025-03-16 01:55:09,532 - INFO - logger - Application starting
+2025-03-16 01:55:09,550 - INFO - logger - Application starting
+2025-03-16 01:55:09,647 - INFO - logger - Application starting
+2025-03-16 01:55:09,744 - INFO - logger - Application starting
+2025-03-16 01:57:46,444 - INFO - logger - Application starting
+2025-03-16 01:57:46,517 - INFO - logger - Application starting
+2025-03-16 01:57:46,618 - INFO - logger - Application starting
+2025-03-16 01:57:46,715 - INFO - logger - Application starting
+2025-03-16 02:02:49,965 - INFO - logger - Application starting
+2025-03-16 02:02:50,040 - INFO - logger - Application starting
+2025-03-16 02:02:50,073 - INFO - logger - Application starting
+2025-03-16 02:02:50,171 - INFO - logger - Application starting
+2025-03-16 02:04:35,795 - INFO - logger - Application starting
+2025-03-16 02:04:35,826 - INFO - logger - Application starting
+2025-03-16 02:04:35,835 - INFO - logger - Application starting
+2025-03-16 02:04:35,855 - INFO - logger - Application starting
+2025-03-16 02:07:14,151 - INFO - logger - Application starting
+2025-03-16 02:08:35,887 - INFO - logger - Application starting
+2025-03-16 02:08:35,899 - INFO - logger - Application starting
+2025-03-16 02:08:35,981 - INFO - logger - Application starting
+2025-03-16 02:08:35,987 - INFO - logger - Application starting
+2025-03-16 02:10:50,608 - INFO - logger - Application starting
+2025-03-16 02:10:50,643 - INFO - logger - Application starting
+2025-03-16 02:10:50,699 - INFO - logger - Application starting
+2025-03-16 02:10:50,787 - INFO - logger - Application starting
+2025-03-16 02:16:17,946 - INFO - logger - Application starting
+2025-03-16 02:16:18,017 - INFO - logger - Application starting
+2025-03-16 02:16:18,078 - INFO - logger - Application starting
+2025-03-16 02:16:18,135 - INFO - logger - Application starting
+2025-03-16 02:17:19,709 - INFO - logger - Application starting
+2025-03-16 02:17:19,754 - INFO - logger - Application starting
+2025-03-16 02:17:19,783 - INFO - logger - Application starting
+2025-03-16 02:17:19,806 - INFO - logger - Application starting
+2025-03-16 02:39:19,038 - INFO - logger - Application starting
+2025-03-16 02:42:41,738 - INFO - logger - Application starting
+2025-03-16 02:42:41,818 - INFO - logger - Application starting
+2025-03-16 02:42:41,851 - INFO - logger - Application starting
+2025-03-16 02:42:41,890 - INFO - logger - Application starting
+2025-03-16 02:46:17,499 - INFO - logger - Application starting
+2025-03-16 02:46:17,530 - INFO - logger - Application starting
+2025-03-16 02:46:17,623 - INFO - logger - Application starting
+2025-03-16 02:46:17,708 - INFO - logger - Application starting
+2025-03-16 02:50:49,077 - INFO - logger - Application starting
+2025-03-16 02:52:55,343 - INFO - logger - Application starting
+2025-03-16 02:53:25,424 - INFO - logger - Application starting
+2025-03-16 02:53:25,467 - INFO - logger - Application starting
+2025-03-16 02:53:25,520 - INFO - logger - Application starting
+2025-03-16 02:53:25,571 - INFO - logger - Application starting
+2025-03-16 02:57:08,334 - INFO - logger - Application starting
+2025-03-16 02:57:08,366 - INFO - logger - Application starting
+2025-03-16 02:57:08,366 - INFO - logger - Application starting
+2025-03-16 02:57:08,459 - INFO - logger - Application starting
+2025-03-16 02:59:33,846 - INFO - logger - Application starting
+2025-03-16 02:59:33,861 - INFO - logger - Application starting
+2025-03-16 02:59:33,879 - INFO - logger - Application starting
+2025-03-16 02:59:33,923 - INFO - logger - Application starting
+2025-03-16 03:00:03,936 - INFO - logger - Application starting
+2025-03-16 03:00:03,998 - INFO - logger - Application starting
+2025-03-16 03:00:04,088 - INFO - logger - Application starting
+2025-03-16 03:00:04,124 - INFO - logger - Application starting
+2025-03-16 03:02:32,985 - INFO - logger - Application starting
+2025-03-16 03:02:32,985 - INFO - logger - Application starting
+2025-03-16 03:02:33,006 - INFO - logger - Application starting
+2025-03-16 03:02:33,021 - INFO - logger - Application starting
+2025-03-16 03:07:46,140 - INFO - logger - Application starting
+2025-03-16 03:07:46,141 - ERROR - logger - Failed to log to database: 'DemoDatabase' object has no attribute 'add_log'
+2025-03-16 03:07:47,187 - INFO - logger - Application starting
+2025-03-16 03:07:47,187 - ERROR - logger - Failed to log to database: 'DemoDatabase' object has no attribute 'add_log'
+2025-03-16 03:10:16,823 - INFO - logger - Application starting
+2025-03-16 03:10:16,823 - ERROR - logger - Failed to log to database: add_log() takes from 3 to 4 positional arguments but 6 were given
+2025-03-16 03:10:17,875 - INFO - logger - Application starting
+2025-03-16 03:10:17,875 - ERROR - logger - Failed to log to database: add_log() takes from 3 to 4 positional arguments but 6 were given
+2025-03-16 03:10:32,620 - INFO - logger - Application starting
+2025-03-16 03:10:33,672 - INFO - logger - Application starting
+2025-03-16 03:11:27,707 - INFO - logger - Application starting
+2025-03-16 03:13:02,707 - INFO - logger - Application starting
+2025-03-16 03:13:03,758 - INFO - logger - Application starting
+2025-03-16 03:19:22,430 - INFO - logger - Application starting
+2025-03-16 03:19:22,431 - INFO - logger - Application starting
+2025-03-16 03:19:22,464 - INFO - logger - Application starting
+2025-03-16 03:19:22,540 - INFO - logger - Application starting
+2025-03-16 03:20:44,064 - INFO - logger - Application starting
+2025-03-16 03:20:44,112 - INFO - logger - Application starting
+2025-03-16 03:20:44,146 - INFO - logger - Application starting
+2025-03-16 03:20:44,221 - INFO - logger - Application starting
+2025-03-16 03:21:21,624 - ERROR - logger - Error loading editor: Object of type datetime is not JSON serializable
+Traceback (most recent call last):
+  File "/home/juanquy/OpenShot/test_app/app.py", line 868, in editor_page
+    project = project_manager.get_project(project_id)
+  File "/home/juanquy/OpenShot/test_app/projects.py", line 66, in get_project
+    self._save_project_file(project_id, project)
+  File "/home/juanquy/OpenShot/test_app/projects.py", line 248, in _save_project_file
+    json.dump(openshot_project, f, indent=2)
+  File "/usr/lib/python3.8/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "/usr/lib/python3.8/json/encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.8/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/usr/lib/python3.8/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type datetime is not JSON serializable
+
+2025-03-16 03:26:06,261 - ERROR - logger - Error loading editor: Object of type datetime is not JSON serializable
+Traceback (most recent call last):
+  File "/home/juanquy/OpenShot/test_app/app.py", line 868, in editor_page
+    project = project_manager.get_project(project_id)
+  File "/home/juanquy/OpenShot/test_app/projects.py", line 66, in get_project
+    if project:
+  File "/home/juanquy/OpenShot/test_app/projects.py", line 248, in _save_project_file
+  File "/usr/lib/python3.8/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "/usr/lib/python3.8/json/encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.8/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/usr/lib/python3.8/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type datetime is not JSON serializable
+
+2025-03-16 03:26:52,082 - INFO - logger - Application starting
+2025-03-16 03:27:03,487 - INFO - logger - Application starting
+2025-03-16 03:27:03,545 - INFO - logger - Application starting
+2025-03-16 03:27:03,626 - INFO - logger - Application starting
+2025-03-16 03:27:03,689 - INFO - logger - Application starting
+2025-03-16 03:27:22,053 - INFO - logger - Application starting
+2025-03-16 03:27:22,132 - INFO - logger - Application starting
+2025-03-16 03:27:22,151 - INFO - logger - Application starting
+2025-03-16 03:27:22,196 - INFO - logger - Application starting
+2025-03-16 03:27:34,273 - INFO - logger - Application starting
+2025-03-16 03:27:34,324 - INFO - logger - Application starting
+2025-03-16 03:27:34,326 - INFO - logger - Application starting
+2025-03-16 03:27:34,361 - INFO - logger - Application starting
+2025-03-16 03:28:56,199 - INFO - logger - Final project structure before template rendering: {"id": "51274d3d-8755-44ac-94c3-8c102b6e1715", "name": "Social Media Video", "description": "Video optimized for social media platforms", "user_id": "9098d630-f606-40f9-b2dd-51167540ed71", "created_at": "2025-03-16T00:50:18.842912", "updated_at": "2025-03-16T00:50:18.842912", "timeline": {"duration": 60.0, "width": 1920, "height": 1080, "fps": {"num": 30, "den": 1}, "sample_rate": 48000, "channels": 2, "channel_layout": 3, "tracks": []}, "assets": []}
+2025-03-16 03:28:56,248 - ERROR - logger - Error loading editor: list object has no element 0
+Traceback (most recent call last):
+  File "/home/juanquy/OpenShot/test_app/app.py", line 938, in editor_page
+    return render_template(
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/juanquy/OpenShot/test_app/templates/editor.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "/home/juanquy/OpenShot/test_app/templates/layout.html", line 96, in top-level template code
+    {% block content %}{% endblock %}
+  File "/home/juanquy/OpenShot/test_app/templates/editor.html", line 699, in block 'content'
+    {% for clip in project.timeline.tracks[0].clips if clip.asset_type == 'video' %}
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: list object has no element 0
+
+2025-03-16 03:31:14,496 - INFO - logger - Application starting
+2025-03-16 03:31:14,546 - INFO - logger - Application starting
+2025-03-16 03:31:14,584 - INFO - logger - Application starting
+2025-03-16 03:31:14,604 - INFO - logger - Application starting
+2025-03-16 03:34:27,521 - INFO - logger - Creating emergency project structure for project_id 51274d3d-8755-44ac-94c3-8c102b6e1715
+2025-03-16 03:34:27,524 - INFO - logger - Final project structure before template rendering: {"id": "51274d3d-8755-44ac-94c3-8c102b6e1715", "name": "Emergency Project", "description": "This project was created as an emergency fix", "user_id": "9098d630-f606-40f9-b2dd-51167540ed71", "created_at": "2025-03-16T03:34:27.522375", "updated_at": "2025-03-16T03:34:27.522383", "timeline": {"tracks": [{"id": "1", "name": "Video Track", "type": "video", "clips": []}, {"id": "2", "name": "Audio Track", "type": "audio", "clips": []}], "duration": 60.0, "scale": 1.0}, "assets": []}
+2025-03-16 03:36:58,865 - INFO - logger - Application starting
+2025-03-16 03:36:58,918 - INFO - logger - Application starting
+2025-03-16 03:36:59,005 - INFO - logger - Application starting
+2025-03-16 03:36:59,048 - INFO - logger - Application starting
+2025-03-16 03:37:10,472 - INFO - logger - Application starting
+2025-03-16 03:37:10,547 - INFO - logger - Application starting
+2025-03-16 03:37:10,577 - INFO - logger - Application starting
+2025-03-16 03:37:10,629 - INFO - logger - Application starting
+2025-03-16 03:38:58,657 - INFO - logger - Final project structure before template rendering: {"id": "51274d3d-8755-44ac-94c3-8c102b6e1715", "name": "Social Media Video", "description": "Video optimized for social media platforms", "user_id": "9098d630-f606-40f9-b2dd-51167540ed71", "created_at": "2025-03-16T00:50:18.842912", "updated_at": "2025-03-16T00:50:18.842912", "timeline": {"duration": 60.0, "width": 1920, "height": 1080, "fps": {"num": 30, "den": 1}, "sample_rate": 48000, "channels": 2, "channel_layout": 3, "tracks": []}, "assets": []}
+2025-03-16 03:38:58,672 - ERROR - logger - Error loading editor: Encountered unknown tag 'endblock'.
+Traceback (most recent call last):
+  File "/home/juanquy/OpenShot/test_app/app.py", line 956, in editor_page
+    return render_template(
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/flask/templating.py", line 149, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 771, in compile
+    self.handle_exception(source=source_hint)
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/juanquy/OpenShot/test_app/templates/editor.html", line 402, in template
+    {% endblock %}
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'endblock'.
+
+2025-03-16 03:39:00,842 - INFO - logger - Final project structure before template rendering: {"id": "51274d3d-8755-44ac-94c3-8c102b6e1715", "name": "Social Media Video", "description": "Video optimized for social media platforms", "user_id": "9098d630-f606-40f9-b2dd-51167540ed71", "created_at": "2025-03-16T00:50:18.842912", "updated_at": "2025-03-16T00:50:18.842912", "timeline": {"duration": 60.0, "width": 1920, "height": 1080, "fps": {"num": 30, "den": 1}, "sample_rate": 48000, "channels": 2, "channel_layout": 3, "tracks": []}, "assets": []}
+2025-03-16 03:39:00,854 - ERROR - logger - Error loading editor: Encountered unknown tag 'endblock'.
+Traceback (most recent call last):
+  File "/home/juanquy/OpenShot/test_app/app.py", line 956, in editor_page
+    return render_template(
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/flask/templating.py", line 149, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 771, in compile
+    self.handle_exception(source=source_hint)
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/juanquy/OpenShot/test_app/templates/editor.html", line 402, in template
+    {% endblock %}
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'endblock'.
+
+2025-03-16 03:40:46,883 - INFO - logger - Application starting
+2025-03-16 03:40:46,918 - INFO - logger - Application starting
+2025-03-16 03:40:46,962 - INFO - logger - Application starting
+2025-03-16 03:40:46,988 - INFO - logger - Application starting
+2025-03-16 03:41:43,853 - INFO - logger - Final project structure before template rendering: {"id": "51274d3d-8755-44ac-94c3-8c102b6e1715", "name": "Social Media Video", "description": "Video optimized for social media platforms", "user_id": "9098d630-f606-40f9-b2dd-51167540ed71", "created_at": "2025-03-16T00:50:18.842912", "updated_at": "2025-03-16T00:50:18.842912", "timeline": {"duration": 60.0, "width": 1920, "height": 1080, "fps": {"num": 30, "den": 1}, "sample_rate": 48000, "channels": 2, "channel_layout": 3, "tracks": []}, "assets": []}
+2025-03-16 03:41:43,904 - ERROR - logger - Error loading editor: list object has no element 0
+Traceback (most recent call last):
+  File "/home/juanquy/OpenShot/test_app/app.py", line 956, in editor_page
+    return render_template(
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/juanquy/OpenShot/test_app/templates/editor.html", line 702, in top-level template code
+    {% for clip in project.timeline.tracks[0].clips if clip.asset_type == 'video' %}
+  File "/home/juanquy/openshot_service_venv/lib/python3.8/site-packages/jinja2/environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: list object has no element 0
+
+2025-03-16 03:42:04,627 - INFO - logger - Application starting
+2025-03-16 03:42:04,655 - INFO - logger - Application starting
+2025-03-16 03:42:04,695 - INFO - logger - Application starting
+2025-03-16 03:42:04,784 - INFO - logger - Application starting
+2025-03-16 03:42:45,221 - INFO - logger - Application starting
+2025-03-16 03:42:45,250 - INFO - logger - Application starting
+2025-03-16 03:42:45,294 - INFO - logger - Application starting
+2025-03-16 03:42:45,295 - INFO - logger - Application starting
+2025-03-16 03:45:41,597 - INFO - logger - Application starting
+2025-03-16 03:45:41,668 - INFO - logger - Application starting
+2025-03-16 03:45:41,684 - INFO - logger - Application starting
+2025-03-16 03:45:41,745 - INFO - logger - Application starting
+2025-03-16 03:45:56,701 - INFO - logger - Application starting
+2025-03-16 03:45:56,714 - INFO - logger - Application starting
+2025-03-16 03:45:56,798 - INFO - logger - Application starting
+2025-03-16 03:45:56,822 - INFO - logger - Application starting
+2025-03-16 03:46:50,335 - INFO - logger - Application starting
+2025-03-16 03:46:50,390 - INFO - logger - Application starting
+2025-03-16 03:46:50,448 - INFO - logger - Application starting
+2025-03-16 03:46:50,528 - INFO - logger - Application starting
+2025-03-16 03:55:51,260 - INFO - logger - Application starting
+2025-03-16 03:55:51,345 - INFO - logger - Application starting
+2025-03-16 03:55:51,428 - INFO - logger - Application starting
+2025-03-16 03:55:51,429 - INFO - logger - Application starting
+2025-03-16 03:56:48,979 - INFO - logger - Application starting
+2025-03-16 03:56:49,023 - INFO - logger - Application starting
+2025-03-16 03:56:49,028 - INFO - logger - Application starting
+2025-03-16 03:56:49,102 - INFO - logger - Application starting
+2025-03-16 04:07:26,931 - INFO - logger - Application starting
+2025-03-16 04:07:26,942 - INFO - logger - Application starting
+2025-03-16 04:07:26,949 - INFO - logger - Application starting
+2025-03-16 04:07:27,016 - INFO - logger - Application starting
+2025-03-16 04:17:06,509 - INFO - logger - Loading editor for project_id: 51274d3d-8755-44ac-94c3-8c102b6e1715, user_id: 9098d630-f606-40f9-b2dd-51167540ed71
+2025-03-16 04:17:06,513 - INFO - logger - Final project structure before template rendering: {"id": "51274d3d-8755-44ac-94c3-8c102b6e1715", "name": "Social Media Video", "description": "Video optimized for social media platforms", "user_id": "9098d630-f606-40f9-b2dd-51167540ed71", "created_at": "2025-03-16T00:50:18.842912", "updated_at": "2025-03-16T00:50:18.842912", "timeline": {"duration": 60.0, "width": 1920, "height": 1080, "fps": {"num": 30, "den": 1}, "sample_rate": 48000, "channels": 2, "channel_layout": 3, "tracks": []}, "assets": []}
+2025-03-16 04:27:43,256 - INFO - logger - Application starting
+2025-03-16 04:47:55,244 - INFO - logger - Application starting
+2025-03-16 04:47:55,303 - INFO - logger - Application starting
+2025-03-16 04:47:55,315 - INFO - logger - Application starting
+2025-03-16 04:47:55,350 - INFO - logger - Application starting
+2025-03-16 13:00:04,327 - INFO - logger - Application starting
+2025-03-16 13:00:04,327 - INFO - logger - Application starting
+2025-03-16 13:00:04,328 - INFO - logger - Application starting
+2025-03-16 13:00:04,329 - INFO - logger - Application starting
+2025-03-16 13:40:13,185 - INFO - logger - Application starting
+2025-03-16 13:40:13,186 - INFO - logger - Application starting
+2025-03-16 13:40:13,186 - INFO - logger - Application starting
+2025-03-16 13:40:13,186 - INFO - logger - Application starting
+2025-03-16 13:51:41,048 - INFO - logger - Application starting
+2025-03-16 13:51:41,048 - INFO - logger - Application starting
+2025-03-16 13:51:41,048 - INFO - logger - Application starting
+2025-03-16 13:51:41,049 - INFO - logger - Application starting
+2025-03-16 15:09:52,388 - INFO - logger - Application starting
+2025-03-16 15:09:52,388 - INFO - logger - Application starting
+2025-03-16 15:09:52,388 - INFO - logger - Application starting
+2025-03-16 15:09:52,388 - INFO - logger - Application starting
+2025-03-16 15:58:50,956 - INFO - logger - Application starting
+2025-03-16 15:58:50,956 - INFO - logger - Application starting
+2025-03-16 15:58:50,956 - INFO - logger - Application starting
+2025-03-16 15:58:50,956 - INFO - logger - Application starting
+2025-03-19 00:06:05,784 - INFO - logger - Application starting
+2025-03-19 00:06:06,168 - INFO - logger - Application starting
+2025-03-19 00:08:46,599 - INFO - logger - Application starting
+2025-03-19 00:08:46,973 - INFO - logger - Application starting
+2025-03-19 00:10:29,672 - INFO - logger - Application starting
+2025-03-19 00:10:29,685 - INFO - logger - Creating admin account
+2025-03-19 00:10:29,786 - INFO - logger - Admin account created successfully
+2025-03-19 00:10:30,174 - INFO - logger - Application starting
+2025-03-19 00:18:06,674 - INFO - logger - Application starting
+2025-03-19 00:18:07,071 - INFO - logger - Application starting
+2025-03-19 00:21:40,942 - INFO - logger - Application starting
+2025-03-19 00:21:41,339 - INFO - logger - Application starting
+2025-03-19 00:24:24,437 - INFO - logger - Application starting
+2025-03-19 00:24:24,842 - INFO - logger - Application starting
+2025-03-19 00:27:19,793 - INFO - logger - Application starting
+2025-03-19 00:27:20,196 - INFO - logger - Application starting
+2025-03-19 00:33:07,688 - INFO - logger - Application starting
+2025-03-19 00:35:16,415 - INFO - logger - Application starting
+2025-03-19 00:35:16,801 - INFO - logger - Application starting
+2025-03-19 00:39:33,881 - INFO - logger - Application starting
+2025-03-19 00:39:34,296 - INFO - logger - Application starting
+2025-03-19 00:55:54,063 - INFO - logger - Application starting
+2025-03-19 00:55:54,467 - INFO - logger - Application starting
+2025-03-19 00:57:40,733 - INFO - logger - Application starting
+2025-03-19 00:57:41,138 - INFO - logger - Application starting
+2025-03-19 00:58:31,878 - INFO - logger - Application starting
+2025-03-19 00:58:32,284 - INFO - logger - Application starting
+2025-03-19 01:00:35,289 - INFO - logger - Application starting
+2025-03-19 01:00:35,689 - INFO - logger - Application starting
+2025-03-19 01:05:06,164 - INFO - logger - Application starting
+2025-03-19 01:05:06,551 - INFO - logger - Application starting
+2025-03-19 01:14:03,234 - INFO - logger - Application starting
+2025-03-19 01:14:03,633 - INFO - logger - Application starting
+2025-03-19 01:38:13,786 - INFO - logger - Application starting
+2025-03-19 01:38:14,185 - INFO - logger - Application starting
+2025-03-21 19:55:35,607 - INFO - logger - Application starting
+2025-03-21 19:55:35,892 - INFO - logger - Application starting
+2025-03-21 20:29:28,876 - INFO - logger - Application starting
+2025-03-21 20:29:29,204 - INFO - logger - Application starting
+2025-03-21 20:30:10,523 - INFO - logger - Application starting
+2025-03-21 20:30:10,855 - INFO - logger - Application starting
+2025-03-21 20:33:23,594 - INFO - logger - Application starting
+2025-03-21 20:33:23,923 - INFO - logger - Application starting
+2025-03-21 20:33:26,486 - INFO - logger - Application starting
+2025-03-21 20:33:26,863 - INFO - logger - Application starting
+2025-03-21 20:42:21,823 - INFO - logger - Application starting
+2025-03-21 20:42:22,188 - INFO - logger - Application starting
+2025-03-21 20:42:25,772 - INFO - logger - Application starting
+2025-03-21 20:42:26,116 - INFO - logger - Application starting
+2025-03-21 20:43:55,993 - INFO - logger - Application starting
+2025-03-21 20:43:56,345 - INFO - logger - Application starting
+2025-03-21 20:44:03,273 - INFO - logger - Application starting
+2025-03-21 20:44:03,656 - INFO - logger - Application starting
+2025-03-21 20:44:27,629 - INFO - logger - Application starting
+2025-03-21 20:44:27,990 - INFO - logger - Application starting
+2025-03-21 20:48:06,274 - INFO - logger - Application starting
+2025-03-21 20:48:06,646 - INFO - logger - Application starting
+2025-03-21 20:51:04,971 - INFO - logger - Application starting
+2025-03-21 20:51:05,335 - INFO - logger - Application starting
+2025-03-21 20:51:25,018 - INFO - logger - Application starting
+2025-03-21 20:51:25,383 - INFO - logger - Application starting
+2025-03-21 20:51:49,466 - INFO - logger - Application starting
+2025-03-21 20:51:49,822 - INFO - logger - Application starting
+2025-03-21 20:52:03,095 - INFO - logger - Application starting
+2025-03-21 20:52:03,478 - INFO - logger - Application starting
+2025-03-21 20:52:52,311 - INFO - logger - Application starting
+2025-03-21 20:55:49,176 - INFO - logger - Application starting
+2025-03-21 21:16:07,407 - INFO - logger - Application starting
+2025-03-21 21:24:34,124 - INFO - logger - Application starting
+2025-03-21 21:28:54,889 - INFO - logger - Application starting
+2025-03-21 21:31:26,099 - INFO - logger - Application starting
+2025-03-21 21:35:04,981 - INFO - logger - Application starting
+2025-03-21 21:38:32,660 - INFO - logger - Application starting
+2025-03-21 21:41:47,770 - INFO - logger - Application starting
+2025-03-21 21:42:01,695 - INFO - logger - Application starting
+2025-03-21 21:48:31,598 - INFO - logger - Application starting
+2025-03-21 21:52:56,403 - INFO - logger - Application starting
+2025-03-21 22:03:46,273 - INFO - logger - Application starting

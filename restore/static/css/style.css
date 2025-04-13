@@ -1,0 +1,122 @@
+/* Global styles for OpenShot Cloud */
+
+/* Custom Variables */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --dark-bg: #343a40;
+    --light-bg: #f8f9fa;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+}
+
+/* Override Bootstrap variables */
+.btn-primary {
+    background-color: var(--primary-color);
+}
+
+body {
+    padding-bottom: 60px;
+}
+
+/* Footer */
+.footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+}
+
+/* Cards with hover effect */
+.card-hover {
+    transition: transform 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Project list */
+.project-card {
+    height: 100%;
+}
+
+.project-card .card-img-top {
+    height: 160px;
+    object-fit: cover;
+}
+
+/* Pricing tables */
+.pricing-table {
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    transition: transform 0.3s ease;
+}
+
+.pricing-table:hover {
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+.pricing-table.featured {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(0,123,255,0.3);
+}
+
+.pricing-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.pricing-features {
+    padding: 1.5rem;
+}
+
+.pricing-features li {
+    margin-bottom: 0.5rem;
+}
+
+/* Dashboard cards */
+.dashboard-card {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.dashboard-card-header {
+    padding: 1rem;
+    color: white;
+}
+
+/* Media library styling */
+.media-thumbnail {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 0.25rem;
+}
+
+/* Progress bar animations */
+.progress-bar-animated {
+    animation: progress-bar-stripes 1s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+    from { background-position: 1rem 0; }
+    to { background-position: 0 0; }
+}
+
+/* Loading spinner */
+.spinner {
+    width: 3rem;
+    height: 3rem;
+    border: 0.25rem solid rgba(0, 123, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s linear infinite;
+    margin: 2rem auto;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

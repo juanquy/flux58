@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+
+{% block title %}Create User - Admin - FLUX58 AI MEDIA LABS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>Create New User</h1>
+        <p class="lead">Add a new user to the FLUX58 AI MEDIA LABS platform.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded">
+            <div class="container-fluid">
+                <span class="navbar-brand">Admin</span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="adminNavbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_users') }}">User Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_projects') }}">Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_exports') }}">Exports</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_system') }}">System</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_payment_settings') }}">Payment Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_landing_page_editor') }}">Landing Page</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">User Information</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('admin_create_user') }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" name="role">
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="credits" class="form-label">Initial Credits</label>
+                        <input type="number" class="form-control" id="credits" name="credits" value="0" min="0">
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Create User</button>
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Information</h5>
+            </div>
+            <div class="card-body">
+                <h6>User Roles</h6>
+                <p><strong>User:</strong> Regular user with access to their own projects and credits.</p>
+                <p><strong>Admin:</strong> Administrator with access to all platform features and user management.</p>
+                
+                <h6>Initial Credits</h6>
+                <p>Credits are used for exporting videos and other platform features. You can add more credits later.</p>
+                
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    Users will be able to log in immediately after creation.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

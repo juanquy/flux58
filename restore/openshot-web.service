@@ -1,0 +1,13 @@
+[Unit]
+Description=OpenShot Web Service
+After=network.target postgresql.service
+
+[Service]
+User=juanquy
+WorkingDirectory=/home/juanquy/OpenShot/test_app
+ExecStart=/home/juanquy/openshot_service_venv/bin/gunicorn --workers 4 --bind 0.0.0.0:5000 app:app
+Restart=on-failure
+Environment="FLASK_ENV=production"
+
+[Install]
+WantedBy=multi-user.target

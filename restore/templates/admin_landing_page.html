@@ -1,0 +1,620 @@
+{% extends "layout.html" %}
+
+{% block title %}Landing Page Editor - Admin - FLUX58 AI MEDIA LABS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>Landing Page Editor</h1>
+        <p class="lead">Customize your website's landing page.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded">
+            <div class="container-fluid">
+                <span class="navbar-brand">Admin</span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="adminNavbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_users') }}">User Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_projects') }}">Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_exports') }}">Exports</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_system') }}">System</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_payment_settings') }}">Payment Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('admin_landing_page_editor') }}">Landing Page</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Hero Section</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('admin_landing_page_save2') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="section" value="hero">
+                    
+                    <div class="mb-3">
+                        <label for="hero_title" class="form-label">Main Heading</label>
+                        <input type="text" class="form-control" id="hero_title" name="hero_title" value="{{ landing_page.hero.title }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="hero_subtitle" class="form-label">Subtitle</label>
+                        <input type="text" class="form-control" id="hero_subtitle" name="hero_subtitle" value="{{ landing_page.hero.subtitle }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="hero_text" class="form-label">Description</label>
+                        <textarea class="form-control" id="hero_text" name="hero_text" rows="2">{{ landing_page.hero.text }}</textarea>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="hero_bg_color" class="form-label">Background Color</label>
+                            <div class="input-group">
+                                <input type="color" class="form-control form-control-color" id="hero_bg_color" name="hero_bg_color" value="{{ landing_page.hero.bg_color }}">
+                                <input type="text" class="form-control" value="{{ landing_page.hero.bg_color }}" id="hero_bg_color_text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="hero_text_color" class="form-label">Text Color</label>
+                            <div class="input-group">
+                                <input type="color" class="form-control form-control-color" id="hero_text_color" name="hero_text_color" value="{{ landing_page.hero.text_color }}">
+                                <input type="text" class="form-control" value="{{ landing_page.hero.text_color }}" id="hero_text_color_text">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="hero_bg_image" class="form-label">Background Image <span class="badge bg-info">New!</span></label>
+                        <div class="d-flex align-items-center mb-2">
+                            {% if landing_page.hero.bg_image %}
+                            <img src="{{ url_for('static', filename=landing_page.hero.bg_image) }}" alt="Current background image" class="img-thumbnail me-3" style="max-height: 100px;">
+                            <div>
+                                <div>Current image: {{ landing_page.hero.bg_image.split('/')[-1] }}</div>
+                                <div class="mt-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="delete_hero_bg_image" name="delete_hero_bg_image">
+                                        <label class="form-check-label text-danger" for="delete_hero_bg_image">
+                                            Delete background image
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="text-muted">No background image set. Using background color instead.</div>
+                            {% endif %}
+                        </div>
+                        <input type="file" class="form-control" id="hero_bg_image" name="hero_bg_image" accept="image/*">
+                        <div class="form-text">Recommended size: 1920x1080px. Leave empty to keep current background image (unless delete is checked).</div>
+                        
+                        {% if landing_page.hero.bg_image %}
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" id="hero_bg_image_overlay" name="hero_bg_image_overlay" {% if landing_page.hero.bg_image_overlay %}checked{% endif %}>
+                            <label class="form-check-label" for="hero_bg_image_overlay">
+                                Add dark overlay to background image (improves text readability)
+                            </label>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="hero_image" class="form-label">Hero Image (displayed on right side)</label>
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="{{ url_for('static', filename=landing_page.hero.image) }}" alt="Current hero image" class="img-thumbnail me-3" style="max-height: 100px;">
+                            <div>
+                                <div>Current image: {{ landing_page.hero.image.split('/')[-1] }}</div>
+                                <div class="mt-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="delete_hero_image" name="delete_hero_image">
+                                        <label class="form-check-label text-danger" for="delete_hero_image">
+                                            Delete current image
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="file" class="form-control" id="hero_image" name="hero_image" accept="image/*">
+                        <div class="form-text">Recommended size: 800x600px. Leave empty to keep current image (unless delete is checked).</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Feature Cards</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('admin_landing_page_save2') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="section" value="features">
+                    
+                    <div class="mb-3">
+                        <label for="features_title" class="form-label">Section Title</label>
+                        <input type="text" class="form-control" id="features_title" name="features_title" value="{{ landing_page.features.title }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="features_accent_color" class="form-label">Accent Color</label>
+                        <div class="input-group">
+                            <input type="color" class="form-control form-control-color" id="features_accent_color" name="features_accent_color" value="{{ landing_page.features.accent_color }}">
+                            <input type="text" class="form-control" value="{{ landing_page.features.accent_color }}" id="features_accent_color_text">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        {% for i in range(3) %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Feature Card {{ i+1 }}</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label for="feature_icon_{{ i }}" class="form-label">Icon</label>
+                                        <select class="form-select" id="feature_icon_{{ i }}" name="feature_icon_{{ i }}">
+                                            <option value="bi-cloud-arrow-up" {% if landing_page.features.cards[i].icon == 'bi-cloud-arrow-up' %}selected{% endif %}>Cloud Upload</option>
+                                            <option value="bi-cpu" {% if landing_page.features.cards[i].icon == 'bi-cpu' %}selected{% endif %}>CPU/Processor</option>
+                                            <option value="bi-credit-card" {% if landing_page.features.cards[i].icon == 'bi-credit-card' %}selected{% endif %}>Credit Card</option>
+                                            <option value="bi-camera-video" {% if landing_page.features.cards[i].icon == 'bi-camera-video' %}selected{% endif %}>Video Camera</option>
+                                            <option value="bi-hdd" {% if landing_page.features.cards[i].icon == 'bi-hdd' %}selected{% endif %}>Storage</option>
+                                            <option value="bi-lightning" {% if landing_page.features.cards[i].icon == 'bi-lightning' %}selected{% endif %}>Lightning/Fast</option>
+                                            <option value="bi-gear" {% if landing_page.features.cards[i].icon == 'bi-gear' %}selected{% endif %}>Gear/Settings</option>
+                                            <option value="bi-graph-up" {% if landing_page.features.cards[i].icon == 'bi-graph-up' %}selected{% endif %}>Graph/Analytics</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="feature_title_{{ i }}" class="form-label">Title</label>
+                                        <input type="text" class="form-control" id="feature_title_{{ i }}" name="feature_title_{{ i }}" value="{{ landing_page.features.cards[i].title }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="feature_text_{{ i }}" class="form-label">Description</label>
+                                        <textarea class="form-control" id="feature_text_{{ i }}" name="feature_text_{{ i }}" rows="3">{{ landing_page.features.cards[i].text }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Call to Action Section</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('admin_landing_page_save2') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="section" value="cta">
+                    
+                    <div class="mb-3">
+                        <label for="cta_title" class="form-label">CTA Heading</label>
+                        <input type="text" class="form-control" id="cta_title" name="cta_title" value="{{ landing_page.cta.title }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="cta_subtitle" class="form-label">CTA Subtitle</label>
+                        <input type="text" class="form-control" id="cta_subtitle" name="cta_subtitle" value="{{ landing_page.cta.subtitle }}">
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="cta_button_text" class="form-label">Button Text</label>
+                            <input type="text" class="form-control" id="cta_button_text" name="cta_button_text" value="{{ landing_page.cta.button_text }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cta_button_color" class="form-label">Button Color</label>
+                            <div class="input-group">
+                                <input type="color" class="form-control form-control-color" id="cta_button_color" name="cta_button_color" value="{{ landing_page.cta.button_color }}">
+                                <input type="text" class="form-control" value="{{ landing_page.cta.button_color }}" id="cta_button_color_text">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Page Background</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('admin_landing_page_save2') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="section" value="page">
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="page_bg_color" class="form-label">Page Background Color</label>
+                            <div class="input-group">
+                                <input type="color" class="form-control form-control-color" id="page_bg_color" name="page_bg_color" value="{{ landing_page.page.bg_color }}">
+                                <input type="text" class="form-control" value="{{ landing_page.page.bg_color }}" id="page_bg_color_text">
+                            </div>
+                            <div class="form-text">This is the main background color of the entire page</div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="content_bg_color" class="form-label">Content Area Background</label>
+                            <div class="input-group">
+                                <input type="color" class="form-control form-control-color" id="content_bg_color" name="content_bg_color" value="{{ landing_page.page.content_bg_color }}">
+                                <input type="text" class="form-control" value="{{ landing_page.page.content_bg_color }}" id="content_bg_color_text">
+                            </div>
+                            <div class="form-text">The background color of the main content container</div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="content_text_color" class="form-label">Content Text Color</label>
+                            <div class="input-group">
+                                <input type="color" class="form-control form-control-color" id="content_text_color" name="content_text_color" value="{{ landing_page.page.content_text_color }}">
+                                <input type="text" class="form-control" value="{{ landing_page.page.content_text_color }}" id="content_text_color_text">
+                            </div>
+                            <div class="form-text">The color of text in the main content area</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="page_bg_image" class="form-label">Main Page Background Image</label>
+                        <div class="d-flex align-items-center mb-2">
+                            {% if landing_page.page.bg_image %}
+                            <img src="{{ url_for('static', filename=landing_page.page.bg_image) }}" alt="Current page background image" class="img-thumbnail me-3" style="max-height: 100px;">
+                            <div>
+                                <div>Current image: {{ landing_page.page.bg_image.split('/')[-1] }}</div>
+                                <div class="mt-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="delete_page_bg_image" name="delete_page_bg_image">
+                                        <label class="form-check-label text-danger" for="delete_page_bg_image">
+                                            Delete background image
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="text-muted">No page background image set. Using background color instead.</div>
+                            {% endif %}
+                        </div>
+                        <input type="file" class="form-control" id="page_bg_image" name="page_bg_image" accept="image/*">
+                        <div class="form-text">Recommended size: 1920x1080px. This will be the main background for the entire site.</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Navigation Bar</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('admin_landing_page_save2') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="section" value="navbar">
+                    
+                    <div class="mb-3">
+                        <label for="navbar_brand_text" class="form-label">Brand Text</label>
+                        <input type="text" class="form-control" id="navbar_brand_text" name="navbar_brand_text" value="{{ landing_page.navbar.brand_text }}">
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="navbar_bg_color" class="form-label">Background Color</label>
+                            <div class="input-group">
+                                <input type="color" class="form-control form-control-color" id="navbar_bg_color" name="navbar_bg_color" value="{{ landing_page.navbar.bg_color }}">
+                                <input type="text" class="form-control" value="{{ landing_page.navbar.bg_color }}" id="navbar_bg_color_text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="navbar_text_color" class="form-label">Text Color</label>
+                            <div class="input-group">
+                                <input type="color" class="form-control form-control-color" id="navbar_text_color" name="navbar_text_color" value="{{ landing_page.navbar.text_color }}">
+                                <input type="text" class="form-control" value="{{ landing_page.navbar.text_color }}" id="navbar_text_color_text">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="navbar_logo" class="form-label">Navbar Logo</label>
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="{{ url_for('static', filename=landing_page.navbar.logo) }}" alt="Current navbar logo" class="img-thumbnail me-3" style="max-height: 50px;">
+                            <div>
+                                <div>Current logo: {{ landing_page.navbar.logo.split('/')[-1] }}</div>
+                                <div class="mt-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="delete_navbar_logo" name="delete_navbar_logo">
+                                        <label class="form-check-label text-danger" for="delete_navbar_logo">
+                                            Delete current logo
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="file" class="form-control" id="navbar_logo" name="navbar_logo" accept="image/*">
+                        <div class="form-text">Recommended size: 200x50px. Leave empty to keep current logo (unless delete is checked).</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label">Menu Items</label>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="menu-items-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th style="width: 30%">Text</th>
+                                        <th style="width: 40%">URL</th>
+                                        <th style="width: 15%">Visible</th>
+                                        <th style="width: 15%">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in landing_page.navbar.menu_items %}
+                                    <tr data-index="{{ loop.index0 }}">
+                                        <td>
+                                            <input type="text" class="form-control" name="menu_item_text_{{ loop.index0 }}" value="{{ item.text }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="menu_item_url_{{ loop.index0 }}" value="{{ item.url }}">
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-check form-switch d-flex justify-content-center">
+                                                <input class="form-check-input" type="checkbox" name="menu_item_visible_{{ loop.index0 }}" {% if item.visible %}checked{% endif %}>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-sm btn-danger delete-menu-item">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="mt-2">
+                            <button type="button" class="btn btn-sm btn-success" id="add-menu-item">
+                                <i class="bi bi-plus-circle"></i> Add Menu Item
+                            </button>
+                        </div>
+                        
+                        <!-- Hidden template for new menu items -->
+                        <div id="new-menu-item-template" style="display: none;">
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control" name="menu_item_text_IDX" value="New Item">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="menu_item_url_IDX" value="/">
+                                </td>
+                                <td class="text-center">
+                                    <div class="form-check form-switch d-flex justify-content-center">
+                                        <input class="form-check-input" type="checkbox" name="menu_item_visible_IDX" checked>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-sm btn-danger delete-menu-item">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </div>
+                        
+                        <!-- Hidden input to track menu items count -->
+                        <input type="hidden" name="menu_items_count" id="menu-items-count" value="{{ landing_page.navbar.menu_items|length }}">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Preview</h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <a href="{{ url_for('home') }}" target="_blank" class="btn btn-outline-primary">View Live Page</a>
+                </div>
+                
+                <div class="alert alert-info mb-3">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    Changes will take effect immediately after saving.
+                </div>
+                
+                <div class="mb-3">
+                    <div class="mt-4 mb-3">
+                        <h6 class="mb-2">Page Colors Preview:</h6>
+                        <div class="d-flex">
+                            <div class="me-2" style="width: 120px; height: 30px; background-color: {{ landing_page.page.bg_color }}; border: 1px solid #ddd; border-radius: 3px;">
+                                <div class="text-center small" style="line-height: 30px;">Page BG</div>
+                            </div>
+                            <div class="me-2" style="width: 120px; height: 30px; background-color: {{ landing_page.page.content_bg_color }}; border: 1px solid #ddd; border-radius: 3px;">
+                                <div class="text-center small" style="line-height: 30px;">Content BG</div>
+                            </div>
+                            <div style="width: 120px; height: 30px; background-color: {{ landing_page.page.content_bg_color }}; border: 1px solid #ddd; border-radius: 3px;">
+                                <div class="text-center small" style="line-height: 30px; color: {{ landing_page.page.content_text_color }};">Text Color</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="border: 1px solid #ccc; border-radius: 5px; overflow: hidden;">
+                        <div style="
+                            {% if landing_page.hero.bg_image %}
+                            background-image: url('{{ url_for('static', filename=landing_page.hero.bg_image) }}');
+                            background-size: cover;
+                            background-position: center;
+                            {% if landing_page.hero.bg_image_overlay %}
+                            position: relative;
+                            {% endif %}
+                            {% else %}
+                            background-color: {{ landing_page.hero.bg_color }}; 
+                            {% endif %}
+                            color: {{ landing_page.hero.text_color }}; 
+                            padding: 15px; 
+                            text-align: center;
+                            ">
+                            {% if landing_page.hero.bg_image and landing_page.hero.bg_image_overlay %}
+                            <div style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: rgba(0, 0, 0, 0.5);"></div>
+                            <div style="position: relative; z-index: 1;">
+                            {% endif %}
+                                <h5 style="margin-bottom: 10px;">{{ landing_page.hero.title }}</h5>
+                                <p style="font-size: 0.9rem; margin-bottom: 5px;">{{ landing_page.hero.subtitle }}</p>
+                                <p style="font-size: 0.8rem;">{{ landing_page.hero.text }}</p>
+                            {% if landing_page.hero.bg_image and landing_page.hero.bg_image_overlay %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div style="padding: 15px; text-align: center;">
+                            <h6 style="margin-bottom: 10px; color: {{ landing_page.features.accent_color }};">{{ landing_page.features.title }}</h6>
+                            <div class="d-flex justify-content-between">
+                                {% for card in landing_page.features.cards[:3] %}
+                                <div style="width: 30%; text-align: center;">
+                                    <i class="bi {{ card.icon }}" style="font-size: 1.2rem; color: {{ landing_page.features.accent_color }};"></i>
+                                    <div style="font-size: 0.8rem; font-weight: bold;">{{ card.title }}</div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Help & Tips</h5>
+            </div>
+            <div class="card-body">
+                <h6>Color Codes</h6>
+                <p>You can use color names (e.g., "blue") or hex codes (e.g., "#007bff").</p>
+                
+                <h6>Image Recommendations</h6>
+                <ul>
+                    <li>Hero image: 800x600px, JPG or PNG</li>
+                    <li>Keep file sizes under 500KB for fast loading</li>
+                </ul>
+                
+                <h6>Content Tips</h6>
+                <ul>
+                    <li>Keep headings short and impactful</li>
+                    <li>Use simple, clear language</li>
+                    <li>Highlight key benefits in feature cards</li>
+                </ul>
+                
+                <h6>Responsive Design</h6>
+                <p>Your changes will automatically adapt to different screen sizes.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Sync color inputs with text inputs
+    const colorInputs = document.querySelectorAll('input[type="color"]');
+    colorInputs.forEach(input => {
+        const textInput = document.getElementById(input.id + '_text');
+        if (textInput) {
+            input.addEventListener('input', () => {
+                textInput.value = input.value;
+            });
+            textInput.addEventListener('input', () => {
+                input.value = textInput.value;
+            });
+        }
+    });
+    
+    // Add new menu item functionality
+    const addMenuItemBtn = document.getElementById('add-menu-item');
+    const menuItemsTable = document.getElementById('menu-items-table');
+    const menuItemsCount = document.getElementById('menu-items-count');
+    const menuItemTemplate = document.getElementById('new-menu-item-template').innerHTML;
+    
+    if (addMenuItemBtn && menuItemsTable && menuItemsCount) {
+        addMenuItemBtn.addEventListener('click', function() {
+            const currentCount = parseInt(menuItemsCount.value);
+            const newIdx = currentCount;
+            
+            // Create a new row using the template
+            const newRow = document.createElement('tr');
+            newRow.setAttribute('data-index', newIdx);
+            newRow.innerHTML = menuItemTemplate.replace(/IDX/g, newIdx);
+            
+            // Add the new row to the table
+            menuItemsTable.querySelector('tbody').appendChild(newRow);
+            
+            // Update the count
+            menuItemsCount.value = currentCount + 1;
+            
+            // Add event listener for the new delete button
+            attachDeleteListeners();
+        });
+        
+        // Function to handle deletion of menu items
+        function attachDeleteListeners() {
+            const deleteButtons = document.querySelectorAll('.delete-menu-item');
+            deleteButtons.forEach(button => {
+                // Check if event listener is already attached
+                if (!button.hasAttribute('data-listener-attached')) {
+                    button.setAttribute('data-listener-attached', 'true');
+                    button.addEventListener('click', function() {
+                        if (confirm('Are you sure you want to delete this menu item?')) {
+                            const row = this.closest('tr');
+                            row.remove();
+                            
+                            // Renumber the indexes of remaining rows for proper submission
+                            const remainingRows = menuItemsTable.querySelectorAll('tbody tr');
+                            remainingRows.forEach((row, idx) => {
+                                row.setAttribute('data-index', idx);
+                                
+                                // Update the name attributes of inputs in this row
+                                const inputs = row.querySelectorAll('input[name^="menu_item_"]');
+                                inputs.forEach(input => {
+                                    const baseName = input.name.split('_').slice(0, -1).join('_');
+                                    input.name = `${baseName}_${idx}`;
+                                });
+                            });
+                            
+                            // Update the count
+                            menuItemsCount.value = remainingRows.length;
+                        }
+                    });
+                }
+            });
+        }
+        
+        // Initially attach delete listeners to existing buttons
+        attachDeleteListeners();
+    }
+});
+</script>
+{% endblock %}

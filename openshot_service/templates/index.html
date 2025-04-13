@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenShot Processing Service</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>OpenShot Processing Service</h1>
+        </header>
+        <main>
+            <div class="status-card">
+                <h2>Service Status</h2>
+                <p>Status: <span class="status-badge">Running</span></p>
+                <p>OpenShot Available: <span class="status-badge" id="openshot-status">Checking...</span></p>
+            </div>
+            
+            <div class="card">
+                <h2>API Endpoints</h2>
+                <ul>
+                    <li><code>/login</code> - User authentication (POST)</li>
+                    <li><code>/register</code> - User registration (POST)</li>
+                    <li><code>/submit-job</code> - Submit processing job (POST)</li>
+                    <li><code>/job/{job_id}</code> - Get job status (GET)</li>
+                    <li><code>/user/jobs</code> - List all user jobs (GET)</li>
+                    <li><code>/health</code> - Service health check (GET)</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h2>Documentation</h2>
+                <p>See the API documentation for details on how to use the OpenShot processing service.</p>
+                <button id="show-docs-btn">View API Docs</button>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2025 OpenShot Processing Service</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

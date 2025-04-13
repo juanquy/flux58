@@ -1,0 +1,76 @@
+/**
+ * OpenShot Video Editor - Panel Resize CSS
+ * Styles for resizable panels in the editor
+ */
+
+/* Resize handles */
+.resize-handle {
+    position: absolute;
+    background-color: transparent;
+    z-index: 100;
+    transition: background-color 0.2s;
+}
+
+.resize-handle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Horizontal resize handle (for left/right panels) */
+.resize-handle-horizontal {
+    width: 8px;
+    height: 100%;
+    top: 0;
+    cursor: col-resize;
+}
+
+/* Vertical resize handle (for top/bottom panels) */
+.resize-handle-vertical {
+    height: 8px;
+    width: 100%;
+    left: 0;
+    cursor: row-resize;
+}
+
+/* Position the handles on their respective panels */
+.media-panel .resize-handle {
+    right: -4px;
+}
+
+.properties-panel .resize-handle {
+    left: -4px;
+}
+
+.timeline-panel .resize-handle {
+    top: -4px;
+}
+
+/* Active resizing styles */
+.resizing {
+    user-select: none;
+    pointer-events: none;
+    transition: none !important;
+}
+
+body.resizing {
+    cursor: grabbing;
+}
+
+.resizing .resize-handle {
+    background-color: rgba(74, 108, 247, 0.3);
+}
+
+/* Transitions for smooth resizing */
+.media-panel, .properties-panel, .timeline-panel {
+    transition: width 0.1s ease, height 0.1s ease;
+}
+
+.resizing.media-panel,
+.resizing.properties-panel, 
+.resizing.timeline-panel {
+    transition: none !important;
+}
+
+/* Add some padding to the panels to accommodate resize handles */
+.preview-panel {
+    padding-bottom: 4px;
+}

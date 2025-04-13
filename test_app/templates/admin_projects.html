@@ -1,0 +1,190 @@
+{% extends "layout.html" %}
+
+{% block title %}Project Management - Admin - FLUX58 AI MEDIA LABS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>Project Management</h1>
+        <p class="lead">Manage all platform projects.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded">
+            <div class="container-fluid">
+                <span class="navbar-brand">Admin</span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="adminNavbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_users') }}">User Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('admin_projects') }}">Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_exports') }}">Exports</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_system') }}">System</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_payment_settings') }}">Payment Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_landing_page_editor') }}">Landing Page</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">All Projects</h5>
+                <div>
+                    <select id="userFilter" class="form-select form-select-sm d-inline-block me-2" style="width: auto;">
+                        <option value="">All Users</option>
+                        {% for user in users %}
+                        <option value="{{ user.username }}">{{ user.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="projectsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Owner</th>
+                                <th>Created</th>
+                                <th>Updated</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for project in projects %}
+                            <tr data-user="{{ project.username }}">
+                                <td>{{ project.name }}</td>
+                                <td>
+                                    <span class="badge {% if user_lookup[project.user_id].role == 'admin' %}bg-danger{% else %}bg-primary{% endif %}">
+                                        {{ project.username }}
+                                    </span>
+                                </td>
+                                <td>{{ project.created_at|string|default(project.created_at, true) }}</td>
+                                <td>{{ project.updated_at|string|default(project.updated_at, true) }}</td>
+                                <td>{{ project.description|truncate(30) }}</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="{{ url_for('project_details', project_id=project.id) }}" class="btn btn-primary">View</a>
+                                        <a href="{{ url_for('editor_page', project_id=project.id) }}" class="btn btn-success">Editor</a>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteProjectModal{{ project.id }}">Delete</button>
+                                    </div>
+                                    
+                                    <!-- Delete Project Modal -->
+                                    <div class="modal fade" id="deleteProjectModal{{ project.id }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Confirm Delete</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Are you sure you want to delete project "{{ project.name }}" owned by {{ project.username }}?</p>
+                                                    <p class="text-danger">This action cannot be undone. All project data will be permanently deleted.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    <a href="#" class="btn btn-danger">Delete Project</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Project Statistics</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total Projects
+                        <span class="badge bg-primary rounded-pill">{{ projects|length }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Active Users with Projects
+                        <span class="badge bg-primary rounded-pill">{{ projects|groupby('user_id')|list|length }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Project Management</h5>
+            </div>
+            <div class="card-body">
+                <p>From here you can manage all projects in the platform. You can:</p>
+                <ul>
+                    <li>View project details</li>
+                    <li>Access the editor for any project</li>
+                    <li>Delete projects</li>
+                </ul>
+                <p>Use the filter dropdown to view projects for a specific user.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize DataTable for better user experience
+        if (typeof $.fn.DataTable !== 'undefined') {
+            $('#projectsTable').DataTable({
+                "pageLength": 10,
+                "order": [[2, "desc"]]
+            });
+        }
+        
+        // User filter functionality
+        document.getElementById('userFilter').addEventListener('change', function() {
+            const username = this.value;
+            const rows = document.querySelectorAll('#projectsTable tbody tr');
+            
+            rows.forEach(row => {
+                if (!username || row.getAttribute('data-user') === username) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

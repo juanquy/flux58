@@ -1,0 +1,233 @@
+{% extends "layout.html" %}
+
+{% block title %}Create Project - FLUX58 AI MEDIA LABS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>Create New Project</h1>
+        <p class="lead">Set up your new video project.</p>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Project Details</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('create_project_page') }}">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Project Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description (Optional)</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    
+                    <h5 class="mt-4 mb-3">Project Settings</h5>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="resolution" class="form-label">Resolution</label>
+                            <select class="form-select" id="resolution" name="resolution">
+                                <option value="1080p" selected>1080p (1920x1080)</option>
+                                <option value="720p">720p (1280x720)</option>
+                                <option value="4k">4K (3840x2160)</option>
+                                <option value="custom">Custom...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="framerate" class="form-label">Frame Rate</label>
+                            <select class="form-select" id="framerate" name="framerate">
+                                <option value="30" selected>30 FPS</option>
+                                <option value="24">24 FPS</option>
+                                <option value="60">60 FPS</option>
+                                <option value="custom">Custom...</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3" id="customResolution" style="display: none;">
+                        <div class="col-md-6">
+                            <label for="customWidth" class="form-label">Width</label>
+                            <input type="number" class="form-control" id="customWidth" name="customWidth" value="1920">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="customHeight" class="form-label">Height</label>
+                            <input type="number" class="form-control" id="customHeight" name="customHeight" value="1080">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3" id="customFramerate" style="display: none;">
+                        <label for="customFPS" class="form-label">Custom FPS</label>
+                        <input type="number" class="form-control" id="customFPS" name="customFPS" value="30" step="0.001">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="audioChannels" class="form-label">Audio Channels</label>
+                        <select class="form-select" id="audioChannels" name="audioChannels">
+                            <option value="2" selected>Stereo (2 channels)</option>
+                            <option value="1">Mono (1 channel)</option>
+                            <option value="6">5.1 Surround (6 channels)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Create Project</button>
+                        <a href="{{ url_for('projects_page') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Project Templates</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <button type="button" class="list-group-item list-group-item-action" id="template-empty">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Empty Project</h6>
+                            <small class="text-muted">Default</small>
+                        </div>
+                        <small class="text-muted">Start with a blank canvas</small>
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action" id="template-social">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Social Media</h6>
+                            <small class="text-muted">9:16</small>
+                        </div>
+                        <small class="text-muted">Optimized for Instagram/TikTok</small>
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action" id="template-youtube">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">YouTube</h6>
+                            <small class="text-muted">16:9</small>
+                        </div>
+                        <small class="text-muted">Standard YouTube format</small>
+                    </button>
+                    <button type="button" class="list-group-item list-group-item-action" id="template-cinematic">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Cinematic</h6>
+                            <small class="text-muted">21:9</small>
+                        </div>
+                        <small class="text-muted">Widescreen cinematic format</small>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">AI Project Creation</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-3">Generate a project automatically with AI</p>
+                <div class="mb-3">
+                    <label for="aiPrompt" class="form-label">Describe your video</label>
+                    <textarea class="form-control" id="aiPrompt" rows="3" placeholder="e.g., A product demo for my new mobile app..."></textarea>
+                </div>
+                <div class="d-grid">
+                    <button class="btn btn-outline-primary" id="generateAIProject">
+                        <i class="bi bi-magic me-2"></i> Generate with AI
+                    </button>
+                </div>
+                <div class="form-text text-center mt-2">Uses 30 credits</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle custom resolution display
+        const resolution = document.getElementById('resolution');
+        const customResolution = document.getElementById('customResolution');
+        
+        resolution.addEventListener('change', function() {
+            if (this.value === 'custom') {
+                customResolution.style.display = 'flex';
+            } else {
+                customResolution.style.display = 'none';
+                
+                // Set default values based on selection
+                if (this.value === '1080p') {
+                    document.getElementById('customWidth').value = '1920';
+                    document.getElementById('customHeight').value = '1080';
+                } else if (this.value === '720p') {
+                    document.getElementById('customWidth').value = '1280';
+                    document.getElementById('customHeight').value = '720';
+                } else if (this.value === '4k') {
+                    document.getElementById('customWidth').value = '3840';
+                    document.getElementById('customHeight').value = '2160';
+                }
+            }
+        });
+        
+        // Handle custom framerate display
+        const framerate = document.getElementById('framerate');
+        const customFramerate = document.getElementById('customFramerate');
+        
+        framerate.addEventListener('change', function() {
+            if (this.value === 'custom') {
+                customFramerate.style.display = 'block';
+            } else {
+                customFramerate.style.display = 'none';
+                document.getElementById('customFPS').value = this.value;
+            }
+        });
+        
+        // Handle template selection
+        document.getElementById('template-social').addEventListener('click', function() {
+            document.getElementById('name').value = 'Social Media Video';
+            document.getElementById('description').value = 'Video optimized for social media platforms';
+            document.getElementById('customWidth').value = '1080';
+            document.getElementById('customHeight').value = '1920';
+            document.getElementById('resolution').value = 'custom';
+            customResolution.style.display = 'flex';
+        });
+        
+        document.getElementById('template-youtube').addEventListener('click', function() {
+            document.getElementById('name').value = 'YouTube Video';
+            document.getElementById('description').value = 'Standard format for YouTube';
+            document.getElementById('resolution').value = '1080p';
+            customResolution.style.display = 'none';
+        });
+        
+        document.getElementById('template-cinematic').addEventListener('click', function() {
+            document.getElementById('name').value = 'Cinematic Video';
+            document.getElementById('description').value = 'Widescreen cinematic format';
+            document.getElementById('customWidth').value = '2560';
+            document.getElementById('customHeight').value = '1080';
+            document.getElementById('resolution').value = 'custom';
+            customResolution.style.display = 'flex';
+        });
+        
+        // Handle AI project generation
+        document.getElementById('generateAIProject').addEventListener('click', function() {
+            const prompt = document.getElementById('aiPrompt').value;
+            
+            if (!prompt) {
+                alert('Please describe your video first');
+                return;
+            }
+            
+            // In a real implementation, this would call the AI service
+            alert('This would generate a project based on your description: "' + prompt + '"');
+            
+            // For demo purposes, populate the form with values
+            document.getElementById('name').value = 'AI Generated: ' + prompt.substring(0, 20) + '...';
+            document.getElementById('description').value = prompt;
+        });
+    });
+</script>
+{% endblock %}

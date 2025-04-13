@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Editor - {{ project.name }} - FLUX58 AI MEDIA LABS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/editor.css') }}">
+    <style>
+        /* Full screen editor */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .editor-container {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+            overflow: hidden;
+        }
+    /* Header bar with project name and controls */
+    .editor-header {
+        background-color: #1e1e2d;
+        color: white;
+        padding: 0.75rem 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        z-index: 10;
+        position: relative;
+    }
+    .editor-header h5 {
+        margin-bottom: 0;
+        font-weight: 600;
+    }
+    /* Main editor layout */
+    .editor-main {
+        display: flex;
+        height: calc(100% - 60px);
+    }
+    /* Media library panel */
+    .media-panel {
+        width: 280px;
+        background-color: #252536;
+        border-right: 1px solid #353545;
+        display: flex;
+        flex-direction: column;
+        color: #e0e0e0;
+    }
+    .media-panel-header {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #353545;
+        background-color: #2a2a3c;
+    }
+    .media-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0.75rem;
+    }
+    .media-item {
+        padding: 0.75rem;
+        border: 1px solid #353545;
+        border-radius: 6px;
+        margin-bottom: 0.75rem;
+        cursor: pointer;
+        background-color: #2e2e40;
+        transition: all 0.2s ease;
+    }
+    .media-item:hover {
+        background-color: #3a3a4e;
+        transform: translateY(-2px);
+    }
+    /* Video preview area */
+    .preview-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background-color: #1a1a28;
+    }
+    .video-preview {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+    .video-canvas {
+        background-color: #000;
+        width: 100%;
+        max-width: 960px;
+        max-height: 540px;
+        aspect-ratio: 16/9;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    .preview-controls {
+        padding: 0.75rem;
+        background-color: #212132;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-top: 1px solid #353545;
+    }
+    .preview-controls button {
+        margin: 0 0.35rem;
+        border-radius: 50%;
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .preview-controls .play-btn {
+        width: 50px;
+        height: 50px;
+    }
+    .timeline-scrubber {
+        height: 10px;
+        background-color: #2d2d3e;
+        margin: 0 10px;
+        width: 100%;
+        max-width: 500px;
+        border-radius: 5px;
+        position: relative;
+        cursor: pointer;
+    }
+    .timeline-scrubber .progress {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        background: linear-gradient(90deg, #4a6cf7, #7239ea);
+        border-radius: 5px;
+        width: 30%;
+    }
+    .timeline-scrubber .handle {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        background-color: white;
+        border-radius: 50%;
+        top: -4px;
+        left: 30%;
+        margin-left: -9px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.3);
+    }
+    /* Timeline panel */
+    .timeline-panel {
+        height: 220px;
+        border-top: 1px solid #353545;
+        background-color: #232334;
+        display: flex;
+        flex-direction: column;
+    }
+    .timeline-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 15px;
+        background-color: #2a2a3c;
+        border-bottom: 1px solid #353545;
+    }
+    .timeline-header .tools {
+        display: flex;
+        gap: 10px;
+    }
+    .timeline-header .zoom {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #e0e0e0;
+    }
+    .timeline-time-markers {
+        height: 20px;
+        background-color: #2a2a3c;
+        display: flex;
+        position: relative;
+        padding-left: 110px;
+    }
+    .time-marker {
+        position: absolute;
+        color: #8a8aa5;
+        font-size: 10px;
+        top: 4px;
+    }
+    .time-marker::before {
+        content: '';
+        position: absolute;
+        width: 1px;
+        height: 6px;
+        background-color: #8a8aa5;
+        top: -4px;
+        left: 50%;
+    }
+    .timeline-tracks {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        position: relative;
+    }
+    .timeline-playhead {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background-color: #ff3e3e;
+        left: 30%;
+        z-index: 10;
+    }
+    .timeline-playhead::before {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid #ff3e3e;
+        top: 0;
+        left: -7px;
+    }
+    .track {
+        height: 70px;
+        border-bottom: 1px solid #353545;
+        padding: 5px;
+        display: flex;
+    }
+    .track-label {
+        width: 100px;
+        padding: 6px;
+        background-color: #2a2a3c;
+        color: #e0e0e0;
+        border-radius: 5px;
+        text-align: center;
+        margin-right: 10px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .track-content {
+        flex: 1;
+        position: relative;
+        background-color: #2e2e40;
+        border-radius: 5px;
+    }
+    .clip {
+        position: absolute;
+        top: 5px;
+        height: 50px;
+        background: linear-gradient(135deg, #4a6cf7, #7239ea);
+        border-radius: 5px;
+        cursor: pointer;
+        color: white;
+        font-size: 12px;
+        padding: 5px 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        transition: all 0.2s ease;
+    }
+    .clip:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+    .clip.audio {
+        background: linear-gradient(135deg, #50cd89, #26af67);
+    }
+    .clip.effect {
+        background: linear-gradient(135deg, #ffc700, #f1bc00);
+    }
+    /* Properties panel */
+    .properties-panel {
+        width: 320px;
+        background-color: #252536;
+        border-left: 1px solid #353545;
+        padding: 0;
+        overflow-y: auto;
+        color: #e0e0e0;
+    }
+    .properties-header {
+        padding: 0.75rem 1rem;
+        margin-bottom: 0;
+        border-bottom: 1px solid #353545;
+        background-color: #2a2a3c;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .panel-section {
+        border-bottom: 1px solid #353545;
+        margin-bottom: 0;
+    }
+    .panel-section-header {
+        padding: 0.75rem 1rem;
+        background-color: #2a2a3c;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .panel-section-content {
+        padding: 1rem;
+    }
+    .property-group {
+        margin-bottom: 1.25rem;
+    }
+    .property-row {
+        display: flex;
+        margin-bottom: 0.75rem;
+    }
+    .property-label {
+        width: 100px;
+        font-weight: 500;
+        color: #a0a0c2;
+    }
+    .property-value {
+        flex: 1;
+    }
+    .ai-badge {
+        display: inline-flex;
+        align-items: center;
+        background: linear-gradient(90deg, #9400D3, #4B0082);
+        color: white;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 10px;
+        font-weight: 600;
+        margin-left: 8px;
+    }
+    .ai-badge i {
+        margin-right: 4px;
+    }
+    .ai-tools {
+        background-color: #2e2e40;
+        border-radius: 6px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    .ai-tools h6 {
+        color: #a0a0c2;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+    }
+    .ai-tools h6 i {
+        margin-right: 6px;
+        color: #9400D3;
+    }
+    .ai-prompt {
+        display: flex;
+        margin-bottom: 0.5rem;
+    }
+    .ai-prompt input {
+        flex: 1;
+        background-color: #212132;
+        border: 1px solid #353545;
+        color: #e0e0e0;
+        border-radius: 6px 0 0 6px;
+    }
+    .ai-prompt button {
+        border-radius: 0 6px 6px 0;
+        background: linear-gradient(90deg, #9400D3, #4B0082);
+        border: none;
+    }
+    
+    /* Custom form controls for dark theme */
+    .form-control, .form-select {
+        background-color: #212132;
+        border: 1px solid #353545;
+        color: #e0e0e0;
+    }
+    .form-control:focus, .form-select:focus {
+        background-color: #212132;
+        border-color: #7239ea;
+        color: #e0e0e0;
+        box-shadow: 0 0 0 0.25rem rgba(114, 57, 234, 0.25);
+    }
+    .form-range::-webkit-slider-thumb {
+        background: #7239ea;
+    }
+    .form-range::-moz-range-thumb {
+        background: #7239ea;
+    }
+    .form-range::-webkit-slider-runnable-track {
+        background-color: #353545;
+    }
+    .form-range::-moz-range-track {
+        background-color: #353545;
+    }
+</style>
+</head>
+<body style="background-color: #1a1a28;">
+<script>
+// Add project data to JavaScript
+const projectData = {
+    id: "{{ project.id }}",
+    name: "{{ project.name }}",
+    user_id: "{{ project.user_id }}",
+    description: "{{ project.description|default('') }}",
+    created_at: "{{ project.created_at|string }}",
+    updated_at: "{{ project.updated_at|string|default('') }}",
+    timeline: {
+        tracks: [],
+        duration: 60.0,
+        scale: 1.0
+    },
+    assets: []
+};
+
+// Add timeline data safely
+try {
+    // First, try to use the timeline object directly
+    projectData.timeline = {
+        tracks: [
+            {% if project.get('timeline') and project.get('timeline').get('tracks') %}
+                {% for track in project.get('timeline').get('tracks') %}
+                {
+                    id: "{{ track.get('id', loop.index)|string }}",
+                    name: "{{ track.get('name', 'Track ' + loop.index|string) }}",
+                    type: "{{ track.get('type', 'video') }}",
+                    clips: []
+                }{% if not loop.last %},{% endif %}
+                {% endfor %}
+            {% else %}
+                { id: "1", name: "Video 1", type: "video", clips: [] },
+                { id: "2", name: "Audio 1", type: "audio", clips: [] }
+            {% endif %}
+        ],
+        duration: {{ project.get('timeline', {}).get('duration', 60.0) }},
+        scale: {{ project.get('timeline', {}).get('scale', 1.0) }}
+    };
+    
+    console.log("Timeline loaded successfully");
+} catch (e) {
+    console.error("Error loading timeline:", e);
+    projectData.timeline = {
+        tracks: [
+            { id: "1", name: "Video 1", type: "video", clips: [] },
+            { id: "2", name: "Audio 1", type: "audio", clips: [] }
+        ],
+        duration: 60.0,
+        scale: 1.0
+    };
+}
+
+// Add assets separately to avoid datetime issues
+{% if project.get('assets') and project.get('assets')|length > 0 %}
+    {% for asset in project.get('assets') %}
+    try {
+        projectData.assets.push({
+            id: "{{ asset.get('id', 'asset-'+(loop.index|string)) }}",
+            name: "{{ asset.get('name', 'Asset '+(loop.index|string)) }}",
+            type: "{{ asset.get('type', 'video') }}",
+            path: "{{ asset.get('path', '')|default('') }}",
+            file_path: "{{ asset.get('file_path', '')|default('') }}",
+            created_at: "{{ asset.get('created_at', '')|string|default('') }}"
+        });
+    } catch (e) {
+        console.error("Error adding asset:", e);
+    }
+    {% endfor %}
+{% else %}
+    // Add dummy assets for testing
+    projectData.assets.push({
+        id: "dummy-asset-1",
+        name: "Demo Video",
+        type: "video",
+        path: "/path/to/demo.mp4",
+        file_path: "/path/to/demo.mp4",
+        created_at: new Date().toISOString()
+    });
+    
+    projectData.assets.push({
+        id: "dummy-asset-2",
+        name: "Demo Audio",
+        type: "audio",
+        path: "/path/to/demo.mp3",
+        file_path: "/path/to/demo.mp3",
+        created_at: new Date().toISOString()
+    });
+{% endif %}
+</script>
+<script src="{{ url_for('static', filename='js/editor.js') }}"></script>
+<!-- Initialize panel sections -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle panel sections
+        const sectionHeaders = document.querySelectorAll('.panel-section-header');
+        sectionHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const section = this.parentElement;
+                const content = section.querySelector('.panel-section-content');
+                const icon = this.querySelector('i');
+                
+                if (content.style.display === 'none') {
+                    content.style.display = 'block';
+                    icon.classList.remove('bi-chevron-right');
+                    icon.classList.add('bi-chevron-down');
+                } else {
+                    content.style.display = 'none';
+                    icon.classList.remove('bi-chevron-down');
+                    icon.classList.add('bi-chevron-right');
+                }
+            });
+        });
+    });
+</script>
+</head>
+<body style="background-color: #1a1a28;">
+<div class="editor-container">
+    <div class="editor-header">
+        <div class="d-flex align-items-center">
+            <h5>{{ project.name }}</h5>
+            <span class="badge bg-success ms-2 d-none d-sm-inline">Saved</span>
+        </div>
+        <div>
+            <button class="btn btn-sm" style="background: linear-gradient(90deg, #9400D3, #4B0082); color: white;" id="ai-assist-btn">
+                <i class="bi bi-robot"></i> AI Assist
+            </button>
+            <button class="btn btn-primary btn-sm ms-2" id="export-btn">
+                <i class="bi bi-download"></i> Export
+            </button>
+            <button class="btn btn-outline-light btn-sm ms-2" id="save-btn">
+                <i class="bi bi-save"></i> Save
+            </button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light btn-sm ms-2">
+                <i class="bi bi-x"></i> Exit
+            </a>
+        </div>
+    </div>
+    
+    <div class="editor-main">
+        <!-- Media Library Panel -->
+        <div class="media-panel">
+            <div class="media-panel-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">Media Library</h6>
+                    <button class="btn btn-sm" style="background: linear-gradient(135deg, #4a6cf7, #7239ea); color: white;" id="upload-media-btn">
+                        <i class="bi bi-plus"></i> Add
+                    </button>
+                </div>
+            </div>
+            <div class="media-list">
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" placeholder="Search media...">
+                        <button class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="ai-tools mb-3">
+                    <h6><i class="bi bi-stars"></i> AI Tools</h6>
+                    <div class="ai-prompt">
+                        <input type="text" class="form-control form-control-sm" placeholder="Generate content with AI...">
+                        <button class="btn btn-sm">
+                            <i class="bi bi-lightning"></i>
+                        </button>
+                    </div>
+                    <div class="d-flex gap-2 mt-2">
+                        <button class="btn btn-sm btn-outline-secondary w-100">Text to Speech</button>
+                        <button class="btn btn-sm btn-outline-secondary w-100">Create Music</button>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between mb-2">
+                    <div>
+                        <span class="text-light">Files</span>
+                    </div>
+                    <div>
+                        <a href="#" class="text-light small"><i class="bi bi-sort-down"></i> Date</a>
+                    </div>
+                </div>
+                
+                {% if project.assets %}
+                {% for asset in project.assets %}
+                <div class="media-item" data-asset-id="{{ asset.id }}">
+                    <div class="d-flex align-items-center">
+                        {% if asset.type == 'video' %}
+                        <i class="bi bi-film me-2" style="color: #4a6cf7;"></i>
+                        {% elif asset.type == 'audio' %}
+                        <i class="bi bi-music-note-beamed me-2" style="color: #50cd89;"></i>
+                        {% elif asset.type == 'image' %}
+                        <i class="bi bi-image me-2" style="color: #ffc700;"></i>
+                        {% endif %}
+                        <div>
+                            <div class="fw-bold">{{ asset.name }}
+                                {% if loop.index == 1 %}
+                                <span class="ai-badge"><i class="bi bi-stars"></i>AI</span>
+                                {% endif %}
+                            </div>
+                            <small style="color: #a0a0c2;">{{ asset.info.duration|default('--') }}s</small>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="bi bi-upload display-6" style="color: #4a6cf7;"></i>
+                    <p class="mt-2" style="color: #a0a0c2;">No media files</p>
+                    <button class="btn btn-sm mt-2" style="background: linear-gradient(135deg, #4a6cf7, #7239ea); color: white;" id="upload-first-media-btn">Upload Media</button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Main Editing Area -->
+        <div class="preview-panel">
+            <!-- Video Preview -->
+            <div class="video-preview">
+                <div class="video-canvas" id="preview-canvas">
+                    <!-- Video preview content -->
+                    <div class="d-flex justify-content-center align-items-center h-100 text-white">
+                        <div class="text-center">
+                            <i class="bi bi-film display-1" style="color: #4a6cf7;"></i>
+                            <h5 class="mt-3">Preview</h5>
+                            <p>Add clips to the timeline to see a preview</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Preview Controls -->
+            <div class="preview-controls">
+                <button class="btn btn-outline-light" id="prev-frame-btn">
+                    <i class="bi bi-skip-backward-fill"></i>
+                </button>
+                <button class="btn btn-primary play-btn" id="play-btn">
+                    <i class="bi bi-play-fill"></i>
+                </button>
+                <button class="btn btn-outline-light" id="next-frame-btn">
+                    <i class="bi bi-skip-forward-fill"></i>
+                </button>
+                
+                <div class="timeline-scrubber mx-3">
+                    <div class="progress"></div>
+                    <div class="handle"></div>
+                </div>
+                
+                <div class="ms-2 text-white">
+                    <span id="current-time">00:00:00</span> / <span id="total-time">00:01:00</span>
+                </div>
+                <button class="btn btn-outline-light ms-2" id="mute-btn">
+                    <i class="bi bi-volume-up-fill"></i>
+                </button>
+            </div>
+            
+            <!-- Timeline -->
+            <div class="timeline-panel">
+                <div class="timeline-header">
+                    <div class="tools">
+                        <button class="btn btn-sm btn-outline-light" title="Split Clip">
+                            <i class="bi bi-scissors"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-light" title="Delete Selected">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-light" title="Add Track">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </div>
+                    <div class="zoom">
+                        <button class="btn btn-sm btn-outline-light" title="Zoom Out">
+                            <i class="bi bi-zoom-out"></i>
+                        </button>
+                        <span>100%</span>
+                        <button class="btn btn-sm btn-outline-light" title="Zoom In">
+                            <i class="bi bi-zoom-in"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="timeline-time-markers">
+                    <div class="time-marker" style="left: 0px;">00:00</div>
+                    <div class="time-marker" style="left: 100px;">00:10</div>
+                    <div class="time-marker" style="left: 200px;">00:20</div>
+                    <div class="time-marker" style="left: 300px;">00:30</div>
+                    <div class="time-marker" style="left: 400px;">00:40</div>
+                    <div class="time-marker" style="left: 500px;">00:50</div>
+                    <div class="time-marker" style="left: 600px;">01:00</div>
+                </div>
+                
+                <div class="timeline-tracks">
+                    <div class="timeline-playhead"></div>
+                    
+                    <div class="track">
+                        <div class="track-label">Video 1</div>
+                        <div class="track-content" id="video-track-1">
+                            <!-- Clips will be placed here -->
+                            {% if project.timeline.tracks and project.timeline.tracks|length > 0 and project.timeline.tracks[0].clips %}
+                                {% for clip in project.timeline.tracks[0].clips if clip.asset_type == 'video' %}
+                                <div class="clip" style="left: {{ clip.position * 10 }}px; width: {{ clip.duration * 10 }}px;" data-clip-id="{{ clip.id }}">
+                                    {{ clip.name }}
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+                            <!-- Example clip for demonstration -->
+                            <div class="clip" style="left: 50px; width: 200px;" data-clip-id="demo-clip-1">
+                                Intro Clip
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="track">
+                        <div class="track-label">Audio 1</div>
+                        <div class="track-content" id="audio-track-1">
+                            <!-- Example audio clip -->
+                            <div class="clip audio" style="left: 50px; width: 320px;" data-clip-id="demo-audio-1">
+                                Background Music
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="track">
+                        <div class="track-label">Effects</div>
+                        <div class="track-content" id="effects-track">
+                            <!-- Example effect clip -->
+                            <div class="clip effect" style="left: 100px; width: 100px;" data-clip-id="demo-effect-1">
+                                Fade In
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="track">
+                        <div class="track-label">AI Text</div>
+                        <div class="track-content" id="text-track">
+                            <!-- Example text clip -->
+                            <div class="clip" style="left: 50px; width: 150px; background: linear-gradient(135deg, #9400D3, #4B0082);" data-clip-id="demo-text-1">
+                                AI Generated Title
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Properties Panel -->
+        <div class="properties-panel">
+            <div class="properties-header">
+                <h6 class="mb-0">Properties</h6>
+                <button class="btn btn-sm btn-outline-light"><i class="bi bi-gear"></i></button>
+            </div>
+            
+            <div id="no-selection" style="display: none;" class="text-center py-4">
+                <i class="bi bi-info-circle display-6" style="color: #7239ea;"></i>
+                <p class="mt-2" style="color: #a0a0c2;">Select a clip to edit properties</p>
+            </div>
+            
+            <div id="clip-properties">
+                <!-- AI Assistant Section -->
+                <div class="panel-section">
+                    <div class="panel-section-header">
+                        <span>AI Assistant <span class="ai-badge"><i class="bi bi-stars"></i>POWER8</span></span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="panel-section-content">
+                        <div class="ai-tools">
+                            <h6><i class="bi bi-magic"></i> Enhance Selected Clip</h6>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-sm" style="background: linear-gradient(90deg, #9400D3, #4B0082); color: white;">
+                                    <i class="bi bi-image"></i> Improve Quality
+                                </button>
+                                <button class="btn btn-sm btn-outline-light">
+                                    <i class="bi bi-volume-up"></i> Enhance Audio
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-tools">
+                            <h6><i class="bi bi-chat-square-text"></i> Ask AI for Help</h6>
+                            <div class="ai-prompt">
+                                <input type="text" class="form-control form-control-sm" placeholder="How do I add transitions?">
+                                <button class="btn btn-sm">
+                                    <i class="bi bi-send"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Clip Settings Section -->
+                <div class="panel-section">
+                    <div class="panel-section-header">
+                        <span>Clip Settings</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="panel-section-content">
+                        <div class="property-group">
+                            <div class="property-row">
+                                <div class="property-label">Start Time</div>
+                                <div class="property-value">
+                                    <input type="number" class="form-control form-control-sm" id="clip-start-time" min="0" step="0.1" value="5.0">
+                                </div>
+                            </div>
+                            
+                            <div class="property-row">
+                                <div class="property-label">Duration</div>
+                                <div class="property-value">
+                                    <input type="number" class="form-control form-control-sm" id="clip-duration" min="0.1" step="0.1" value="20.0">
+                                </div>
+                            </div>
+                            
+                            <div class="property-row">
+                                <div class="property-label">Volume</div>
+                                <div class="property-value">
+                                    <input type="range" class="form-range" id="clip-volume" min="0" max="1" step="0.01" value="0.8">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Transform Section -->
+                <div class="panel-section">
+                    <div class="panel-section-header">
+                        <span>Transform</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="panel-section-content">
+                        <div class="property-group">
+                            <div class="property-row">
+                                <div class="property-label">Position X</div>
+                                <div class="property-value">
+                                    <input type="number" class="form-control form-control-sm" id="clip-position-x" value="0">
+                                </div>
+                            </div>
+                            
+                            <div class="property-row">
+                                <div class="property-label">Position Y</div>
+                                <div class="property-value">
+                                    <input type="number" class="form-control form-control-sm" id="clip-position-y" value="0">
+                                </div>
+                            </div>
+                            
+                            <div class="property-row">
+                                <div class="property-label">Scale</div>
+                                <div class="property-value">
+                                    <input type="range" class="form-range" id="clip-scale" min="0.1" max="2" step="0.05" value="1">
+                                </div>
+                            </div>
+                            
+                            <div class="property-row">
+                                <div class="property-label">Rotation</div>
+                                <div class="property-value">
+                                    <input type="range" class="form-range" id="clip-rotation" min="0" max="360" step="1" value="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Effects Section -->
+                <div class="panel-section">
+                    <div class="panel-section-header">
+                        <span>Effects</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <div class="panel-section-content">
+                        <div class="mb-3">
+                            <select class="form-select form-select-sm" id="add-effect-select">
+                                <option value="">Add Effect...</option>
+                                <option value="fade">Fade</option>
+                                <option value="blur">Blur</option>
+                                <option value="color">Color Correction</option>
+                                <option value="crop">Crop</option>
+                                <option value="ai_enhance">AI Enhancement</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Active effects -->
+                        <div class="list-group">
+                            <div class="list-group-item bg-transparent text-light border-secondary d-flex justify-content-between align-items-center">
+                                <div>Fade In</div>
+                                <button class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                            <div class="list-group-item bg-transparent text-light border-secondary d-flex justify-content-between align-items-center">
+                                <div>Color Correction <span class="ai-badge"><i class="bi bi-stars"></i>AI</span></div>
+                                <button class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/editor.js') }}"></script>
+</body>
+</html>

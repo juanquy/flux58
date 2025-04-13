@@ -1,0 +1,320 @@
+{% extends "layout.html" %}
+
+{% block title %}System Management - Admin - FLUX58 AI MEDIA LABS{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>System Management</h1>
+        <p class="lead">Monitor system status and perform maintenance tasks.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded">
+            <div class="container-fluid">
+                <span class="navbar-brand">Admin</span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="adminNavbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_users') }}">User Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_projects') }}">Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_exports') }}">Exports</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('admin_system') }}">System</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_payment_settings') }}">Payment Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('admin_landing_page_editor') }}">Landing Page</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">System Status</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card bg-primary text-white mb-3">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">Total Users</h6>
+                                <p class="display-6 mb-0">{{ total_users }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card bg-success text-white mb-3">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">Storage Used</h6>
+                                <p class="display-6 mb-0">{{ total_storage }} MB</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    <h6><i class="bi bi-info-circle-fill me-2"></i> System Information</h6>
+                    <ul class="mb-0">
+                        <li>Database: <strong>PostgreSQL</strong></li>
+                        <li>Platform: IBM POWER8</li>
+                        <li>Architecture: PowerPC (ppc64le)</li>
+                        <li>Status: Online</li>
+                    </ul>
+                </div>
+                
+                <!-- OpenShot Service Status -->
+                <div class="card mb-3">
+                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0">OpenShot Video Service</h6>
+                        <span class="badge {% if openshot_status.available %}bg-success{% else %}bg-danger{% endif %}">
+                            {% if openshot_status.available %}Available{% else %}Unavailable{% endif %}
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <strong>Status:</strong> 
+                                {% if openshot_status.available %}
+                                <span class="text-success">Running</span>
+                                {% else %}
+                                <span class="text-danger">Stopped</span>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <strong>Version:</strong> {{ openshot_status.version|default('Unknown') }}
+                            </div>
+                        </div>
+                        
+                        {% if openshot_status.error %}
+                        <div class="alert alert-danger mb-2">
+                            <strong>Error:</strong> {{ openshot_status.error }}
+                        </div>
+                        {% endif %}
+                        
+                        <div class="d-flex gap-2">
+                            <form method="post" action="{{ url_for('admin_openshot_restart') }}">
+                                <button type="submit" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-arrow-repeat me-1"></i>Restart Service
+                                </button>
+                            </form>
+                            <form method="post" action="{{ url_for('admin_openshot_check') }}">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-check-circle me-1"></i>Check Status
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('admin_system_backup') }}" class="btn btn-warning">
+                        <i class="bi bi-cloud-download me-2"></i>Backup System
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Database Backups</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Filename</th>
+                                <th>Created</th>
+                                <th>Size</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for backup in backups %}
+                            <tr>
+                                <td>{{ backup.filename }}</td>
+                                <td>{{ backup.created|string|default(backup.created, true) }}</td>
+                                <td>{{ backup.size }} MB</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="{{ url_for('admin_system_restore', filename=backup.filename) }}" class="btn btn-warning">Restore</a>
+                                        <a href="#" class="btn btn-primary">Download</a>
+                                        <button class="btn btn-danger">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center">No backups available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <form method="post" action="{{ url_for('admin_system_backup') }}">
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Create New Backup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">System Logs</h5>
+                <a href="{{ url_for('admin_system_logs') }}" class="btn btn-primary btn-sm">View All Logs</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Level</th>
+                                <th>Module</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in recent_logs %}
+                            <tr class="
+                                {% if log.level == 'ERROR' %}table-danger{% endif %}
+                                {% if log.level == 'WARNING' %}table-warning{% endif %}
+                                {% if log.level == 'INFO' %}table-info{% endif %}
+                            ">
+                                <td>{{ log.timestamp|string|default(log.timestamp, true) }}</td>
+                                <td>
+                                    <span class="badge 
+                                        {% if log.level == 'ERROR' %}bg-danger{% endif %}
+                                        {% if log.level == 'WARNING' %}bg-warning{% endif %}
+                                        {% if log.level == 'INFO' %}bg-info{% endif %}
+                                        {% if log.level == 'DEBUG' %}bg-secondary{% endif %}
+                                    ">{{ log.level }}</span>
+                                </td>
+                                <td>{{ log.module }}</td>
+                                <td>{{ log.message }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center">No logs available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Maintenance</h5>
+            </div>
+            <div class="card-body">
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h6 class="mb-0">Site Background Image</h6>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="{{ url_for('admin_update_site_bg') }}" enctype="multipart/form-data">
+                            {% if site_bg_image %}
+                            <div class="mb-3">
+                                <label class="form-label">Current Background Image:</label>
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ url_for('static', filename=site_bg_image) }}" alt="Current background" class="img-thumbnail me-3" style="max-height: 100px;">
+                                    <div>
+                                        <div>{{ site_bg_image.split('/')[-1] }}</div>
+                                        <div class="mt-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="delete_site_bg" name="delete_site_bg">
+                                                <label class="form-check-label text-danger" for="delete_site_bg">
+                                                    Delete background image
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="site_bg_overlay" name="site_bg_overlay" {% if site_bg_overlay %}checked{% endif %}>
+                                <label class="form-check-label" for="site_bg_overlay">
+                                    Add dark overlay (improves readability with light text)
+                                </label>
+                            </div>
+                            {% else %}
+                            <p class="text-muted">No site background image set. Upload one below.</p>
+                            {% endif %}
+                            
+                            <div class="mb-3">
+                                <label for="site_bg_image" class="form-label">Upload Background Image</label>
+                                <input type="file" class="form-control" id="site_bg_image" name="site_bg_image" accept="image/*">
+                                <div class="form-text">Recommended size: 1920x1080px or larger. High-quality JPG or PNG.</div>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Update Site Background</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <form method="post" action="{{ url_for('admin_system_cleanup') }}" class="mb-4">
+                    <h6>Clean up old data</h6>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Older than</span>
+                        <input type="number" class="form-control" id="days" name="days" value="30" min="1">
+                        <span class="input-group-text">days</span>
+                        <button type="submit" class="btn btn-primary">Clean Up</button>
+                    </div>
+                    <small class="text-muted">This will remove old logs, temporary files, and completed exports.</small>
+                </form>
+                
+                <form method="post" action="{{ url_for('admin_system_vacuum') }}" class="mb-4">
+                    <h6>Optimize Database</h6>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Optimize Database</button>
+                    </div>
+                    <small class="text-muted">This will run VACUUM on the database to optimize performance.</small>
+                </form>
+                
+                <hr>
+                
+                <h6>Landing Page Customization</h6>
+                <p class="text-muted mb-3">Customize your website's landing page with a user-friendly editor.</p>
+                <div class="d-grid">
+                    <a href="{{ url_for('admin_landing_page_editor') }}" class="btn btn-success">
+                        <i class="bi bi-brush me-2"></i>Open Landing Page Editor
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

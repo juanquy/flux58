@@ -1,0 +1,22 @@
+{
+  "id": "253a897b-5b6c-4e8b-a833-947cd6fa77f1",
+  "name": "Test Project 2025-03-22 01:15:32",
+  "description": "Created by automated test script",
+  "user_id": "e017c72e-5642-49ab-8875-f72323a052ca",
+  "created_at": "2025-03-22T01:15:32.121266",
+  "updated_at": "2025-03-22T01:15:32.121266",
+  "assets": [],
+  "timeline": {
+    "duration": 60.0,
+    "width": 1920,
+    "height": 1080,
+    "fps": {
+      "num": 30,
+      "den": 1
+    },
+    "sample_rate": 48000,
+    "channels": 2,
+    "channel_layout": 3,
+    "tracks": []
+  }
+}

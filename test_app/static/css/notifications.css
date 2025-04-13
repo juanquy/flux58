@@ -1,0 +1,98 @@
+/**
+ * Notification System CSS
+ * Provides styling for notification popups in the editor
+ */
+
+/* Notification container */
+#notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    max-width: 350px;
+    z-index: 9999;
+}
+
+/* Individual notification */
+.notification {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: #2e2e40;
+    color: white;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    animation: slide-in 0.3s ease-out forwards;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+/* Notification types */
+.notification.info {
+    border-left: 4px solid #4a6cf7;
+}
+
+.notification.success {
+    border-left: 4px solid #50cd89;
+}
+
+.notification.error {
+    border-left: 4px solid #f1416c;
+}
+
+.notification.warning {
+    border-left: 4px solid #ffc700;
+}
+
+/* Notification icon */
+.notification i {
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+.notification.info i {
+    color: #4a6cf7;
+}
+
+.notification.success i {
+    color: #50cd89;
+}
+
+.notification.error i {
+    color: #f1416c;
+}
+
+.notification.warning i {
+    color: #ffc700;
+}
+
+/* Notification message */
+.notification span {
+    flex: 1;
+}
+
+/* Notification animations */
+@keyframes slide-in {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.notification.fade-out {
+    animation: fade-out 0.5s ease-out forwards;
+}
+
+@keyframes fade-out {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}

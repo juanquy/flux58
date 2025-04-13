@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="50" viewBox="0 0 200 50">
+  <style>
+    .text { font-family: Arial, sans-serif; font-weight: bold; }
+    .logo-text { fill: #ffffff; }
+    .accent { fill: #3498db; }
+  </style>
+  <rect x="10" y="10" width="30" height="30" rx="5" fill="#3498db"/>
+  <polygon points="20,15 30,25 20,35" fill="white"/>
+  <text x="50" y="32" class="text logo-text" font-size="22">OpenShot</text>
+  <text x="145" y="32" class="text accent" font-size="22">Cloud</text>
+</svg>
