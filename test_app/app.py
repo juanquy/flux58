@@ -2973,5 +2973,17 @@ except ImportError as e:
 
 # Add media serving routes
 add_media_routes(app)
+
+# Import AI integration
+from ai_integration import register_ai_routes
+
+# Register AI routes
+register_ai_routes(app)
+
+@app.route('/ai-tools')
+def ai_tools_page():
+    """Render the AI tools page"""
+    return render_template('ai_tools.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
