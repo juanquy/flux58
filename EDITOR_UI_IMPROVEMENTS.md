@@ -58,6 +58,62 @@
   - Waveform monitor for brightness levels
 - Canvas-based visualizations for real-time feedback
 
+## AI Tools Interface (March 22, 2025)
+
+### Overview
+The AI tools interface provides access to advanced video processing features through both a web interface and a Gradio-powered advanced interface.
+
+### Web Interface Features
+1. Style Transfer Tool
+   - Clean, card-based layout
+   - File upload for video and style image
+   - Strength slider with real-time preview
+   - Progress tracking
+   - Error handling and feedback
+
+2. Video Enhancement Tool
+   - Multiple enhancement modes
+   - File upload with validation
+   - Progress tracking
+   - Result preview
+   - Error handling
+
+3. Text-to-Video Generator
+   - Text input for video description
+   - Duration control
+   - Progress tracking
+   - Result preview
+   - Error feedback
+
+### Advanced Gradio Interface
+- Accessible via dedicated URL
+- Interactive components
+- Real-time previews
+- Advanced parameter controls
+- Batch processing capabilities
+
+### UI Components
+- Bootstrap-based responsive design
+- Progress bars for long-running operations
+- Error handling and user feedback
+- File upload validation
+- Result previews
+- Clean, modern aesthetic
+
+### Integration
+- Seamless integration with main application
+- Consistent styling with editor
+- Shared authentication
+- Cached results
+- API endpoints for programmatic access
+
+### Performance Features
+- Background processing
+- Progress tracking
+- Cached results
+- GPU acceleration indicators
+- Error recovery
+
 ## Technical Implementation Details
 
 ### Resizable Panels

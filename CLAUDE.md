@@ -221,3 +221,69 @@ If the video editor isn't working properly, check the following:
    Ensure the PostgreSQL connector is installed.
 
 The enhanced launcher script will automatically detect and fix most common issues.
+
+## Latest Updates (March 22, 2025)
+
+- Added AI video processing features with Gradio integration
+- Implemented GPU acceleration for video processing
+- Added Redis caching system
+- Created new AI tools interface
+
+### AI Features Setup
+```bash
+# Install Redis
+sudo apt-get update
+sudo apt-get install redis-server
+sudo systemctl start redis
+sudo systemctl enable redis
+
+# Install CUDA dependencies (if using NVIDIA GPU)
+sudo apt-get install nvidia-cuda-toolkit
+
+# Install Python dependencies
+cd /root/OpenShot/test_app
+pip install -r requirements.txt
+```
+
+### AI Tools Access
+- Web Interface: `http://[server-ip]:5000/ai-tools`
+- Advanced Gradio Interface: `http://[server-ip]:7860`
+
+### Video Processing Features
+1. Style Transfer
+   - Input: Video file + style image
+   - Output: Stylized video
+   - Parameters: Style strength (0-1)
+   - GPU accelerated
+
+2. Video Enhancement
+   - Modes: Upscale, Denoise, Stabilize
+   - GPU accelerated processing
+   - Cached results for improved performance
+
+3. Text-to-Video Generation
+   - Input: Text description
+   - Parameters: Duration, style options
+   - AI-powered content creation
+
+### Caching System
+- Redis-based caching for processed videos
+- Default cache expiry: 7 days
+- Cache location: Redis DB 0
+- Automatic cache invalidation on video changes
+
+### GPU Acceleration
+- CUDA support for NVIDIA GPUs
+- Automatic fallback to CPU if GPU unavailable
+- Parallel frame processing
+- Memory-optimized operations
+
+### Recent Fixes (March 22, 2025)
+- Added Gradio integration for AI features
+- Implemented GPU acceleration
+- Added Redis caching system
+- Created new AI tools interface
+- Added style transfer functionality
+- Added video enhancement features
+- Added text-to-video generation
+- Improved video processing performance
